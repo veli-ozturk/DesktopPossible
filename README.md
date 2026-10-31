@@ -12,13 +12,13 @@
 </p>
 
 [![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-blue.svg)](LICENSE)
-[![GitHub sürümü](https://img.shields.io/github/v/release/duendoo/DesktopPossible?label=s%C3%BCr%C3%BCm)](https://github.com/duendoo/DesktopPossible/releases)
+[![GitHub sürümü](https://img.shields.io/github/v/release/veli-ozturk/DesktopPossible?label=s%C3%BCr%C3%BCm)](https://github.com/veli-ozturk/DesktopPossible/releases)
 
 ---
 
 ## Bu proje nedir?
 
-DesktopPossible, masaüstündeki simgeleri **kutular** içinde gruplayan bir masaüstü düzenleyicisidir. Bu depo, **Veli Öztürk ([@duendoo](https://github.com/duendoo))** tarafından geliştirilen **Türkçe sürümdür**: arayüz baştan sona Türkçeleştirildi, Türkçe kullanıcıya göre ayarlandı ve kendi düzeltmelerimizle ayrı bir yolda ilerliyor. Güncellemeler bu deponun sürümlerinden gelir.
+DesktopPossible, masaüstündeki simgeleri **kutular** içinde gruplayan bir masaüstü düzenleyicisidir. Bu depo, **Veli Öztürk ([@veli-ozturk](https://github.com/veli-ozturk))** tarafından geliştirilen **Türkçe sürümdür**: arayüz baştan sona Türkçeleştirildi, Türkçe kullanıcıya göre ayarlandı ve kendi düzeltmelerimizle ayrı bir yolda ilerliyor. Güncellemeler bu deponun sürümlerinden gelir.
 
 ## Bu sürümde neler var?
 
@@ -43,7 +43,7 @@ Aşağıdakiler bu sürümde eklendi veya değiştirildi:
 
 ## Kurulum
 
-[Sürümler](https://github.com/duendoo/DesktopPossible/releases) sayfasından indir:
+[Sürümler](https://github.com/veli-ozturk/DesktopPossible/releases) sayfasından indir:
 
 **Kurulum paketi (önerilen):** `DesktopPossible-<sürüm>-win-x64.msi` dosyasını çalıştır. Program
 `C:\Program Files\DesktopPossible` klasörüne kurulur, Başlat menüsüne eklenir ve eski kurulumu
@@ -83,7 +83,7 @@ Proje **.NET 10** (`net10.0-windows10.0.19041.0`) hedefler. Program ve testleri 
 
 MIT lisanslıdır — bkz. [LICENSE](LICENSE). MIT lisansı gereği önceki yazarların telif bildirimleri lisans dosyasında korunur:
 
-- Türkçe sürüm: **Veli Öztürk** ([@duendoo](https://github.com/duendoo))
+- Türkçe sürüm: **Veli Öztürk** ([@veli-ozturk](https://github.com/veli-ozturk))
 - Temel aldığı proje: **DesktopPossible** — [DevPossible](https://github.com/DevPossible/DesktopPossible)
 - Onun temeli: **Desktop Frames +** — limbo666 / Nikos Georgousis ve ilk sürüm **BirdyFences** — HakanKokcu
 
