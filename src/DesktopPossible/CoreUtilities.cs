@@ -581,16 +581,16 @@ namespace Desktop_Frames
         /// </summary>
         public static string CreateTooltipText(string filePath, string targetPath = null, string arguments = null)
         {
-            string toolTipText = $"File: {Path.GetFileName(filePath)}";
+            string toolTipText = $"Dosya: {Path.GetFileName(filePath)}";
 
             if (!string.IsNullOrEmpty(targetPath) && targetPath != filePath)
             {
-                toolTipText += $"\nTarget: {targetPath}";
+                toolTipText += $"\nHedef: {targetPath}";
             }
 
             if (!string.IsNullOrEmpty(arguments))
             {
-                toolTipText += $"\nParameters: {arguments}";
+                toolTipText += $"\nParametreler: {arguments}";
             }
 
             return toolTipText;

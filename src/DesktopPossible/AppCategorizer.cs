@@ -1298,7 +1298,10 @@ namespace Desktop_Frames
             catch { }
         }
 
-        /// <summary>Finds an existing Data frame titled exactly the category name.</summary>
+        /// <summary>
+        /// Finds an existing Data frame titled with the category name — either its Turkish
+        /// display title or the English one older versions used.
+        /// </summary>
         private static dynamic? FindDataFrameByTitle(string title)
         {
             try
@@ -1308,7 +1311,8 @@ namespace Desktop_Frames
                     try
                     {
                         if (frame.ItemsType?.ToString() == "Data" &&
-                            string.Equals(frame.Title?.ToString(), title, StringComparison.OrdinalIgnoreCase))
+                            (string.Equals(frame.Title?.ToString(), title, StringComparison.OrdinalIgnoreCase) ||
+                             string.Equals(frame.Title?.ToString(), UiNames.Display(title), StringComparison.OrdinalIgnoreCase)))
                             return frame;
                     }
                     catch { }
@@ -1386,9 +1390,9 @@ namespace Desktop_Frames
                         $"App-Categorize: no free screen space for '{category}' frame — cascading at {x},{y} (may overlap).");
                 }
 
-                dynamic frameNew = FrameDataManager.CreateNewFrame(category, "Data", x, y);
+                dynamic frameNew = FrameDataManager.CreateNewFrame(UiNames.Display(category), "Data", x, y);
                 var dict = (IDictionary<string, object>)frameNew;
-                dict["Title"] = category; // CreateNewFrame randomizes Data-frame titles
+                dict["Title"] = UiNames.Display(category); // CreateNewFrame randomizes Data-frame titles
                 dict["Width"] = width;
                 dict["Height"] = height;
                 dict["UnrolledHeight"] = height;

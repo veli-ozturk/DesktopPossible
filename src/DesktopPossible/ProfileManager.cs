@@ -633,7 +633,7 @@ namespace Desktop_Frames
 
                     // --- UNIFIED UI REPLACEMENT ---
                     // Replaced manual Border/TextBlock with the Centralized Factory
-                    osd.Content = MessageBoxesManager.CreateUnifiedMessage($"Profil: {profileName}");
+                    osd.Content = MessageBoxesManager.CreateUnifiedMessage($"Profil: {UiNames.Profile(profileName)}");
                     // -----------------------------
 
                     osd.Loaded += (s, e) =>

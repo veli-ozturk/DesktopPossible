@@ -98,7 +98,7 @@ namespace Desktop_Frames
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
                 $"Send to Profile: {(move ? "moved" : "copied")} frame '{title}' ({sourceId} -> {newId}) to profile '{targetProfile}' at {x},{y}");
             MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                $"'{title}' kutusu '{targetProfile}' profiline {(move ? "taşındı" : "kopyalandı")}.", "Profile gönder");
+                $"'{title}' kutusu '{UiNames.Profile(targetProfile)}' profiline {(move ? "taşındı" : "kopyalandı")}.", "Profile gönder");
         }
 
         #region Pure helpers (headless-testable)
@@ -314,6 +314,7 @@ namespace Desktop_Frames
 
             body.Children.Add(new TextBlock { Text = "Hedef profil", FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)), Margin = new Thickness(0, 0, 0, 4) });
             _cbProfile = new ComboBox { ItemsSource = _profiles, SelectedIndex = 0, Height = 30, FontFamily = new FontFamily("Segoe UI"), FontSize = 13, Margin = new Thickness(0, 0, 0, 18) };
+            UiNames.TranslateProfiles(_cbProfile);
             body.Children.Add(_cbProfile);
 
             StackPanel buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };

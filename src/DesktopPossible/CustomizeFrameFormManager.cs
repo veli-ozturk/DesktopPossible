@@ -963,10 +963,12 @@ namespace Desktop_Frames
 
             styleStack.Children.Add(MakeLabel("Hizalama"));
             _cmbTextAlign = new ComboBox { ItemsSource = TextFramemanager.Alignments, Height = 26, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(16, 0, 0, 4) };
+            UiNames.Translate(_cmbTextAlign);
             styleStack.Children.Add(_cmbTextAlign);
 
             styleStack.Children.Add(MakeLabel("Çizim modu"));
             _cmbTextDrawMode = new ComboBox { ItemsSource = TextFramemanager.DrawModes, Height = 26, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(16, 0, 0, 4) };
+            UiNames.Translate(_cmbTextDrawMode);
             styleStack.Children.Add(_cmbTextDrawMode);
 
             styleStack.Children.Add(MakeLabel("Yenileme aralığı (saniye, 0 = hiç)"));
@@ -1026,6 +1028,7 @@ namespace Desktop_Frames
             };
 
             comboBox.Items.Add("Default");
+            UiNames.Translate(comboBox);
             foreach (var item in items)
             {
                 comboBox.Items.Add(item);

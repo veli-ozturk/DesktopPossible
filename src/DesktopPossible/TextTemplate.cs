@@ -132,12 +132,12 @@ namespace Desktop_Frames
             return t;
         }
 
-        /// <summary>Human-readable uptime: "3d 4h 12m" / "4h 12m" / "12m".</summary>
+        /// <summary>Human-readable uptime: "3g 4sa 12dk" / "4sa 12dk" / "12dk".</summary>
         public static string FormatUptime(TimeSpan span)
         {
-            if (span.TotalDays >= 1) return $"{(int)span.TotalDays}d {span.Hours}h {span.Minutes}m";
-            if (span.TotalHours >= 1) return $"{span.Hours}h {span.Minutes}m";
-            return $"{span.Minutes}m";
+            if (span.TotalDays >= 1) return $"{(int)span.TotalDays}g {span.Hours}sa {span.Minutes}dk";
+            if (span.TotalHours >= 1) return $"{span.Hours}sa {span.Minutes}dk";
+            return $"{span.Minutes}dk";
         }
 
         private static string Gb(long bytes) => (bytes / 1073741824.0).ToString("0.#", CultureInfo.CurrentCulture) + " GB";

@@ -304,7 +304,7 @@ namespace DesktopPossible.Tests
             string result = CoreUtilities.CreateTooltipText(path, targetPath: path);
 
             // Assert
-            result.ShouldBe("File: app.lnk");
+            result.ShouldBe("Dosya: app.lnk");
         }
 
         [Fact]
@@ -315,7 +315,7 @@ namespace DesktopPossible.Tests
                 @"C:\frames\app.lnk", @"C:\Program Files\App\app.exe", "--fast");
 
             // Assert
-            result.ShouldBe("File: app.lnk\nTarget: C:\\Program Files\\App\\app.exe\nParameters: --fast");
+            result.ShouldBe("Dosya: app.lnk\nHedef: C:\\Program Files\\App\\app.exe\nParametreler: --fast");
         }
 
         [Fact]

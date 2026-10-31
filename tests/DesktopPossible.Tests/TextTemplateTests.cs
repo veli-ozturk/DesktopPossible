@@ -81,9 +81,9 @@ public class TextTemplateTests
     }
 
     [Theory]
-    [InlineData(0, 0, 12, "12m")]
-    [InlineData(0, 4, 12, "4h 12m")]
-    [InlineData(3, 4, 12, "3d 4h 12m")]
+    [InlineData(0, 0, 12, "12dk")]
+    [InlineData(0, 4, 12, "4sa 12dk")]
+    [InlineData(3, 4, 12, "3g 4sa 12dk")]
     public void FormatUptime_UsesTheLargestUnitPresent(int d, int h, int m, string expected)
     {
         SystemInfoTokens.FormatUptime(new TimeSpan(d, h, m, 0)).ShouldBe(expected);

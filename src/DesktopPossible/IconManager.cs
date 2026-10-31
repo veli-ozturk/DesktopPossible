@@ -943,16 +943,16 @@ namespace Desktop_Frames
         /// </summary>
         private static void CreateIconTooltip(StackPanel sp, string filePath, string targetPath, string arguments)
         {
-            string toolTipText = $"File: {Path.GetFileName(filePath)}";
+            string toolTipText = $"Dosya: {Path.GetFileName(filePath)}";
 
             if (!string.IsNullOrEmpty(targetPath) && targetPath != filePath)
             {
-                toolTipText += $"\nTarget: {targetPath}";
+                toolTipText += $"\nHedef: {targetPath}";
             }
 
             if (!string.IsNullOrEmpty(arguments))
             {
-                toolTipText += $"\nParameters: {arguments}";
+                toolTipText += $"\nParametreler: {arguments}";
             }
 
             sp.ToolTip = new ToolTip { Content = toolTipText };

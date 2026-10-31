@@ -437,9 +437,9 @@ public class DisplayConfigTests : IDisposable
     [Fact]
     public void Describe_SummarisesTheMonitorSet()
     {
-        DisplayConfig.Describe(Laptop()).ShouldBe("1 monitor: 1920x1080 @100%");
-        DisplayConfig.Describe(Docked()).ShouldBe("2 monitors: 1920x1080 @100%, 2560x1440 @100%");
-        DisplayConfig.Describe(new List<MonitorInfo>()).ShouldBe("no monitors");
+        DisplayConfig.Describe(Laptop()).ShouldBe("1 monitör: 1920x1080 @100%");
+        DisplayConfig.Describe(Docked()).ShouldBe("2 monitör: 1920x1080 @100%, 2560x1440 @100%");
+        DisplayConfig.Describe(new List<MonitorInfo>()).ShouldBe("monitör yok");
     }
 
     // ---------------------------------------------------------------

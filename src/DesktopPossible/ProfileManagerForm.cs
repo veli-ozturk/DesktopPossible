@@ -144,7 +144,7 @@ namespace Desktop_Frames
 
                 // Name
                 StackPanel nameStack = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-                TextBlock txtName = new TextBlock { Text = p.Name, FontWeight = FontWeights.SemiBold, FontSize = 14 };
+                TextBlock txtName = new TextBlock { Text = UiNames.Profile(p.Name), FontWeight = FontWeights.SemiBold, FontSize = 14 };
                 nameStack.Children.Add(txtName);
 
                 if (isActive)
@@ -239,7 +239,7 @@ namespace Desktop_Frames
                     btnDelete.Click += (s, e) =>
                     {
                         e.Handled = true; // Prevent card click
-                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"'{p.Name}' profili silinsin mi?\nBu işlem geri alınamaz.", "Profili sil"))
+                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"'{UiNames.Profile(p.Name)}' profili silinsin mi?\nBu işlem geri alınamaz.", "Profili sil"))
                         {
                             // File safety: files stored inside the profile's frame folders are
                             // moved to the Desktop or deleted (typed confirmation) BEFORE the
@@ -247,7 +247,7 @@ namespace Desktop_Frames
                             int storedFiles = FrameFileOperations.CountProfileFiles(p.Name);
                             if (storedFiles > 0)
                             {
-                                var choice = FrameFilesDecisionDialog.Show(Window.GetWindow(this), $"'{p.Name}' profili", storedFiles);
+                                var choice = FrameFilesDecisionDialog.Show(Window.GetWindow(this), $"'{UiNames.Profile(p.Name)}' profili", storedFiles);
                                 if (choice == FrameFilesDecision.Cancel) return;
                                 int handled = choice == FrameFilesDecision.DeleteFiles
                                     ? FrameFileOperations.DeleteProfileFiles(p.Name)

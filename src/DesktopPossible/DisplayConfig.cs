@@ -96,14 +96,14 @@ namespace Desktop_Frames
         /// <summary>Human-readable summary for logs and the Options page.</summary>
         public static string Describe(IReadOnlyList<MonitorInfo>? monitors)
         {
-            if (monitors == null || monitors.Count == 0) return "no monitors";
+            if (monitors == null || monitors.Count == 0) return "monitör yok";
 
             var parts = monitors
                 .OrderBy(m => m.Bounds.X).ThenBy(m => m.Bounds.Y)
                 .Select(m => string.Format(CultureInfo.InvariantCulture, "{0}x{1} @{2:0}%",
                     m.Bounds.W, m.Bounds.H, m.Scale * 100));
 
-            return $"{monitors.Count} monitor{(monitors.Count == 1 ? "" : "s")}: {string.Join(", ", parts)}";
+            return $"{monitors.Count} monitör: {string.Join(", ", parts)}";
         }
 
         /// <summary>Work area of a monitor in device-independent units.</summary>

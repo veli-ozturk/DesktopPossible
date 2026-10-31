@@ -13,8 +13,9 @@ namespace Desktop_Frames;
 /// </summary>
 public static class UpdateChecker
 {
-    private const string LatestReleaseApi = "https://api.github.com/repos/DevPossible/DesktopPossible/releases/latest";
-    public const string ReleasesPage = "https://github.com/DevPossible/DesktopPossible/releases";
+    // Turkish fork: check our own releases so an upstream (English) MSI is never offered over this build.
+    private const string LatestReleaseApi = "https://api.github.com/repos/duendoo/DesktopPossible/releases/latest";
+    public const string ReleasesPage = "https://github.com/duendoo/DesktopPossible/releases";
 
     private static readonly TimeSpan RecheckInterval = TimeSpan.FromHours(6);
     private static DateTime _lastCheckUtc = DateTime.MinValue;

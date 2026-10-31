@@ -73,8 +73,8 @@ namespace Desktop_Frames
 
         private static string BuildTrayText(string profileName) =>
             TruncateTrayText(UpdateChecker.IsUpdateAvailable
-                ? $"DesktopPossible ({profileName}) - v{UpdateChecker.LatestVersion?.ToString(3)} güncellemesi var"
-                : $"DesktopPossible ({profileName})");
+                ? $"DesktopPossible ({UiNames.Profile(profileName)}) - v{UpdateChecker.LatestVersion?.ToString(3)} güncellemesi var"
+                : $"DesktopPossible ({UiNames.Profile(profileName)})");
 
         public void UpdateAutoOrganizeMenuCheck(bool isChecked)
         {
@@ -602,7 +602,7 @@ namespace Desktop_Frames
             foreach (var profile in profiles)
             {
                 // Format: "Default [0]" or "Work [1]"
-                string label = $"{profile.Name} [{profile.Id}]";
+                string label = $"{UiNames.Profile(profile.Name)} [{profile.Id}]";
                 var item = new ToolStripMenuItem(label);
 
                 if (string.Equals(profile.Name, currentProfile, StringComparison.OrdinalIgnoreCase))

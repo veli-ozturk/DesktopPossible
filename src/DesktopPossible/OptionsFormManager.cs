@@ -1064,6 +1064,7 @@ namespace Desktop_Frames
             // Constrain Width to 140 and Left-align so it doesn't stretch to fill the 160px column, creating the gap automatically
             ComboBox cbColor = new ComboBox { Name = "ColorComboBox", Width = 140, HorizontalAlignment = HorizontalAlignment.Left, Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (string c in new[] { "Gray", "Black", "White", "Beige", "Green", "Purple", "Fuchsia", "Yellow", "Orange", "Red", "Blue", "Bismark", "Transparent" }) cbColor.Items.Add(c);
+            UiNames.Translate(cbColor);
             cbColor.SelectedItem = SettingsManager.SelectedColor;
 
             // --- BUG FIX: Disable Color dropdown if Chameleon mode is ON ---
@@ -1075,6 +1076,7 @@ namespace Desktop_Frames
             TextBlock lblEffect = new TextBlock { Text = "Efekt", FontSize = 13, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 10, 0) };
             ComboBox cbEffect = new ComboBox { Name = "LaunchEffectComboBox", Width = 140, HorizontalAlignment = HorizontalAlignment.Left, Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (string e in new[] { "Zoom", "Bounce", "FadeOut", "SlideUp", "Rotate", "Agitate", "GrowAndFly", "Pulse", "Elastic", "Flip3D", "Spiral", "Shockwave", "Matrix", "Supernova", "Teleport" }) cbEffect.Items.Add(e);
+            UiNames.Translate(cbEffect);
             cbEffect.SelectedIndex = (int)SettingsManager.LaunchEffect;
 
             Grid.SetColumn(lblColor, 0); g.Children.Add(lblColor);
@@ -1095,6 +1097,7 @@ namespace Desktop_Frames
             g.Children.Add(new TextBlock { Text = "Min. günlük düzeyi", FontSize = 13, VerticalAlignment = VerticalAlignment.Center });
             ComboBox cb = new ComboBox { Name = "LogLevelComboBox", Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (var l in new[] { "Debug", "Info", "Warn", "Error" }) cb.Items.Add(l);
+            UiNames.Translate(cb);
             cb.SelectedItem = SettingsManager.MinLogLevel.ToString();
             Grid.SetColumn(cb, 1); g.Children.Add(cb); p.Children.Add(g);
         }
@@ -1117,7 +1120,7 @@ namespace Desktop_Frames
 
             for (int i = 0; i < cats.Count; i++)
             {
-                var cb = new CheckBox { Content = cats[i].ToString(), Tag = cats[i], IsChecked = SettingsManager.EnabledLogCategories.Contains(cats[i]), FontSize = 13, Margin = new Thickness(15, 8, 0, 8) };
+                var cb = new CheckBox { Content = UiNames.Display(cats[i].ToString()), Tag = cats[i], IsChecked = SettingsManager.EnabledLogCategories.Contains(cats[i]), FontSize = 13, Margin = new Thickness(15, 8, 0, 8) };
                 if (i < half) l.Children.Add(cb); else r.Children.Add(cb);
             }
 
