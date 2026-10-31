@@ -212,6 +212,12 @@ namespace Desktop_Frames
                         Task.Delay(500).ContinueWith(t => Dispatcher.Invoke(() => Framemanager.StartDrawMode()));
                     }
 
+                    // -arrange: run "Arrange Now" (desktop auto-sort) once frames have loaded.
+                    if (allArgs.Any(arg => arg.Equals("-arrange", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        Task.Delay(3000).ContinueWith(_ => AppCategorizer.SortDesktopAsync());
+                    }
+
                     // Keep the idle memory footprint low: trim the working set after startup
                     // and periodically thereafter.
                     MemoryOptimizer.Start();
