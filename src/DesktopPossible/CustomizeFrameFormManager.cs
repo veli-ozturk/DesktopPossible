@@ -165,7 +165,7 @@ namespace Desktop_Frames
                 _userAccentColor = mediaColor;
 
                 // Modern WPF window setup with DPI awareness
-                this.Title = _isTextFrame ? "Customize Text Frame" : "Customize Frame";
+                this.Title = _isTextFrame ? "Metin kutusunu özelleştir" : "Kutuyu özelleştir";
                 this.Width = 500;
                 this.Height = 675;
                 this.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -226,7 +226,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error initializing CustomizeFrameFormWPF: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error initializing form: {ex.Message}", "Form Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Form başlatılırken hata: {ex.Message}", "Form hatası");
             }
         }
 
@@ -262,18 +262,18 @@ namespace Desktop_Frames
 
             if (_isCtrlPressed)
             {
-                _btnApply.Content = "Apply to all";
+                _btnApply.Content = "Tümüne uygula";
                 _btnApply.Background = new SolidColorBrush(Color.FromRgb(204, 85, 0)); // Warning Orange
 
-                _btnSave.Content = "Save to all";
+                _btnSave.Content = "Tümüne kaydet";
                 _btnSave.Background = new SolidColorBrush(Color.FromRgb(204, 0, 0)); // Warning Red
             }
             else
             {
-                _btnApply.Content = "Apply";
+                _btnApply.Content = "Uygula";
                 _btnApply.Background = new SolidColorBrush(Color.FromRgb(34, 139, 34)); // Standard Green
 
-                _btnSave.Content = "Save";
+                _btnSave.Content = "Kaydet";
                 _btnSave.Background = new SolidColorBrush(_userAccentColor); // Standard Accent
             }
         }
@@ -318,7 +318,7 @@ namespace Desktop_Frames
             // Title label
             TextBlock titleBlock = new TextBlock
             {
-                Text = _isTextFrame ? "Customize Text Frame" : "Customize Frame",
+                Text = _isTextFrame ? "Metin kutusunu özelleştir" : "Kutuyu özelleştir",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 18,
                 FontWeight = FontWeights.Bold,
@@ -424,7 +424,7 @@ namespace Desktop_Frames
             // 1. Default Button (Moved Left & Restyled to Dark Gray)
             Button defaultButton = new Button
             {
-                Content = "Default",
+                Content = "Varsayılan",
                 Width = 80, // Slightly smaller to fit 4 buttons
                 Height = 34,
                 FontFamily = new FontFamily("Segoe UI"),
@@ -441,7 +441,7 @@ namespace Desktop_Frames
             // 2. Apply Button (Now tracking class-level for Global Override)
             _btnApply = new Button
             {
-                Content = "Apply",
+                Content = "Uygula",
                 Width = 100,
                 Height = 34,
                 FontFamily = new FontFamily("Segoe UI"),
@@ -458,7 +458,7 @@ namespace Desktop_Frames
             // 3. Cancel Button
             Button cancelButton = new Button
             {
-                Content = "Cancel",
+                Content = "İptal",
                 Width = 100,
                 Height = 33,
                 FontFamily = new FontFamily("Segoe UI"),
@@ -476,7 +476,7 @@ namespace Desktop_Frames
             // 4. Save Button (Now tracking class-level for Global Override)
             _btnSave = new Button
             {
-                Content = "Save",
+                Content = "Kaydet",
                 Width = 100,
                 Height = 34,
                 FontFamily = new FontFamily("Segoe UI"),
@@ -503,7 +503,7 @@ namespace Desktop_Frames
         {
             GroupBox frameGroupBox = new GroupBox
             {
-                Header = "Frame",
+                Header = "Kutu",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
@@ -514,10 +514,10 @@ namespace Desktop_Frames
 
             StackPanel frameStack = new StackPanel { Orientation = Orientation.Vertical };
 
-            CreateDropdownField(frameStack, "Custom Color:", _validColors, out _cmbCustomColor);
-            CreateDropdownField(frameStack, "Custom Launch Effect:", _validEffects, out _cmbCustomLaunchEffect);
-            CreateDropdownField(frameStack, "Frame Border Color:", _validColors, out _cmbframeBorderColor);
-            CreateNumericField(frameStack, "Frame Border Thickness:", 0, 5, out _nudframeBorderThickness);
+            CreateDropdownField(frameStack, "Özel renk:", _validColors, out _cmbCustomColor);
+            CreateDropdownField(frameStack, "Özel açılış efekti:", _validEffects, out _cmbCustomLaunchEffect);
+            CreateDropdownField(frameStack, "Kutu kenarlık rengi:", _validColors, out _cmbframeBorderColor);
+            CreateNumericField(frameStack, "Kutu kenarlık kalınlığı:", 0, 5, out _nudframeBorderThickness);
             CreateTransparencyField(frameStack);
             bool isPortal = false;
             try { isPortal = _frame?.ItemsType?.ToString() == "Portal"; } catch { }
@@ -541,7 +541,7 @@ namespace Desktop_Frames
 
             TextBlock label = new TextBlock
             {
-                Text = "Focus Hotkey:",
+                Text = "Odak kısayol tuşu:",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -554,7 +554,7 @@ namespace Desktop_Frames
             {
                 IsReadOnly = true,
                 IsReadOnlyCaretVisible = false,
-                Text = "None",
+                Text = "Yok",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -563,10 +563,10 @@ namespace Desktop_Frames
             };
             Grid.SetColumn(_txtHotkey, 1);
 
-            _btnSetHotkey = new Button { Content = "Set", Width = 64, Margin = new Thickness(0, 0, 6, 0) };
+            _btnSetHotkey = new Button { Content = "Ata", Width = 64, Margin = new Thickness(0, 0, 6, 0) };
             Grid.SetColumn(_btnSetHotkey, 2);
 
-            Button btnClear = new Button { Content = "Clear", Width = 64 };
+            Button btnClear = new Button { Content = "Temizle", Width = 64 };
             Grid.SetColumn(btnClear, 3);
 
             // Capture the combo inside the global hook (see GlobalHotkeyManager.BeginHotkeyCapture):
@@ -575,12 +575,12 @@ namespace Desktop_Frames
             _btnSetHotkey.Click += (s, e) =>
             {
                 _capturingHotkey = true;
-                _btnSetHotkey.Content = "Press…";
-                _txtHotkey.Text = "Press a key combo…";
+                _btnSetHotkey.Content = "Basın…";
+                _txtHotkey.Text = "Bir tuş birleşimine basın…";
                 GlobalHotkeyManager.BeginHotkeyCapture((vk, mods) =>
                 {
                     _capturingHotkey = false;
-                    _btnSetHotkey.Content = "Set";
+                    _btnSetHotkey.Content = "Ata";
                     if (vk == 0) { _txtHotkey.Text = HotkeyDisplay(_hotkeyMods, _hotkeyVk); return; } // cancelled
                     _hotkeyVk = vk;
                     _hotkeyMods = mods;
@@ -592,8 +592,8 @@ namespace Desktop_Frames
             {
                 if (_capturingHotkey) { GlobalHotkeyManager.CancelHotkeyCapture(); _capturingHotkey = false; }
                 _hotkeyVk = 0; _hotkeyMods = 0;
-                _btnSetHotkey.Content = "Set";
-                _txtHotkey.Text = "None";
+                _btnSetHotkey.Content = "Ata";
+                _txtHotkey.Text = "Yok";
             };
 
             // Safety: if the dialog closes mid-capture, don't leave the hook swallowing keys.
@@ -608,7 +608,7 @@ namespace Desktop_Frames
 
         private string HotkeyDisplay(int mods, int vk)
         {
-            if (vk == 0) return "None";
+            if (vk == 0) return "Yok";
             string s = "";
             if ((mods & 1) != 0) s += "Ctrl+";
             if ((mods & 2) != 0) s += "Alt+";
@@ -625,7 +625,7 @@ namespace Desktop_Frames
         {
             _chkOverrideTint = new CheckBox
             {
-                Content = "Override default transparency",
+                Content = "Varsayılan saydamlığı geçersiz kıl",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -640,7 +640,7 @@ namespace Desktop_Frames
 
             TextBlock label = new TextBlock
             {
-                Text = "Frame Transparency:",
+                Text = "Kutu saydamlığı:",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -701,7 +701,7 @@ namespace Desktop_Frames
         {
             _chkOverrideStriped = new CheckBox
             {
-                Content = "Override default row striping",
+                Content = "Varsayılan satır çizgilemesini geçersiz kıl",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -711,7 +711,7 @@ namespace Desktop_Frames
 
             _chkStriped = new CheckBox
             {
-                Content = "Striped rows",
+                Content = "Çizgili satırlar",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -754,7 +754,7 @@ namespace Desktop_Frames
         {
             GroupBox titleGroupBox = new GroupBox
             {
-                Header = "Title",
+                Header = "Başlık",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
@@ -765,10 +765,10 @@ namespace Desktop_Frames
 
             StackPanel titleStack = new StackPanel { Orientation = Orientation.Vertical };
 
-            CreateDropdownField(titleStack, "Title Text Color:", _validColors, out _cmbTitleTextColor);
-            CreateDropdownField(titleStack, "Title Bar Color:", _validColors, out _cmbTitleBarColor);
-            CreateDropdownField(titleStack, "Title Text Size:", _validTextSizes, out _cmbTitleTextSize);
-            CreateCheckboxField(titleStack, "Bold Title Text", out _chkBoldTitleText);
+            CreateDropdownField(titleStack, "Başlık metni rengi:", _validColors, out _cmbTitleTextColor);
+            CreateDropdownField(titleStack, "Başlık çubuğu rengi:", _validColors, out _cmbTitleBarColor);
+            CreateDropdownField(titleStack, "Başlık metni boyutu:", _validTextSizes, out _cmbTitleTextSize);
+            CreateCheckboxField(titleStack, "Kalın başlık metni", out _chkBoldTitleText);
 
             titleGroupBox.Content = titleStack;
             parent.Children.Add(titleGroupBox);
@@ -778,7 +778,7 @@ namespace Desktop_Frames
         {
             GroupBox iconsGroupBox = new GroupBox
             {
-                Header = "Icons",
+                Header = "Simgeler",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
@@ -789,11 +789,11 @@ namespace Desktop_Frames
 
             StackPanel iconsStack = new StackPanel { Orientation = Orientation.Vertical };
 
-            CreateDropdownField(iconsStack, "Icon Size:", _validIconSizes, out _cmbIconSize);
-            CreateNumericField(iconsStack, "Icon Spacing:", 0, 20, out _nudIconSpacing);
-            CreateDropdownField(iconsStack, "Text Color:", _validColors, out _cmbTextColor);
-            CreateCheckboxField(iconsStack, "Disable Text Shadow", out _chkDisableTextShadow);
-            CreateCheckboxField(iconsStack, "Grayscale Icons", out _chkGrayscaleIcons);
+            CreateDropdownField(iconsStack, "Simge boyutu:", _validIconSizes, out _cmbIconSize);
+            CreateNumericField(iconsStack, "Simge aralığı:", 0, 20, out _nudIconSpacing);
+            CreateDropdownField(iconsStack, "Metin rengi:", _validColors, out _cmbTextColor);
+            CreateCheckboxField(iconsStack, "Metin gölgesini kapat", out _chkDisableTextShadow);
+            CreateCheckboxField(iconsStack, "Gri tonlamalı simgeler", out _chkGrayscaleIcons);
 
             iconsGroupBox.Content = iconsStack;
             parent.Children.Add(iconsGroupBox);
@@ -827,10 +827,10 @@ namespace Desktop_Frames
             };
 
             // ---- Template group ----
-            GroupBox templateGroup = MakeGroup("Text");
+            GroupBox templateGroup = MakeGroup("Metin");
             StackPanel templateStack = new StackPanel();
 
-            templateStack.Children.Add(MakeLabel("Template"));
+            templateStack.Children.Add(MakeLabel("Şablon"));
             _txtTemplate = new TextBox
             {
                 AcceptsReturn = true,
@@ -845,7 +845,7 @@ namespace Desktop_Frames
             };
             templateStack.Children.Add(_txtTemplate);
 
-            templateStack.Children.Add(MakeLabel("Tokens (click to insert)"));
+            templateStack.Children.Add(MakeLabel("Belirteçler (eklemek için tıklayın)"));
             WrapPanel tokens = new WrapPanel { Margin = new Thickness(16, 0, 8, 4) };
             foreach (var (token, description) in SystemInfoTokens.Reference)
             {
@@ -878,10 +878,10 @@ namespace Desktop_Frames
             parent.Children.Add(templateGroup);
 
             // ---- Appearance group ----
-            GroupBox styleGroup = MakeGroup("Appearance");
+            GroupBox styleGroup = MakeGroup("Görünüm");
             StackPanel styleStack = new StackPanel();
 
-            styleStack.Children.Add(MakeLabel("Font"));
+            styleStack.Children.Add(MakeLabel("Yazı tipi"));
             var fonts = Fonts.SystemFontFamilies.Select(f => f.Source).OrderBy(n => n).ToList();
             _cmbTextFont = new ComboBox
             {
@@ -901,7 +901,7 @@ namespace Desktop_Frames
             sizeRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             sizeRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             var sizeCol = new StackPanel();
-            var sizeLbl = MakeLabel("Size"); sizeLbl.Margin = new Thickness(0, 8, 0, 3);
+            var sizeLbl = MakeLabel("Boyut"); sizeLbl.Margin = new Thickness(0, 8, 0, 3);
             sizeCol.Children.Add(sizeLbl);
             var sizeSliderRow = new DockPanel();
             _lblTextSizeValue = new TextBlock { FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Width = 28, VerticalAlignment = VerticalAlignment.Center, TextAlignment = TextAlignment.Right };
@@ -915,15 +915,15 @@ namespace Desktop_Frames
             sizeRow.Children.Add(sizeCol);
 
             var styleCol = new StackPanel { Margin = new Thickness(16, 22, 0, 0) };
-            _chkTextBold = new CheckBox { Content = "Bold", FontFamily = new FontFamily("Segoe UI"), FontSize = 12 };
-            _chkTextItalic = new CheckBox { Content = "Italic", FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(0, 4, 0, 0) };
+            _chkTextBold = new CheckBox { Content = "Kalın", FontFamily = new FontFamily("Segoe UI"), FontSize = 12 };
+            _chkTextItalic = new CheckBox { Content = "İtalik", FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(0, 4, 0, 0) };
             styleCol.Children.Add(_chkTextBold);
             styleCol.Children.Add(_chkTextItalic);
             Grid.SetColumn(styleCol, 1);
             sizeRow.Children.Add(styleCol);
             styleStack.Children.Add(sizeRow);
 
-            styleStack.Children.Add(MakeLabel("Colour (hex)"));
+            styleStack.Children.Add(MakeLabel("Renk (hex)"));
             DockPanel colorRow = new DockPanel { Margin = new Thickness(16, 0, 8, 2) };
             _textColorSwatch = new Border
             {
@@ -961,15 +961,15 @@ namespace Desktop_Frames
             }
             styleStack.Children.Add(presets);
 
-            styleStack.Children.Add(MakeLabel("Alignment"));
+            styleStack.Children.Add(MakeLabel("Hizalama"));
             _cmbTextAlign = new ComboBox { ItemsSource = TextFramemanager.Alignments, Height = 26, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(16, 0, 0, 4) };
             styleStack.Children.Add(_cmbTextAlign);
 
-            styleStack.Children.Add(MakeLabel("Draw mode"));
+            styleStack.Children.Add(MakeLabel("Çizim modu"));
             _cmbTextDrawMode = new ComboBox { ItemsSource = TextFramemanager.DrawModes, Height = 26, Width = 220, HorizontalAlignment = HorizontalAlignment.Left, FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Margin = new Thickness(16, 0, 0, 4) };
             styleStack.Children.Add(_cmbTextDrawMode);
 
-            styleStack.Children.Add(MakeLabel("Refresh every (seconds, 0 = never)"));
+            styleStack.Children.Add(MakeLabel("Yenileme aralığı (saniye, 0 = hiç)"));
             _nudTextRefresh = new NumericTextBox
             {
                 Minimum = 0, Maximum = 86400, Value = 60,
@@ -979,7 +979,7 @@ namespace Desktop_Frames
             };
             styleStack.Children.Add(_nudTextRefresh);
 
-            styleStack.Children.Add(MakeLabel("Opacity"));
+            styleStack.Children.Add(MakeLabel("Opaklık"));
             var opacityRow = new DockPanel { Margin = new Thickness(16, 0, 8, 4) };
             _lblTextOpacityValue = new TextBlock { FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Width = 36, VerticalAlignment = VerticalAlignment.Center, TextAlignment = TextAlignment.Right };
             DockPanel.SetDock(_lblTextOpacityValue, Dock.Right);
@@ -1158,8 +1158,8 @@ namespace Desktop_Frames
 
                 // Reset focus hotkey
                 _hotkeyVk = 0; _hotkeyMods = 0; _capturingHotkey = false;
-                if (_btnSetHotkey != null) _btnSetHotkey.Content = "Set";
-                if (_txtHotkey != null) _txtHotkey.Text = "None";
+                if (_btnSetHotkey != null) _btnSetHotkey.Content = "Ata";
+                if (_txtHotkey != null) _txtHotkey.Text = "Yok";
 
                 // Reset checkbox controls to unchecked
                 _chkBoldTitleText.IsChecked = false;
@@ -1171,7 +1171,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error resetting controls to defaults: {ex.Message}");
-              MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error resetting to defaults: {ex.Message}", "Default Error");
+              MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Varsayılanlara dönerken hata: {ex.Message}", "Varsayılan hatası");
             }
         }
 
@@ -1194,7 +1194,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error saving settings: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error saving settings: {ex.Message}", "Save Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Ayarlar kaydedilirken hata: {ex.Message}", "Kaydetme hatası");
             }
         }
 
@@ -1218,7 +1218,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error applying settings: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error applying settings: {ex.Message}", "Apply Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Ayarlar uygulanırken hata: {ex.Message}", "Uygulama hatası");
             }
         }
 
@@ -1527,7 +1527,7 @@ namespace Desktop_Frames
                 try { var v = _frame.HotkeyVk?.ToString(); if (!string.IsNullOrWhiteSpace(v)) int.TryParse(v, out loadVk); } catch { }
                 try { var v = _frame.HotkeyMods?.ToString(); if (!string.IsNullOrWhiteSpace(v)) int.TryParse(v, out loadMods); } catch { }
                 _hotkeyVk = loadVk; _hotkeyMods = loadMods; _capturingHotkey = false;
-                if (_btnSetHotkey != null) _btnSetHotkey.Content = "Set";
+                if (_btnSetHotkey != null) _btnSetHotkey.Content = "Ata";
                 if (_txtHotkey != null) _txtHotkey.Text = HotkeyDisplay(loadMods, loadVk);
 
                 // Load Title Section properties
@@ -1548,7 +1548,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error loading current values for frame '{_frame.Title}': {ex.Message}");
-              MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error loading frame properties: {ex.Message}", "Load Error");
+              MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutu özellikleri yüklenirken hata: {ex.Message}", "Yükleme hatası");
             }
         }
 

@@ -42,7 +42,7 @@ namespace Desktop_Frames
         private void InitializeComponent()
         {
             // Window Props
-            this.Title = "DesktopPossible Notification"; // Taskbar/System title
+            this.Title = "DesktopPossible bildirimi"; // Taskbar/System title
             this.Width = 360;
             this.Height = 200;
             this.SizeToContent = SizeToContent.Height;
@@ -148,7 +148,7 @@ namespace Desktop_Frames
             {
                 Button btnLink = new Button
                 {
-                    Content = _msg.Type == "Info" ? "Read More..." : "Update Now",
+                    Content = _msg.Type == "Info" ? "Devamını oku..." : "Şimdi güncelle",
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Padding = new Thickness(10, 5, 10, 5),
                     Margin = new Thickness(0, 0, 0, 10),
@@ -163,7 +163,7 @@ namespace Desktop_Frames
             {
                 _chkDismiss = new CheckBox
                 {
-                    Content = "Don't show this again",
+                    Content = "Bunu bir daha gösterme",
                     FontSize = 11,
                     Foreground = Brushes.Gray,
                     Cursor = System.Windows.Input.Cursors.Hand

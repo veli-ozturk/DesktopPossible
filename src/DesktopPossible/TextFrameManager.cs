@@ -409,13 +409,13 @@ namespace Desktop_Frames
 
                 var wa = SystemParameters.WorkArea;
                 const double width = 440, height = 300;
-                var record = (Newtonsoft.Json.Linq.JObject)CreateNew("System Info", wa.Right - width - 24, wa.Top + 24, width, height);
+                var record = (Newtonsoft.Json.Linq.JObject)CreateNew("Sistem bilgisi", wa.Right - width - 24, wa.Top + 24, width, height);
                 record[KeyTemplate] =
                     "{ComputerName}\n" +
-                    "CPU: {CPU}  ({Cores} threads, {CPUUsage} busy)\n" +
-                    "RAM: {RAMUsed} of {RAM} in use ({RAMUsage})\n" +
-                    "Internal IP: {IP}\n" +
-                    "External IP: {ExternalIP}\n" +
+                    "CPU: {CPU}  ({Cores} iş parçacığı, {CPUUsage} meşgul)\n" +
+                    "RAM: {RAMUsed} / {RAM} kullanımda ({RAMUsage})\n" +
+                    "İç IP: {IP}\n" +
+                    "Dış IP: {ExternalIP}\n" +
                     "\n" +
                     "{Disks}";
                 record[KeyAlign] = "Right";

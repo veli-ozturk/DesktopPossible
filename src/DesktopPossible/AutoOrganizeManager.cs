@@ -147,7 +147,7 @@ namespace Desktop_Frames
                 {
                     System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        SmartToast.Show("Auto-Categorize", $"Moved '{displayName}' into its category frame");
+                        SmartToast.Show("Otomatik sınıflandırma", $"'{displayName}' kategori kutusuna taşındı");
                     }));
                 }
             }

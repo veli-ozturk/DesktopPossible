@@ -88,13 +88,13 @@ namespace Desktop_Frames
                 var forward = plan.ToDictionary(e => e.Source, e => e.Dest, StringComparer.OrdinalIgnoreCase);
                 var resumed = plan.GroupBy(e => e.Dest, StringComparer.OrdinalIgnoreCase).ToDictionary(g => g.Key, g => g.Key, StringComparer.OrdinalIgnoreCase);
                 foreach (string id in Repoint(profiles, forward, null).Union(Repoint(profiles, resumed, null)))
-                    FrameBusyOverlay.Show(id, "Migrating…");
+                    FrameBusyOverlay.Show(id, "Taşınıyor…");
 
                 // ---- 3. Backup (skipped when resuming: the first pass already made it) ----
                 string stamp = DateTime.Now.ToString("yyyy-MM-dd HHmmss");
                 if (journal.Count == 0)
                 {
-                    string name = $"Before desktop migration {stamp}";
+                    string name = $"Masaüstü taşıması öncesi {stamp}";
                     await Task.Run(() => BackupManager.CreateBackup(name, silent: true, includeStore: false));
                     if (!File.Exists(Path.Combine(BackupManager.GetBackupsFolderPath(), name + ".zip")))
                     {
@@ -127,8 +127,8 @@ namespace Desktop_Frames
                 LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
                     $"Desktop migration finished: {done} moved, {failed.Count} failed (kept in place, retried next launch).");
                 if (done > 0)
-                    SmartToast.Show("Frame items moved to the Desktop",
-                        $"{done} item(s) now live on the Desktop and stay in their frames; their desktop icons are hidden while DesktopPossible runs.");
+                    SmartToast.Show("Kutu öğeleri masaüstüne taşındı",
+                        $"{done} öğe artık masaüstünde duruyor ve kutularında görünmeye devam ediyor; DesktopPossible çalışırken masaüstü simgeleri gizlenir.");
             }
             catch (Exception ex)
             {

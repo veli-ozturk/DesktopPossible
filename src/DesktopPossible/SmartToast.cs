@@ -32,8 +32,8 @@ namespace Desktop_Frames
             {
                 if (_editModeHint != null) return; // one at a time
                 var toast = new SmartToast(
-                    "Frames are locked",
-                    "To move or resize frames, enable 'Edit Frames Mode' from the tray icon menu.",
+                    "Kutular kilitli",
+                    "Kutuları taşımak ya da yeniden boyutlandırmak için tepsi simgesi menüsünden 'Kutu düzenleme modu' seçeneğini açın.",
                     TimeSpan.FromSeconds(10), showCloseButton: true, positionAtCursor: true);
                 _editModeHint = toast;
                 toast.Closed += (s, e) => { if (ReferenceEquals(_editModeHint, toast)) _editModeHint = null; };

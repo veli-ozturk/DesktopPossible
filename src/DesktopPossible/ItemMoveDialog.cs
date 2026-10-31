@@ -64,7 +64,7 @@ namespace Desktop_Frames
             // Create modern hierarchical Move dialog
             var moveWindow = new Window
             {
-                Title = "Move Item To...",
+                Title = "Öğeyi taşı...",
                 Width = 480,
                 Height = 600,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -121,7 +121,7 @@ namespace Desktop_Frames
 
             TextBlock mainTitle = new TextBlock
             {
-                Text = "Move Item To...",
+                Text = "Öğeyi taşı...",
                 FontSize = 16,
                 FontWeight = FontWeights.SemiBold,
                 Foreground = System.Windows.Media.Brushes.White,
@@ -130,7 +130,7 @@ namespace Desktop_Frames
 
             TextBlock subTitle = new TextBlock
             {
-                Text = $"Moving: {itemName}",
+                Text = $"Taşınan: {itemName}",
                 FontSize = 12,
                 Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255)),
                 FontStyle = FontStyles.Italic
@@ -180,7 +180,7 @@ namespace Desktop_Frames
             // Instructions
             TextBlock instructionsText = new TextBlock
             {
-                Text = "Select a destination frame or tab:",
+                Text = "Hedef kutuyu ya da sekmeyi seçin:",
                 FontSize = 13,
                 FontWeight = FontWeights.Medium,
                 Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(95, 99, 104)),
@@ -222,7 +222,7 @@ namespace Desktop_Frames
 
             Button cancelButton = new Button
             {
-                Content = "Cancel",
+                Content = "İptal",
                 Width = 100,
                 Height = 36,
                 FontSize = 13,
@@ -292,7 +292,7 @@ namespace Desktop_Frames
                 if (issourceFrame && !frameHasTabs)
                     continue;
 
-                string frameTitle = frame.Title?.ToString() ?? "Unnamed Frame";
+                string frameTitle = frame.Title?.ToString() ?? "Adsız kutu";
 
                 if (!frameHasTabs)
                 {
@@ -335,10 +335,10 @@ namespace Desktop_Frames
 
                     // FIX: Smart label indicating omitted tab
                     int tCount = GetTabCount(frame);
-                    string countLabel = $"({tCount} tabs)";
+                    string countLabel = $"({tCount} sekme)";
                     if (issourceFrame)
                     {
-                        countLabel += " 1 omitted";
+                        countLabel += " 1 hariç";
                     }
 
                     TextBlock tabCountText = new TextBlock
@@ -360,7 +360,7 @@ namespace Desktop_Frames
                     // We HIDE this if it is the Source frame, to prevent confusion
                     if (!issourceFrame)
                     {
-                        CreateMoveTargetButton(targetsPanel, "📋 Main Items", "↳", frame, null, item, sourceFrame, moveWindow, true);
+                        CreateMoveTargetButton(targetsPanel, "📋 Ana öğeler", "↳", frame, null, item, sourceFrame, moveWindow, true);
                     }
 
                     // Individual tabs
@@ -375,7 +375,7 @@ namespace Desktop_Frames
                         var tab = tabs[i] as JObject;
                         if (tab != null)
                         {
-                            string tabName = tab["TabName"]?.ToString() ?? $"Tab {i}";
+                            string tabName = tab["TabName"]?.ToString() ?? $"Sekme {i}";
                             CreateMoveTargetButton(targetsPanel, $"📄 {tabName}", "↳", frame, i, item, sourceFrame, moveWindow, true);
                         }
                     }
@@ -614,7 +614,7 @@ namespace Desktop_Frames
 
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.IconHandling,
                     $"Error during move operation: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Move failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Taşıma başarısız: {ex.Message}", "Hata");
             }
         }
 

@@ -73,7 +73,7 @@ namespace Desktop_Frames
 
         private static string BuildTrayText(string profileName) =>
             TruncateTrayText(UpdateChecker.IsUpdateAvailable
-                ? $"DesktopPossible ({profileName}) - update v{UpdateChecker.LatestVersion?.ToString(3)} available"
+                ? $"DesktopPossible ({profileName}) - v{UpdateChecker.LatestVersion?.ToString(3)} güncellemesi var"
                 : $"DesktopPossible ({profileName})");
 
         public void UpdateAutoOrganizeMenuCheck(bool isChecked)
@@ -173,7 +173,7 @@ namespace Desktop_Frames
                     {
                         // Show notification that export was successful
                         _trayIcon.BalloonTipTitle = "DesktopPossible";
-                        _trayIcon.BalloonTipText = "Registry values exported successfully to program folder.";
+                        _trayIcon.BalloonTipText = "Kayıt defteri değerleri program klasörüne aktarıldı.";
                         _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                         _trayIcon.ShowBalloonTip(3000); // Show for 3 seconds
 
@@ -183,8 +183,8 @@ namespace Desktop_Frames
                     else
                     {
                         // Show error notification
-                        _trayIcon.BalloonTipTitle = "DesktopPossible - Error";
-                        _trayIcon.BalloonTipText = "Failed to export registry values. Check log for details.";
+                        _trayIcon.BalloonTipTitle = "DesktopPossible - Hata";
+                        _trayIcon.BalloonTipText = "Kayıt defteri değerleri dışa aktarılamadı. Ayrıntılar için günlüğe bakın.";
                         _trayIcon.BalloonTipIcon = ToolTipIcon.Error;
                         _trayIcon.ShowBalloonTip(3000);
 
@@ -240,7 +240,7 @@ namespace Desktop_Frames
             // "Update Now" sits at the top and is only visible while UpdateChecker knows of a
             // newer release. Installed (MSI) builds download + verify + run the installer;
             // portable builds have no installer to run, so they get the releases page.
-            _updateNowItem = new ToolStripMenuItem("Update Now...")
+            _updateNowItem = new ToolStripMenuItem("Şimdi güncelle...")
             {
                 Visible = false,
                 Font = new System.Drawing.Font(System.Drawing.SystemFonts.MenuFont ?? System.Drawing.SystemFonts.DefaultFont, System.Drawing.FontStyle.Bold),
@@ -258,12 +258,12 @@ namespace Desktop_Frames
             _updateNowSeparator = new ToolStripSeparator { Visible = false };
             trayMenu.Items.Add(_updateNowSeparator);
 
-            trayMenu.Items.Add("About...", null, (s, e) => AboutFormManager.ShowAboutForm());
-            trayMenu.Items.Add("Options...", null, (s, e) => OptionsFormManager.ShowOptionsForm());
+            trayMenu.Items.Add("Hakkında...", null, (s, e) => AboutFormManager.ShowAboutForm());
+            trayMenu.Items.Add("Seçenekler...", null, (s, e) => OptionsFormManager.ShowOptionsForm());
             trayMenu.Items.Add(new ToolStripSeparator());
 
             // Profiles Submenu
-            _profilesMenuItem = new ToolStripMenuItem("Profiles");
+            _profilesMenuItem = new ToolStripMenuItem("Profiller");
             trayMenu.Items.Add(_profilesMenuItem);
 
             var smartTopSeparator = new ToolStripSeparator();
@@ -272,7 +272,7 @@ namespace Desktop_Frames
             // --- SMART DESKTOP OPTIONS ---
             // The one-shot "Sort Desktop into Categories" command lives only in
             // Options → Smart Desktop ("Arrange Now"); the tray keeps just the toggle.
-            _autoOrganizeMenuItem = new ToolStripMenuItem("Enable Auto-Organize") { CheckOnClick = true };
+            _autoOrganizeMenuItem = new ToolStripMenuItem("Otomatik düzeni etkinleştir") { CheckOnClick = true };
             _autoOrganizeMenuItem.Checked = SettingsManager.EnableAutoOrganize;
             _autoOrganizeMenuItem.Click += (s, e) =>
             {
@@ -290,7 +290,7 @@ namespace Desktop_Frames
             // --- END SMART DESKTOP OPTIONS ---
 
             // Global Frame Edit Mode toggle: frames only become movable/resizable while checked.
-            _frameEditModeItem = new ToolStripMenuItem("Edit Frames Mode") { CheckOnClick = true };
+            _frameEditModeItem = new ToolStripMenuItem("Kutu düzenleme modu") { CheckOnClick = true };
             _frameEditModeItem.Checked = SettingsManager.FrameEditMode;
             _frameEditModeItem.Click += (s, e) =>
             {
@@ -301,15 +301,15 @@ namespace Desktop_Frames
             };
             trayMenu.Items.Add(_frameEditModeItem);
 
-            trayMenu.Items.Add("Reload All Frames", null, async (s, e) => { await reloadallFrames(); });
+            trayMenu.Items.Add("Tüm kutuları yeniden yükle", null, async (s, e) => { await reloadallFrames(); });
 
             trayMenu.Items.Add(new ToolStripSeparator());
 
-            _showHiddenFramesItem = new ToolStripMenuItem("Show Hidden Frames") { Enabled = false };
+            _showHiddenFramesItem = new ToolStripMenuItem("Gizli kutuları göster") { Enabled = false };
             trayMenu.Items.Add(_showHiddenFramesItem);
 
             trayMenu.Items.Add(new ToolStripSeparator());
-            trayMenu.Items.Add("Exit", null, (s, e) => System.Windows.Application.Current.Shutdown());
+            trayMenu.Items.Add("Çıkış", null, (s, e) => System.Windows.Application.Current.Shutdown());
 
             // Reflect the current settings each time the menu opens (no rebuild/restart needed).
             // Disabled features are hidden from the tray; re-enable them from Options.
@@ -321,9 +321,9 @@ namespace Desktop_Frames
                 bool updateAvailable = UpdateChecker.IsUpdateAvailable;
                 _updateNowItem.Text = updateAvailable
                     ? (AppPaths.IsInstalled && UpdateChecker.Installer != null
-                        ? $"Update Now to v{UpdateChecker.LatestVersion?.ToString(3)}..."
-                        : $"Download v{UpdateChecker.LatestVersion?.ToString(3)}...")
-                    : "Update Now...";
+                        ? $"v{UpdateChecker.LatestVersion?.ToString(3)} sürümüne güncelle..."
+                        : $"v{UpdateChecker.LatestVersion?.ToString(3)} sürümünü indir...")
+                    : "Şimdi güncelle...";
                 _updateNowItem.Visible = updateAvailable;
                 _updateNowSeparator.Visible = updateAvailable;
 
@@ -437,7 +437,7 @@ namespace Desktop_Frames
 
             var waitText = new System.Windows.Controls.TextBlock
             {
-                Text = "Reloading all frames, please wait...",
+                Text = "Tüm kutular yeniden yükleniyor, lütfen bekleyin...",
                 FontFamily = new System.Windows.Media.FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(95, 99, 104)),
@@ -479,7 +479,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
-                MessageBoxesManager.ShowOKOnlyMessageBoxFormStatic($"An error occurred while reloading frames: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxFormStatic($"Kutular yeniden yüklenirken bir hata oluştu: {ex.Message}", "Hata");
             }
             finally
             {
@@ -627,28 +627,28 @@ namespace Desktop_Frames
             _profilesMenuItem.DropDownItems.Add(new ToolStripSeparator());
 
             // 2. Quick Action: Create New Profile (Keep this for speed)
-            var createItem = new ToolStripMenuItem("Create New Profile...");
+            var createItem = new ToolStripMenuItem("Yeni profil oluştur...");
             createItem.Click += (s, e) =>
             {
-                string newName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for new profile:", "New Profile");
+                string newName = Microsoft.VisualBasic.Interaction.InputBox("Yeni profilin adını girin:", "Yeni profil");
 
                 if (!string.IsNullOrWhiteSpace(newName))
                 {
                     if (ProfileManager.CreateProfile(newName))
                     {
                         UpdateProfilesMenu();
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Profile '{newName}' created successfully.", "Success");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"'{newName}' profili oluşturuldu.", "Başarılı");
                     }
                     else
                     {
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm("Failed to create profile. Name invalid or already exists.", "Error");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm("Profil oluşturulamadı. Ad geçersiz ya da zaten var.", "Hata");
                     }
                 }
             };
             _profilesMenuItem.DropDownItems.Add(createItem);
 
             // 3. Full UI: Manage Profiles (The new form)
-            var manageItem = new ToolStripMenuItem("Manage Profiles...");
+            var manageItem = new ToolStripMenuItem("Profilleri yönet...");
             manageItem.Click += (s, e) =>
             {
                 // Open the new Manager Window

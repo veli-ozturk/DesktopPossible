@@ -156,15 +156,15 @@ namespace Desktop_Frames
                 hMenu = CreatePopupMenu();
 
                 // Simplified top level: the most common operations (our own ids, CUSTOM_BASE range).
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 1), "Open");
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 2), "Edit");
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 3), "Open with...");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 1), "Aç");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 2), "Düzenle");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 3), "Birlikte aç...");
                 AppendMenu(hMenu, MF_SEPARATOR, UIntPtr.Zero, null);
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 4), "Cut");
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 5), "Copy");
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 6), "Paste");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 4), "Kes");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 5), "Kopyala");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 6), "Yapıştır");
                 AppendMenu(hMenu, MF_SEPARATOR, UIntPtr.Zero, null);
-                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 7), "Properties");
+                AppendMenu(hMenu, MF_STRING, (UIntPtr)(CUSTOM_BASE + 7), "Özellikler");
                 AppendMenu(hMenu, MF_SEPARATOR, UIntPtr.Zero, null);
 
                 // Full native Explorer menu, tucked into a submenu. This is populated LAZILY: the
@@ -179,7 +179,7 @@ namespace Desktop_Frames
                 {
                     // Placeholder keeps the submenu arrow and makes Windows fire WM_INITMENUPOPUP so
                     // we can fill it on demand.
-                    AppendMenu(hSub, MF_STRING | MF_GRAYED, (UIntPtr)(CUSTOM_BASE + 99), "Loading…");
+                    AppendMenu(hSub, MF_STRING | MF_GRAYED, (UIntPtr)(CUSTOM_BASE + 99), "Yükleniyor…");
                 }
                 else
                 {
@@ -187,7 +187,7 @@ namespace Desktop_Frames
                     com1.QueryContextMenu(hSub, 0, idCmdFirst, idCmdLast, qFlags);
                     subPopulated = true;
                 }
-                hSubAttached = AppendMenu(hMenu, MF_POPUP, (UIntPtr)(ulong)hSub.ToInt64(), "All Windows options");
+                hSubAttached = AppendMenu(hMenu, MF_POPUP, (UIntPtr)(ulong)hSub.ToInt64(), "Tüm Windows seçenekleri");
 
                 // Follow the OS light/dark setting for the (classic) menu.
                 ApplyDarkMenus(ownerHwnd);

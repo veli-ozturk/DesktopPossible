@@ -23,13 +23,13 @@ namespace Desktop_Frames
     /// frame or profile that owns stored files is deleted. Two primary choices:
     /// Move files to Desktop (safe, accent) and Delete files (danger, red). Picking
     /// Delete reveals a confirmation TextBox; the Delete button only enables while the
-    /// text is exactly "DELETE MY FILES" (case-sensitive). Cancel / Escape abort.
+    /// text is exactly "DOSYALARIMI SİL" (case-sensitive). Cancel / Escape abort.
     /// Code-built WPF in the house MessageBoxesManager style.
     /// </summary>
     public class FrameFilesDecisionDialog : Window
     {
         /// <summary>The exact phrase that unlocks permanent deletion.</summary>
-        public const string ConfirmationPhrase = "DELETE MY FILES";
+        public const string ConfirmationPhrase = "DOSYALARIMI SİL";
 
         private FrameFilesDecision _result = FrameFilesDecision.Cancel;
         private readonly Color _accent;
@@ -71,7 +71,7 @@ namespace Desktop_Frames
             _fileCount = fileCount;
             _accent = Utility.GetColorFromName(SettingsManager.SelectedColor);
 
-            Title = "Stored Files";
+            Title = "Saklanan dosyalar";
             Width = 520;
             SizeToContent = SizeToContent.Height;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -138,15 +138,14 @@ namespace Desktop_Frames
             StackPanel messageArea = new StackPanel { Margin = new Thickness(8, 4, 0, 0) };
             messageArea.Children.Add(new TextBlock
             {
-                Text = "Stored Files",
+                Text = "Saklanan dosyalar",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 18, FontWeight = FontWeights.Bold,
                 Foreground = new SolidColorBrush(Color.FromRgb(32, 33, 36)),
                 Margin = new Thickness(0, 0, 0, 4)
             });
-            string fileWord = _fileCount == 1 ? "file is" : "files are";
             messageArea.Children.Add(new TextBlock
             {
-                Text = $"{_fileCount} {fileWord} stored in {_scope}. What should happen to them?",
+                Text = $"{_scope} içinde {_fileCount} dosya saklanıyor. Bunlara ne olsun?",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 14,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
                 TextWrapping = TextWrapping.Wrap,
@@ -154,7 +153,7 @@ namespace Desktop_Frames
             });
             messageArea.Children.Add(new TextBlock
             {
-                Text = "Move files to Desktop keeps every file. Delete files removes them permanently — this cannot be undone.",
+                Text = "“Dosyaları masaüstüne taşı” her dosyayı korur. “Dosyaları sil” onları kalıcı olarak kaldırır; bu işlem geri alınamaz.",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(128, 134, 139)),
                 TextWrapping = TextWrapping.Wrap,
@@ -164,7 +163,7 @@ namespace Desktop_Frames
             _confirmPanel = new StackPanel { Visibility = Visibility.Collapsed, Margin = new Thickness(0, 4, 10, 8) };
             _confirmPanel.Children.Add(new TextBlock
             {
-                Text = $"Type {ConfirmationPhrase} to confirm",
+                Text = $"Onaylamak için {ConfirmationPhrase} yazın",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 13, FontWeight = FontWeights.SemiBold,
                 Foreground = new SolidColorBrush(Color.FromRgb(234, 67, 53)),
                 Margin = new Thickness(0, 0, 0, 6)
@@ -196,13 +195,13 @@ namespace Desktop_Frames
                 Margin = new Thickness(8, 8, 0, 0)
             };
 
-            Button btnCancel = MakeButton("Cancel", Color.FromRgb(95, 99, 104), 90);
+            Button btnCancel = MakeButton("İptal", Color.FromRgb(95, 99, 104), 90);
             btnCancel.Click += (s, e) => { _result = FrameFilesDecision.Cancel; Close(); };
 
-            Button btnMove = MakeButton("Move files to Desktop", _accent, 170);
+            Button btnMove = MakeButton("Dosyaları masaüstüne taşı", _accent, 200);
             btnMove.Click += (s, e) => { _result = FrameFilesDecision.MoveToDesktop; Close(); };
 
-            _btnDelete = MakeButton("Delete files", Color.FromRgb(234, 67, 53), 120);
+            _btnDelete = MakeButton("Dosyaları sil", Color.FromRgb(234, 67, 53), 130);
             _btnDelete.Click += (s, e) =>
             {
                 if (_confirmPanel!.Visibility != Visibility.Visible)

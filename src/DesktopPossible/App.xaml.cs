@@ -53,7 +53,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Profile Initialization Error: {ex.Message}", "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Profil başlatma hatası: {ex.Message}", "Başlangıç hatası", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown();
                 return;
             }
@@ -77,7 +77,7 @@ namespace Desktop_Frames
                 if (!isDrawCommand)
                 {
                     MessageBox.Show(
-                        "DesktopPossible is already running.\n\nLook for its icon in the system tray (near the clock).",
+                        "DesktopPossible zaten çalışıyor.\n\nSimgesini sistem tepsisinde (saatin yanında) bulabilirsiniz.",
                         "DesktopPossible",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -237,7 +237,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Critical Startup Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Kritik başlangıç hatası: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown();
             }
         }

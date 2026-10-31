@@ -59,22 +59,22 @@ public static class UpdateInstaller
     public static string? Verify(string path, UpdateChecker.ReleaseAsset asset)
     {
         var info = new FileInfo(path);
-        if (!info.Exists) return "The downloaded file is missing.";
+        if (!info.Exists) return "İndirilen dosya bulunamadı.";
         if (asset.Size > 0 && info.Length != asset.Size)
-            return $"Size mismatch: expected {asset.Size:N0} bytes, got {info.Length:N0}.";
+            return $"Boyut uyuşmuyor: {asset.Size:N0} bayt bekleniyordu, {info.Length:N0} bayt geldi.";
 
         if (asset.Sha256 != null)
         {
             string actual = ComputeSha256(path);
             if (!string.Equals(actual, asset.Sha256, StringComparison.OrdinalIgnoreCase))
-                return "The file's SHA-256 hash does not match the published release.";
+                return "Dosyanın SHA-256 özeti yayımlanan sürümle eşleşmiyor.";
         }
 
         if (!VerifyAuthenticode(path, out string? subject))
-            return "The installer's digital signature is missing or not trusted by Windows.";
+            return "Kurulum dosyasının dijital imzası yok ya da Windows bu imzaya güvenmiyor.";
 
         if (!IsTrustedSigner(subject))
-            return $"The installer is signed by an unexpected publisher ({subject ?? "unknown"}).";
+            return $"Kurulum dosyası beklenmeyen bir yayıncı tarafından imzalanmış ({subject ?? "bilinmiyor"}).";
 
         return null;
     }

@@ -102,7 +102,7 @@ namespace Desktop_Frames
                 if (!_isRestoreAvailable || string.IsNullOrEmpty(_lastDeletedFolderPath) || _lastDeletedFrame == null)
                 {
                     LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.ImportExport, "No frame available to restore");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("No frame to restore", "Restore");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Geri yüklenecek kutu yok", "Geri yükle");
                     return;
                 }
 
@@ -150,7 +150,7 @@ namespace Desktop_Frames
 			catch (Exception ex)
 			{
 				LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Error restoring last deleted frame: {ex.Message}");
-				MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error restoring frame: {ex.Message}", "Restore Error");
+				MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutu geri yüklenirken hata oluştu: {ex.Message}", "Geri yükleme hatası");
 			}
 		}
         #endregion
@@ -263,12 +263,12 @@ namespace Desktop_Frames
                 Directory.Delete(exportFolder, true);
 
 				LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.ImportExport, $"Frame exported successfully: {framePath}");
-				MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Frame exported to:\n{framePath}", "Export Successful");
+				MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutu şuraya dışa aktarıldı:\n{framePath}", "Dışa aktarma başarılı");
 			}
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Export failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Export failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Dışa aktarma başarısız: {ex.Message}", "Hata");
             }
             finally
             {
@@ -288,10 +288,10 @@ namespace Desktop_Frames
 
                 var openDialog = new Microsoft.Win32.OpenFileDialog
                 {
-                    Filter = "Frame Files|*.frame;*.fence", // SUPPORT BOTH EXTENSIONS
+                    Filter = "Kutu dosyaları|*.frame;*.fence", // SUPPORT BOTH EXTENSIONS
                     DefaultExt = ".frame", // DEFAULT TO NEW
                     InitialDirectory = Directory.Exists(exportsDir) ? exportsDir : exeDir,
-                    Title = "Select Frame Export File",
+                    Title = "Kutu dışa aktarma dosyasını seçin",
                     // Do not let the dialog permanently change the process CWD — legacy
                     // relative-path code depends on it pointing at the profile folder.
                     RestoreDirectory = true
@@ -313,7 +313,7 @@ namespace Desktop_Frames
                     {
                         frameJsonPath = Path.Combine(tempDir, "fence.json");
                     }
-                    if (!File.Exists(frameJsonPath)) throw new FileNotFoundException("Invalid export: missing frame data file");
+                    if (!File.Exists(frameJsonPath)) throw new FileNotFoundException("Geçersiz dışa aktarma: kutu veri dosyası eksik");
 
                     string jsonContent = File.ReadAllText(frameJsonPath);
 
@@ -324,7 +324,7 @@ namespace Desktop_Frames
                     jsonContent = jsonContent.Replace("\"frameBorderThickness\"", "\"FrameBorderThickness\"");
 
                     dynamic importedFrame = JsonConvert.DeserializeObject<JObject>(jsonContent);
-                    if (importedFrame == null) throw new InvalidDataException("Invalid JSON data");
+                    if (importedFrame == null) throw new InvalidDataException("Geçersiz JSON verisi");
 
                     // New ID to avoid conflicts
                     string newId = Guid.NewGuid().ToString();
@@ -396,7 +396,7 @@ namespace Desktop_Frames
                     Framemanager.CreateFrame(importedFrame, new TargetChecker(1000));
                     FrameDataManager.SaveFrameData();
 
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Frame imported successfully!", "Import Complete");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Kutu içe aktarıldı!", "İçe aktarma tamamlandı");
                 }
                 finally
                 {
@@ -406,7 +406,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Import failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Failed to import frame: {ex.Message}", "Import Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutu içe aktarılamadı: {ex.Message}", "İçe aktarma hatası");
             }
             finally
             {
@@ -713,14 +713,14 @@ namespace Desktop_Frames
                 {
                     File.Delete(zipPath);
                     string msg =
-                        $"The backup was NOT created: its size ({sizeBytes / 1024.0 / 1024.0:F1} MB) exceeds the " +
-                        $"configured maximum of {SettingsManager.MaxBackupSizeMB} MB.\n\n" +
-                        "You can raise the limit under Options → Tools → 'Max backup size (MB)', or reduce " +
-                        "the amount of files stored inside frames.";
+                        $"Yedek OLUŞTURULMADI: boyutu ({sizeBytes / 1024.0 / 1024.0:F1} MB), " +
+                        $"ayarlanan {SettingsManager.MaxBackupSizeMB} MB üst sınırını aşıyor.\n\n" +
+                        "Sınırı Seçenekler → Araçlar → 'En büyük yedek boyutu (MB)' bölümünden yükseltebilir ya da " +
+                        "kutularda saklanan dosya miktarını azaltabilirsiniz.";
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport,
                         $"Backup '{backupName}' refused: {sizeBytes} bytes exceeds the {SettingsManager.MaxBackupSizeMB} MB limit.");
                     // Shown for auto backups too — the user must acknowledge that backups are not running.
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(msg, "Backup Too Large");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(msg, "Yedek çok büyük");
                     return;
                 }
 
@@ -728,7 +728,7 @@ namespace Desktop_Frames
                     $"Backup finished: {zipPath} ({sizeBytes / 1024.0 / 1024.0:F1} MB)");
                 if (!silent)
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Backup completed successfully.", "Backup");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Yedekleme tamamlandı.", "Yedek");
                 }
             }
             catch (Exception ex)
@@ -737,7 +737,7 @@ namespace Desktop_Frames
                 try { if (zipPath != null && File.Exists(zipPath)) File.Delete(zipPath); } catch { }
                 if (!silent)
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"An error occurred during backup: {ex.Message}", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Yedekleme sırasında bir hata oluştu: {ex.Message}", "Hata");
                 }
             }
             finally
@@ -809,7 +809,7 @@ namespace Desktop_Frames
 
                 if (string.IsNullOrEmpty(backupFolder) || !Directory.Exists(backupFolder))
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Invalid backup - not a backup archive or folder.", "Restore Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Geçersiz yedek - bir yedek arşivi ya da klasörü değil.", "Geri yükleme hatası");
                     return;
                 }
 
@@ -826,7 +826,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Restore failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Restore failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Geri yükleme başarısız: {ex.Message}", "Hata");
             }
             finally
             {
@@ -843,9 +843,9 @@ namespace Desktop_Frames
         private static void RestoreFullBackup(string extractedDir)
         {
             bool proceed = MessageBoxesManager.ShowCustomYesNoMessageBox(
-                "This will replace the application settings and ALL profiles (frames, positions, stored files) " +
-                "with the contents of the backup, and then restart the application.\n\nContinue?",
-                "Restore Backup");
+                "Bu işlem uygulama ayarlarını ve TÜM profilleri (kutular, konumlar, saklanan dosyalar) " +
+                "yedeğin içeriğiyle değiştirecek ve ardından uygulamayı yeniden başlatacak.\n\nDevam edilsin mi?",
+                "Yedeği geri yükle");
             if (!proceed) return;
 
             Application.Current?.Dispatcher.Invoke(() => Mouse.OverrideCursor = Cursors.Wait);
@@ -867,8 +867,8 @@ namespace Desktop_Frames
             }
 
             MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                "Backup restored.\nThe application will now restart to apply it.",
-                "Restart Required");
+                "Yedek geri yüklendi.\nUygulanması için uygulama şimdi yeniden başlatılacak.",
+                "Yeniden başlatma gerekli");
             RestartApplication();
         }
 
@@ -889,8 +889,8 @@ namespace Desktop_Frames
 
                 if (!File.Exists(backupFramesPath))
                 {
-                    string errorMsg = "Invalid backup folder - missing required files.";
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(errorMsg, "Restore Error");
+                    string errorMsg = "Geçersiz yedek klasörü - gerekli dosyalar eksik.";
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(errorMsg, "Geri yükleme hatası");
                     return;
                 }
 
@@ -901,9 +901,9 @@ namespace Desktop_Frames
                 if (File.Exists(backupOptionsPath))
                 {
                     bool restoreSettings = MessageBoxesManager.ShowCustomYesNoMessageBox(
-                        "This backup contains configuration settings (options.json).\n\n" +
-                        "Do you want to restore your global settings as well?",
-                        "Restore Settings");
+                        "Bu yedek yapılandırma ayarları içeriyor (options.json).\n\n" +
+                        "Genel ayarlarınızı da geri yüklemek istiyor musunuz?",
+                        "Ayarları geri yükle");
 
                     if (restoreSettings)
                     {
@@ -957,19 +957,19 @@ namespace Desktop_Frames
                 if (restartRequired)
                 {
                     MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                        "Global settings have been restored.\nThe application will now restart to apply changes.",
-                        "Restart Required");
+                        "Genel ayarlar geri yüklendi.\nDeğişikliklerin uygulanması için uygulama şimdi yeniden başlatılacak.",
+                        "Yeniden başlatma gerekli");
                     RestartApplication();
                 }
                 else
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Restore completed successfully.", "Restore");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Geri yükleme tamamlandı.", "Geri yükle");
                 }
             }
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Restore failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Restore failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Geri yükleme başarısız: {ex.Message}", "Hata");
             }
             finally
             {

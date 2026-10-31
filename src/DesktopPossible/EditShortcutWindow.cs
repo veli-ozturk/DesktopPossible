@@ -38,7 +38,7 @@ public partial class EditShortcutWindow : Window
 
     private void InitializeModernComponent()
     {
-        Title = "Edit Shortcut";
+        Title = "Kısayolu düzenle";
         Width = 540;
         Height = 550;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -133,7 +133,7 @@ public partial class EditShortcutWindow : Window
         // Title label with white text (same as CustomizeFrameForm)
         TextBlock titleText = new TextBlock
         {
-            Text = "Edit Shortcut",
+            Text = "Kısayolu düzenle",
             FontSize = 14,
             FontWeight = FontWeights.Bold, // Bold like CustomizeFrameForm
             Foreground = Brushes.White, // White text on colored background
@@ -185,13 +185,13 @@ public partial class EditShortcutWindow : Window
         };
 
         // Display Name Section
-        CreateFieldSection(contentPanel, "Display Name:", out nameBox, NewDisplayName);
+        CreateFieldSection(contentPanel, "Görünen ad:", out nameBox, NewDisplayName);
 
         // Target Path Section
-        CreateFieldWithButtonSection(contentPanel, "Target Path:", out targetPathBox, GetCurrentTargetPath(), "Browse...", BrowseTarget_Click);
+        CreateFieldWithButtonSection(contentPanel, "Hedef yol:", out targetPathBox, GetCurrentTargetPath(), "Gözat...", BrowseTarget_Click);
 
         // Arguments Section
-        CreateFieldSection(contentPanel, "Arguments:", out argumentsBox, GetCurrentArguments());
+        CreateFieldSection(contentPanel, "Bağımsız değişkenler:", out argumentsBox, GetCurrentArguments());
 
         // Icon Section with Preview Space
         CreateIconSection(contentPanel);
@@ -309,7 +309,7 @@ public partial class EditShortcutWindow : Window
 
         TextBlock iconLabel = new TextBlock
         {
-            Text = "Icon:",
+            Text = "Simge:",
             FontSize = 12,
             FontWeight = FontWeights.Medium,
             Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -357,7 +357,7 @@ public partial class EditShortcutWindow : Window
 
         iconPreviewBorder.Child = iconPreview;
 
-        Button browseIconButton = CreateModernButton("Browse...", false);
+        Button browseIconButton = CreateModernButton("Gözat...", false);
         browseIconButton.Click += BrowseIcon_Click;
 
         iconGrid.Children.Add(iconPathBox);
@@ -392,7 +392,7 @@ public partial class EditShortcutWindow : Window
         // Green default button (same as CustomizeFrameForm)
         Button defaultButton = new Button
         {
-            Content = "Default",
+            Content = "Varsayılan",
             Height = 36,
             MinWidth = 80,
             FontSize = 13,
@@ -406,14 +406,14 @@ public partial class EditShortcutWindow : Window
         };
         defaultButton.Click += Default_Click;
 
-        Button cancelButton = CreateModernButton("Cancel", false);
+        Button cancelButton = CreateModernButton("İptal", false);
         cancelButton.Margin = new Thickness(0, 0, 10, 0);
         cancelButton.Click += (s, e) => { DialogResult = false; Close(); };
 
         // Save button with accent color (same as CustomizeFrameForm)
         _saveButton = new Button
         {
-            Content = "Save",
+            Content = "Kaydet",
             Height = 36,
             MinWidth = 80,
             FontSize = 13,
@@ -563,18 +563,18 @@ public partial class EditShortcutWindow : Window
                         return string.IsNullOrEmpty(iconIndex) ? iconFile : $"{iconFile},{iconIndex}";
                     }
                 }
-                return "Default";
+                return "Varsayılan";
             }
 
             // Standard .lnk handling
             dynamic shortcut = WshShell.CreateShortcut(shortcutPath);
             string iconLocation = (string)(shortcut.IconLocation ?? "");
-            return string.IsNullOrEmpty(iconLocation) ? "Default" : iconLocation;
+            return string.IsNullOrEmpty(iconLocation) ? "Varsayılan" : iconLocation;
         }
         catch (Exception ex)
         {
             LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error getting icon location: {ex.Message}");
-            return "Default";
+            return "Varsayılan";
         }
     }
 
@@ -586,8 +586,8 @@ public partial class EditShortcutWindow : Window
         {
             var fileDialog = new System.Windows.Forms.OpenFileDialog
             {
-                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*",
-                Title = "Select Target File",
+                Filter = "Yürütülebilir dosyalar (*.exe)|*.exe|Tüm dosyalar (*.*)|*.*",
+                Title = "Hedef dosyayı seçin",
                 CheckFileExists = true,
                 CheckPathExists = true
             };
@@ -608,7 +608,7 @@ public partial class EditShortcutWindow : Window
         catch (Exception ex)
         {
             LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error in target browse dialog: {ex.Message}");
-            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error opening file browser: {ex.Message}", "Browse Error");
+            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Dosya gezgini açılırken hata oluştu: {ex.Message}", "Gözatma hatası");
         }
     }
 
@@ -616,8 +616,8 @@ public partial class EditShortcutWindow : Window
     {
         var dialog = new System.Windows.Forms.OpenFileDialog
         {
-            Filter = "Icon Files (*.ico)|*.ico|Executable Files (*.exe)|*.exe|DLL Files (*.dll)|*.dll|All Files (*.*)|*.*",
-            Title = "Select an Icon"
+            Filter = "Simge dosyaları (*.ico)|*.ico|Yürütülebilir dosyalar (*.exe)|*.exe|DLL dosyaları (*.dll)|*.dll|Tüm dosyalar (*.*)|*.*",
+            Title = "Bir simge seçin"
         };
 
         if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -681,18 +681,18 @@ public partial class EditShortcutWindow : Window
             targetPathBox.Text = originalTarget;
             argumentsBox.Text = "";
 
-            // Setting this to "Default" triggers the removal logic in Save_Click
-            iconPathBox.Text = "Default";
+            // Setting this to "Varsayılan" triggers the removal logic in Save_Click
+            iconPathBox.Text = "Varsayılan";
 
             // Force the preview to update immediately
-            LoadIconPreview("Default");
+            LoadIconPreview("Varsayılan");
 
             LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.UI, "Default values restored successfully");
         }
         catch (Exception ex)
         {
             LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error restoring defaults: {ex.Message}");
-            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error restoring default values: {ex.Message}", "Default Error");
+            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Varsayılan değerler geri yüklenirken hata oluştu: {ex.Message}", "Hata");
         }
     }
 
@@ -709,7 +709,7 @@ public partial class EditShortcutWindow : Window
 
             if (string.IsNullOrWhiteSpace(newDisplayName) || string.IsNullOrWhiteSpace(newTargetPath))
             {
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm("Display name and Target path cannot be empty.", "Validation Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm("Görünen ad ve hedef yol boş olamaz.", "Doğrulama hatası");
                 return;
             }
 
@@ -747,7 +747,7 @@ public partial class EditShortcutWindow : Window
                 UpdateIniKey("URL", newTargetPath);
 
                 // Handle Icon
-                if (!string.IsNullOrEmpty(newIconPath) && newIconPath != "Default")
+                if (!string.IsNullOrEmpty(newIconPath) && newIconPath != "Varsayılan")
                 {
                     string iconFile = newIconPath;
                     string iconIndex = "0";
@@ -789,7 +789,7 @@ public partial class EditShortcutWindow : Window
                 catch { }
 
                 // Handle Icon
-                if (!string.IsNullOrEmpty(newIconPath) && newIconPath != "Default")
+                if (!string.IsNullOrEmpty(newIconPath) && newIconPath != "Varsayılan")
                     shortcut.IconLocation = newIconPath;
                 else
                 {
@@ -810,7 +810,7 @@ public partial class EditShortcutWindow : Window
         catch (Exception ex)
         {
             LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error saving shortcut: {ex.Message}");
-            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Failed to save shortcut: {ex.Message}", "Save Error");
+            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kısayol kaydedilemedi: {ex.Message}", "Kaydetme hatası");
         }
     }
 
@@ -831,8 +831,8 @@ public partial class EditShortcutWindow : Window
             ImageSource iconSource = null;
             bool isUrl = System.IO.Path.GetExtension(shortcutPath).ToLower() == ".url";
 
-            // Handle "Default" case
-            if (string.IsNullOrEmpty(iconPath) || iconPath == "Default")
+            // Handle "Varsayılan" case
+            if (string.IsNullOrEmpty(iconPath) || iconPath == "Varsayılan")
             {
                 if (isUrl)
                 {

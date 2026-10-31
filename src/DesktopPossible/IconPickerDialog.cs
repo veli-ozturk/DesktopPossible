@@ -40,7 +40,7 @@ namespace Desktop_Frames
 
         private void InitializeWindow()
         {
-            Title = "Select Icon";
+            Title = "Simge seç";
             Width = 400;
             Height = 300;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -90,7 +90,7 @@ namespace Desktop_Frames
             // Title with white text (same as CustomizeFrameForm)
             TextBlock titleText = new TextBlock
             {
-                Text = "Select Icon",
+                Text = "Simge seç",
                 FontSize = 14,
                 FontWeight = FontWeights.Bold, // Bold like CustomizeFrameForm
                 Foreground = Brushes.White, // White text on colored background
@@ -167,7 +167,7 @@ namespace Desktop_Frames
             // Instruction text on the left
             TextBlock instructionText = new TextBlock
             {
-                Text = "Select an Icon from the available and click OK",
+                Text = "Listeden bir simge seçip Tamam'a tıklayın",
                 FontSize = 13,
                 FontWeight = FontWeights.Medium,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -187,7 +187,7 @@ namespace Desktop_Frames
 
             Button cancelButton = new Button
             {
-                Content = "Cancel",
+                Content = "İptal",
                 Height = 36,
                 MinWidth = 80,
                 FontSize = 13,
@@ -205,7 +205,7 @@ namespace Desktop_Frames
             // OK button with accent color (same as Save button in other forms)
             _okButton = new Button
             {
-                Content = "OK",
+                Content = "Tamam",
                 Height = 36,
                 MinWidth = 80,
                 FontSize = 13,

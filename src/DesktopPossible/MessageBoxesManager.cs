@@ -237,7 +237,7 @@ namespace Desktop_Frames
                 // No Button
                 Button btnNo = new Button
                 {
-                    Content = "No",
+                    Content = "Hayır",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -256,7 +256,7 @@ namespace Desktop_Frames
                 // Yes Button (Red for Reset/Danger actions)
                 Button btnYes = new Button
                 {
-                    Content = "Yes",
+                    Content = "Evet",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -452,7 +452,7 @@ namespace Desktop_Frames
                 // Auto-close indicator
                 _autoCloseLabel = new TextBlock
                 {
-                    Text = $"Auto-closing in {_remainingSeconds}s",
+                    Text = $"{_remainingSeconds} sn içinde kapanacak",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 12,
                     Foreground = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255)),
@@ -557,7 +557,7 @@ namespace Desktop_Frames
                 }
                 else
                 {
-                    _autoCloseLabel.Text = $"Auto-closing in {_remainingSeconds}s";
+                    _autoCloseLabel.Text = $"{_remainingSeconds} sn içinde kapanacak";
                 }
             }
 
@@ -723,7 +723,7 @@ namespace Desktop_Frames
         /// <param name="title">The title of the wait window</param>
         /// <param name="message">The message to display</param>
         /// <returns>The wait window instance (caller should close it when done)</returns>
-        public static Window CreateWaitWindow(string title = "DesktopPossible", string message = "Please wait...")
+        public static Window CreateWaitWindow(string title = "DesktopPossible", string message = "Lütfen bekleyin...")
         {
             try
             {
@@ -911,7 +911,7 @@ namespace Desktop_Frames
                 // OK button with user's accent color
                 Button btnOK = new Button
                 {
-                    Content = "OK",
+                    Content = "Tamam",
                     Width = 90,
                     Height = 36,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -1000,7 +1000,7 @@ namespace Desktop_Frames
                 _userAccentColor = mediaColor;
 
                 // Modern WPF window setup
-                this.Title = "Delete Tab";
+                this.Title = "Sekmeyi sil";
                 this.Width = 420;
                 this.Height = 220;
                 this.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -1088,7 +1088,7 @@ namespace Desktop_Frames
 
                 TextBlock titleLabel = new TextBlock
                 {
-                    Text = "Delete Tab",
+                    Text = "Sekmeyi sil",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 18,
                     FontWeight = FontWeights.Bold,
@@ -1096,10 +1096,10 @@ namespace Desktop_Frames
                     Margin = new Thickness(0, 0, 0, 4)
                 };
 
-                string itemText = _itemCount == 1 ? "item" : "items";
+                string itemText = _itemCount == 1 ? "öğe" : "öğe";
                 TextBlock messageLabel = new TextBlock
                 {
-                    Text = $"Are you sure you want to delete tab\n '{_tabName}'?\nThis tab contains {_itemCount} {itemText} that will be permanently removed.",
+                    Text = $"'{_tabName}'\n sekmesini silmek istediğinizden emin misiniz?\nBu sekmede kalıcı olarak kaldırılacak {_itemCount} {itemText} var.",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 14,
                     Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -1124,7 +1124,7 @@ namespace Desktop_Frames
                 // No button (safe action)
                 Button btnNo = new Button
                 {
-                    Content = "No",
+                    Content = "Hayır",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -1150,7 +1150,7 @@ namespace Desktop_Frames
                 // Yes button (danger action)
                 Button btnYes = new Button
                 {
-                    Content = "Yes",
+                    Content = "Evet",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -1307,7 +1307,7 @@ namespace Desktop_Frames
                 _userAccentColor = mediaColor;
 
                 // Modern WPF window setup
-                this.Title = "Confirm delete";
+                this.Title = "Silmeyi onayla";
                 this.Width = 420;
                 this.Height = 200;
                 this.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -1400,7 +1400,7 @@ namespace Desktop_Frames
 
                 TextBlock titleLabel = new TextBlock
                 {
-                    Text = "Delete frame",
+                    Text = "Kutuyu sil",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 18,
                     FontWeight = FontWeights.Bold,
@@ -1410,7 +1410,7 @@ namespace Desktop_Frames
 
                 TextBlock messageLabel = new TextBlock
                 {
-                    Text = "Are you sure you want to delete this frame?",
+                    Text = "Bu kutuyu silmek istediğinizden emin misiniz?",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 14,
                     Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -1435,7 +1435,7 @@ namespace Desktop_Frames
                 // No button with user's accent color (safe action)
                 Button btnNo = new Button
                 {
-                    Content = "No",
+                    Content = "Hayır",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -1462,7 +1462,7 @@ namespace Desktop_Frames
                 // Yes button with danger styling
                 Button btnYes = new Button
                 {
-                    Content = "Yes",
+                    Content = "Evet",
                     Width = 80,
                     Height = 32,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -1540,7 +1540,7 @@ namespace Desktop_Frames
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error showing OK-only MessageBox: {ex.Message}");
                 // Fallback to system message box
-                System.Windows.MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion

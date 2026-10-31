@@ -46,7 +46,7 @@ namespace Desktop_Frames
             Content = _canvas;
 
         
-            _hintBox = MessageBoxesManager.CreateUnifiedMessage("Draw a box to create a Frame (Esc to cancel)");
+            _hintBox = MessageBoxesManager.CreateUnifiedMessage("Kutu oluşturmak için bir alan çizin (iptal için Esc)");
 
             _canvas.Children.Add(_hintBox);
 

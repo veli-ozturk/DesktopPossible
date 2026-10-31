@@ -57,7 +57,7 @@ namespace Desktop_Frames
         {
             _accent = Utility.GetColorFromName(SettingsManager.SelectedColor);
 
-            Title = "Empty Frames to Desktop";
+            Title = "Kutuları masaüstüne boşalt";
             Width = 520;
             Height = 600;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -95,7 +95,7 @@ namespace Desktop_Frames
             Grid headerGrid = new Grid();
             headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            headerGrid.Children.Add(new TextBlock { Text = "Empty Frames to Desktop", FontSize = 18, FontWeight = FontWeights.Bold, Foreground = Brushes.White, VerticalAlignment = VerticalAlignment.Center });
+            headerGrid.Children.Add(new TextBlock { Text = "Kutuları masaüstüne boşalt", FontSize = 18, FontWeight = FontWeights.Bold, Foreground = Brushes.White, VerticalAlignment = VerticalAlignment.Center });
             Button closeBtn = new Button { Content = "✕", Background = Brushes.Transparent, BorderThickness = new Thickness(0), Foreground = Brushes.White, FontSize = 16, Cursor = Cursors.Hand, VerticalAlignment = VerticalAlignment.Center };
             closeBtn.Click += (s, e) => Close();
             headerGrid.Children.Add(closeBtn); Grid.SetColumn(closeBtn, 1);
@@ -106,7 +106,7 @@ namespace Desktop_Frames
             // Explanation
             TextBlock intro = new TextBlock
             {
-                Text = "Moves the files stored inside the selected frames to your Desktop and removes them from the frames. The frames themselves are kept. Items that link to files elsewhere are left untouched.",
+                Text = "Seçilen kutularda saklanan dosyaları masaüstünüze taşır ve kutulardan kaldırır. Kutuların kendisi korunur. Başka yerdeki dosyalara bağlantı veren öğelere dokunulmaz.",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
                 TextWrapping = TextWrapping.Wrap,
@@ -134,14 +134,14 @@ namespace Desktop_Frames
             StackPanel buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
             Button btnCancel = new Button
             {
-                Content = "Cancel", Width = 100, Height = 34, Cursor = Cursors.Hand,
+                Content = "İptal", Width = 100, Height = 34, Cursor = Cursors.Hand,
                 Background = Brushes.White, BorderBrush = new SolidColorBrush(Color.FromRgb(218, 220, 224)), BorderThickness = new Thickness(1),
                 Margin = new Thickness(0, 0, 8, 0)
             };
             btnCancel.Click += (s, e) => Close();
             Button btnApply = new Button
             {
-                Content = "Apply", Width = 100, Height = 34, Cursor = Cursors.Hand,
+                Content = "Uygula", Width = 100, Height = 34, Cursor = Cursors.Hand,
                 Background = new SolidColorBrush(_accent), Foreground = Brushes.White, BorderThickness = new Thickness(0), FontWeight = FontWeights.Bold
             };
             btnApply.Click += (s, e) => Apply();
@@ -164,7 +164,7 @@ namespace Desktop_Frames
 
                 group.Box = new CheckBox
                 {
-                    Content = isActive ? $"{profile.Name}  (active)" : profile.Name,
+                    Content = isActive ? $"{profile.Name}  (etkin)" : profile.Name,
                     IsThreeState = true,
                     FontFamily = new FontFamily("Segoe UI"), FontSize = 14, FontWeight = FontWeights.SemiBold,
                     Margin = new Thickness(0, 8, 0, 4)
@@ -177,7 +177,7 @@ namespace Desktop_Frames
                     var row = new FrameRow { ProfileName = profile.Name, FrameId = id, Title = title, FileCount = count };
                     row.Box = new CheckBox
                     {
-                        Content = $"{title}  ({count} {(count == 1 ? "file" : "files")})",
+                        Content = $"{title}  ({count} dosya)",
                         IsChecked = count > 0,
                         IsEnabled = count > 0,
                         FontFamily = new FontFamily("Segoe UI"), FontSize = 13,
@@ -193,7 +193,7 @@ namespace Desktop_Frames
 
                 if (group.Frames.Count == 0)
                 {
-                    list.Children.Add(new TextBlock { Text = "No frames", FontSize = 12, Foreground = Brushes.Gray, Margin = new Thickness(24, 2, 0, 2) });
+                    list.Children.Add(new TextBlock { Text = "Kutu yok", FontSize = 12, Foreground = Brushes.Gray, Margin = new Thickness(24, 2, 0, 2) });
                     group.Box.IsEnabled = false;
                     group.Box.IsChecked = false;
                 }
@@ -252,7 +252,7 @@ namespace Desktop_Frames
                     {
                         string id = f.Id?.ToString() ?? "";
                         if (id.Length == 0) continue;
-                        result.Add((id, f.Title?.ToString() ?? "(untitled)"));
+                        result.Add((id, f.Title?.ToString() ?? "(adsız)"));
                     }
                     return result;
                 }
@@ -265,7 +265,7 @@ namespace Desktop_Frames
                 {
                     string id = f["Id"]?.ToString() ?? "";
                     if (id.Length == 0) continue;
-                    result.Add((id, f["Title"]?.ToString() ?? "(untitled)"));
+                    result.Add((id, f["Title"]?.ToString() ?? "(adsız)"));
                 }
             }
             catch (Exception ex)
@@ -302,7 +302,7 @@ namespace Desktop_Frames
             }
 
             Close();
-            SmartToast.Show("Frames emptied", $"Moved {movedFiles} files from {framesTouched} frames to the desktop");
+            SmartToast.Show("Kutular boşaltıldı", $"{framesTouched} kutudan {movedFiles} dosya masaüstüne taşındı");
         }
     }
 }

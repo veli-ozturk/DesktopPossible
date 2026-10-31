@@ -29,7 +29,7 @@ namespace Desktop_Frames
                 // 1. Window Setup (Matches ItemMoveDialog)
                 var importWindow = new Window
                 {
-                    Title = "Import Tab",
+                    Title = "Sekmeyi içe aktar",
                     Width = 480,
                     Height = 600,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -75,7 +75,7 @@ namespace Desktop_Frames
                 StackPanel titlePanel = new StackPanel();
                 TextBlock mainTitle = new TextBlock
                 {
-                    Text = "Import Tab",
+                    Text = "Sekmeyi içe aktar",
                     FontSize = 16,
                     FontWeight = FontWeights.SemiBold,
                     Foreground = System.Windows.Media.Brushes.White,
@@ -83,7 +83,7 @@ namespace Desktop_Frames
                 };
                 TextBlock subTitle = new TextBlock
                 {
-                    Text = $"Target: {targetFrame.Title}",
+                    Text = $"Hedef: {targetFrame.Title}",
                     FontSize = 12,
                     Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255)),
                     FontStyle = FontStyles.Italic
@@ -122,7 +122,7 @@ namespace Desktop_Frames
                 StackPanel contentStack = new StackPanel();
                 contentStack.Children.Add(new TextBlock
                 {
-                    Text = "Select a source frame or tab to import:",
+                    Text = "İçe aktarılacak kaynak kutuyu ya da sekmeyi seçin:",
                     FontSize = 13,
                     FontWeight = FontWeights.Medium,
                     Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(95, 99, 104)),
@@ -161,7 +161,7 @@ namespace Desktop_Frames
 
                 Button cancelButton = new Button
                 {
-                    Content = "Cancel",
+                    Content = "İptal",
                     Width = 100,
                     Height = 36,
                     FontSize = 13,
@@ -208,7 +208,7 @@ namespace Desktop_Frames
                 if (frame.ItemsType?.ToString() != "Data") continue;
 
                 foundSources = true;
-                string frameTitle = frame.Title?.ToString() ?? "Unnamed frame";
+                string frameTitle = frame.Title?.ToString() ?? "Adsız kutu";
                 bool hasTabs = frame.TabsEnabled?.ToString().ToLower() == "true";
 
                 if (!hasTabs)
@@ -251,7 +251,7 @@ namespace Desktop_Frames
                         var tab = tabs[i] as JObject;
                         if (tab != null)
                         {
-                            string tabName = tab["TabName"]?.ToString() ?? $"Tab {i + 1}";
+                            string tabName = tab["TabName"]?.ToString() ?? $"Sekme {i + 1}";
                             CreateImportButton(targetsPanel, $"📄 {tabName}", "↳", frame, i, targetFrame, targetWindow, importWindow, true);
                         }
                     }
@@ -270,7 +270,7 @@ namespace Desktop_Frames
             {
                 targetsPanel.Children.Add(new TextBlock
                 {
-                    Text = "No other Data frames found to import.",
+                    Text = "İçe aktarılacak başka veri kutusu bulunamadı.",
                     Foreground = Brushes.Gray,
                     FontStyle = FontStyles.Italic,
                     Margin = new Thickness(5)
@@ -325,8 +325,8 @@ namespace Desktop_Frames
             {
                 // Confirmation Dialog inside the click
                 if (MessageBoxesManager.ShowCustomYesNoMessageBox(
-                    $"Import contents of '{text}' into a new tab?",
-                    "Confirm Import"))
+                    $"'{text}' içeriği yeni bir sekmeye aktarılsın mı?",
+                    "İçe aktarmayı onayla"))
                 {
                     PerformImport(targetFrame, targetWindow, sourceFrame, sourceTabIndex);
                     importWindow.Close();
@@ -355,7 +355,7 @@ namespace Desktop_Frames
             try
             {
                 JArray itemsToCopy = new JArray();
-                string newTabName = "Imported";
+                string newTabName = "İçe aktarılan";
 
                 // 1. Extract Data
                 if (sourceTabIndex.HasValue)
@@ -365,7 +365,7 @@ namespace Desktop_Frames
                     if (tabs != null && sourceTabIndex.Value < tabs.Count)
                     {
                         var tabData = tabs[sourceTabIndex.Value] as JObject;
-                        newTabName = tabData?["TabName"]?.ToString() ?? "Imported Tab";
+                        newTabName = tabData?["TabName"]?.ToString() ?? "İçe aktarılan sekme";
                         itemsToCopy = tabData?["Items"] as JArray ?? new JArray();
                     }
                 }
@@ -384,7 +384,7 @@ namespace Desktop_Frames
 
                 // Create New Tab
                 JObject newTab = new JObject();
-                newTab["TabName"] = newTabName + " (Copy)"; // Append Copy to distinguish
+                newTab["TabName"] = newTabName + " (Kopya)"; // Append Copy to distinguish
                 newTab["Items"] = clonedItems;
 
                 targetTabs.Add(newTab);
@@ -416,7 +416,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.ImportExport, $"Import Failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Import failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"İçe aktarma başarısız: {ex.Message}", "Hata");
             }
         }
 

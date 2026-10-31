@@ -37,7 +37,7 @@ namespace Desktop_Frames
                     .ToList();
                 if (others.Count == 0)
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("There is no other profile to send this frame to.\n\nCreate one in Options > Profiles first.", "Send to Profile");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Bu kutunun gönderilebileceği başka profil yok.\n\nÖnce Seçenekler > Profiller bölümünden bir profil oluşturun.", "Profile gönder");
                     return;
                 }
 
@@ -50,7 +50,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Send to Profile failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Send to Profile failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Profile gönderme başarısız: {ex.Message}", "Hata");
             }
         }
 
@@ -98,7 +98,7 @@ namespace Desktop_Frames
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
                 $"Send to Profile: {(move ? "moved" : "copied")} frame '{title}' ({sourceId} -> {newId}) to profile '{targetProfile}' at {x},{y}");
             MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                $"Frame '{title}' {(move ? "moved" : "copied")} to profile '{targetProfile}'.", "Send to Profile");
+                $"'{title}' kutusu '{targetProfile}' profiline {(move ? "taşındı" : "kopyalandı")}.", "Profile gönder");
         }
 
         #region Pure helpers (headless-testable)
@@ -257,7 +257,7 @@ namespace Desktop_Frames
             _profiles = profiles;
             _accent = Utility.GetColorFromName(SettingsManager.SelectedColor);
 
-            Title = "Send to Profile";
+            Title = "Profile gönder";
             Width = 440;
             SizeToContent = SizeToContent.Height;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -296,30 +296,30 @@ namespace Desktop_Frames
             StackPanel body = new StackPanel { Margin = new Thickness(24, 20, 24, 16) };
             body.Children.Add(new TextBlock
             {
-                Text = "Send to Profile",
+                Text = "Profile gönder",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 18, FontWeight = FontWeights.SemiBold,
                 Foreground = new SolidColorBrush(Color.FromRgb(32, 33, 36)), Margin = new Thickness(0, 0, 0, 6)
             });
             body.Children.Add(new TextBlock
             {
-                Text = $"Frame '{_frameTitle}' and the files it holds will be sent to the profile you pick.",
+                Text = $"'{_frameTitle}' kutusu ve içindeki dosyalar seçtiğiniz profile gönderilecek.",
                 FontFamily = new FontFamily("Segoe UI"), FontSize = 13, TextWrapping = TextWrapping.Wrap,
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)), Margin = new Thickness(0, 0, 0, 14)
             });
 
-            var rbCopy = new RadioButton { Content = "Copy  (keep it in this profile too)", IsChecked = true, GroupName = "mode", Margin = new Thickness(0, 0, 0, 6), FontFamily = new FontFamily("Segoe UI"), FontSize = 13 };
-            _rbMove = new RadioButton { Content = "Move  (remove it from this profile)", GroupName = "mode", Margin = new Thickness(0, 0, 0, 14), FontFamily = new FontFamily("Segoe UI"), FontSize = 13 };
+            var rbCopy = new RadioButton { Content = "Kopyala  (bu profilde de kalsın)", IsChecked = true, GroupName = "mode", Margin = new Thickness(0, 0, 0, 6), FontFamily = new FontFamily("Segoe UI"), FontSize = 13 };
+            _rbMove = new RadioButton { Content = "Taşı  (bu profilden kaldırılsın)", GroupName = "mode", Margin = new Thickness(0, 0, 0, 14), FontFamily = new FontFamily("Segoe UI"), FontSize = 13 };
             body.Children.Add(rbCopy);
             body.Children.Add(_rbMove);
 
-            body.Children.Add(new TextBlock { Text = "Target profile", FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)), Margin = new Thickness(0, 0, 0, 4) });
+            body.Children.Add(new TextBlock { Text = "Hedef profil", FontFamily = new FontFamily("Segoe UI"), FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)), Margin = new Thickness(0, 0, 0, 4) });
             _cbProfile = new ComboBox { ItemsSource = _profiles, SelectedIndex = 0, Height = 30, FontFamily = new FontFamily("Segoe UI"), FontSize = 13, Margin = new Thickness(0, 0, 0, 18) };
             body.Children.Add(_cbProfile);
 
             StackPanel buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-            Button btnCancel = MakeButton("Cancel", Color.FromRgb(95, 99, 104), 90);
+            Button btnCancel = MakeButton("İptal", Color.FromRgb(95, 99, 104), 90);
             btnCancel.Click += (s, e) => Close();
-            Button btnSend = MakeButton("Send", _accent, 100);
+            Button btnSend = MakeButton("Gönder", _accent, 100);
             btnSend.Click += (s, e) => Accept();
             buttons.Children.Add(btnCancel);
             buttons.Children.Add(btnSend);

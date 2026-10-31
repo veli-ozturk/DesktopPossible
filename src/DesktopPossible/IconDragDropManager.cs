@@ -511,8 +511,8 @@ namespace Desktop_Frames
                     if (Framemanager.IsContentLocked(target))
                     {
                         MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                            "This frame is locked.\nRight-click it and uncheck \"Lock (prevent changes)\" to add items.",
-                            "Frame locked");
+                            "Bu kutu kilitli.\nÖğe eklemek için kutuya sağ tıklayıp \"Kilitle (değişiklikleri engelle)\" seçeneğinin işaretini kaldırın.",
+                            "Kutu kilitli");
                         return;
                     }
                     MoveItemToFrame(frameId, targetId, itemKey);

@@ -30,7 +30,7 @@ namespace Desktop_Frames
             {
                 var aboutWindow = new Window
                 {
-                    Title = "About DesktopPossible",
+                    Title = "DesktopPossible Hakkında",
                     Width = 480,
                     Height = 670,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -101,7 +101,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error showing About form: {ex.Message}");
-                MessageBox.Show($"Error showing About form: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Hakkında penceresi gösterilirken hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -199,7 +199,7 @@ namespace Desktop_Frames
 
             TextBlock versionText = new TextBlock
             {
-                Text = $"Version {Assembly.GetExecutingAssembly().GetName().Version}",
+                Text = $"Sürüm {Assembly.GetExecutingAssembly().GetName().Version}",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 14, // Your improved font size
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104))
@@ -217,14 +217,14 @@ namespace Desktop_Frames
             {
                 if (UpdateChecker.LatestVersion == null)
                 {
-                    latestText.Text = checkFinished ? "Latest release: unavailable (offline?)" : "Latest release: checking...";
+                    latestText.Text = checkFinished ? "Son sürüm: alınamadı (çevrimdışı mı?)" : "Son sürüm: denetleniyor...";
                     latestText.Cursor = null;
                     latestText.TextDecorations = null;
                     return;
                 }
                 string latest = $"v{UpdateChecker.LatestVersion.ToString(3)}";
                 bool newer = UpdateChecker.IsUpdateAvailable;
-                latestText.Text = newer ? $"Latest release: {latest} - update available" : $"Latest release: {latest} (up to date)";
+                latestText.Text = newer ? $"Son sürüm: {latest} - güncelleme var" : $"Son sürüm: {latest} (güncel)";
                 latestText.Cursor = newer ? Cursors.Hand : null;
                 latestText.TextDecorations = newer ? TextDecorations.Underline : null;
                 latestText.Foreground = new SolidColorBrush(newer ? Color.FromRgb(26, 115, 232) : Color.FromRgb(95, 99, 104));
@@ -290,12 +290,12 @@ namespace Desktop_Frames
             StackPanel contentStack = new StackPanel();
 
             // About Section
-            CreateSection(contentStack, "About", "Organize your desktop like magic!",
-                "DesktopPossible creates virtual frames on your desktop, allowing you to group and organize icons in a clean and convenient way.", 20);
+            CreateSection(contentStack, "Hakkında", "Masaüstünüzü sihir gibi düzenleyin!",
+                "DesktopPossible, masaüstünüzde sanal kutular oluşturarak simgeleri temiz ve kullanışlı bir şekilde gruplamanızı ve düzenlemenizi sağlar.", 20);
 
             // Credits Section
-            CreateSection(contentStack, "Credits", null,
-                "DesktopPossible is a hard fork of Desktop Frames + by Nikos Georgousis (limbo666), which was originally created by HakanKokcu under the name BirdyFences.\n\nDesktopPossible is maintained by DevPossible.", 20);
+            CreateSection(contentStack, "Emeği geçenler", null,
+                "DesktopPossible, Nikos Georgousis (limbo666) tarafından geliştirilen Desktop Frames + projesinin bağımsız bir çatalıdır (hard fork). Desktop Frames + ise ilk olarak HakanKokcu tarafından BirdyFences adıyla oluşturulmuştur.\n\nDesktopPossible, DevPossible tarafından sürdürülmektedir.", 20);
 
             // Support Development Section
             CreateSupportSection(contentStack);
@@ -367,7 +367,7 @@ namespace Desktop_Frames
             // Title
             TextBlock titleBlock = new TextBlock
             {
-                Text = "Support Development",
+                Text = "Geliştirmeye destek olun",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 18, // Your improved font size
                 FontWeight = FontWeights.Bold,
@@ -386,7 +386,7 @@ namespace Desktop_Frames
             // GitHub Button
             Button githubButton = new Button
             {
-                Content = "⚡ Visit GitHub repository",
+                Content = "⚡ GitHub deposunu ziyaret et",
                 Height = 36,
                 Padding = new Thickness(16, 0, 16, 0),
                 FontFamily = new FontFamily("Segoe UI"),
@@ -457,7 +457,7 @@ namespace Desktop_Frames
             // Plain link crediting the upstream project
             TextBlock upstreamLink = new TextBlock
             {
-                Text = "Support the upstream project: Desktop Frames + by limbo666",
+                Text = "Kaynak projeye destek olun: limbo666'nın Desktop Frames + projesi",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Color.FromRgb(26, 115, 232)),
@@ -499,7 +499,7 @@ namespace Desktop_Frames
             // MIT License
             TextBlock licenseBlock = new TextBlock
             {
-                Text = "⚖ MIT License",
+                Text = "⚖ MIT Lisansı",
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 14, // Your improved font size
                 Foreground = new SolidColorBrush(Color.FromRgb(95, 99, 104)),
@@ -584,7 +584,7 @@ namespace Desktop_Frames
             {
                 var easterWindow = new Window
                 {
-                    Title = "It is great to have you here",
+                    Title = "Sizi burada görmek harika",
                     Width = 400,
                     Height = 520, // Taller to accommodate image
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -638,7 +638,7 @@ namespace Desktop_Frames
                 // Dynamic title text
                 TextBlock titleText = new TextBlock
                 {
-                    Text = "It is great to have you here",
+                    Text = "Sizi burada görmek harika",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 16,
                     FontWeight = FontWeights.Bold,
@@ -698,7 +698,7 @@ namespace Desktop_Frames
                 
                 TextBlock messageText = new TextBlock
                 {
-                    Text = "Don't feed the dragons",
+                    Text = "Ejderhaları beslemeyin",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 18,
                     FontWeight = FontWeights.Bold,
@@ -716,7 +716,7 @@ namespace Desktop_Frames
 
                 Button okButton = new Button
                 {
-                    Content = "OK",
+                    Content = "Tamam",
                     Height = 40,
                     MinWidth = 160,
                     FontFamily = new FontFamily("Segoe UI"),
@@ -749,17 +749,17 @@ namespace Desktop_Frames
                         hasClickedCloseOnce = true;
 
               
-                        titleText.Text = "What!?";
+                        titleText.Text = "Ne!?";
                         headerBorder.Background = new LinearGradientBrush(
                             Color.FromRgb(180, 20, 60), // Dramatic red
                             Color.FromRgb(120, 10, 40),
                             0);
 
                      
-                        messageText.Text = "Are you sure? Think again!";
+                        messageText.Text = "Emin misiniz? Bir daha düşünün!";
 
 
-                        okButton.Content = "Don't go!";
+                        okButton.Content = "Gitme!";
                         okButton.Background = new SolidColorBrush(Color.FromRgb(220, 20, 60)); // Crimson
 
                    

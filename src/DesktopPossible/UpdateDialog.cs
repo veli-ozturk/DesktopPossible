@@ -25,7 +25,7 @@ public static class UpdateDialog
 
         var window = new Window
         {
-            Title = "Update DesktopPossible",
+            Title = "DesktopPossible güncellemesi",
             Width = 440,
             SizeToContent = SizeToContent.Height,
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -59,12 +59,12 @@ public static class UpdateDialog
         var headerPanel = new StackPanel();
         headerPanel.Children.Add(new TextBlock
         {
-            Text = $"Update to v{latest.ToString(3)}",
+            Text = $"v{latest.ToString(3)} sürümüne güncelle",
             FontSize = 16, FontWeight = FontWeights.SemiBold, Foreground = Brushes.White,
         });
         headerPanel.Children.Add(new TextBlock
         {
-            Text = $"You are running v{UpdateChecker.CurrentVersion.ToString(3)}",
+            Text = $"Kullandığınız sürüm: v{UpdateChecker.CurrentVersion.ToString(3)}",
             FontSize = 12, Foreground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 255)),
             Margin = new Thickness(0, 2, 0, 0),
         });
@@ -77,7 +77,7 @@ public static class UpdateDialog
 
         var status = new TextBlock
         {
-            Text = "Downloading installer…",
+            Text = "Kurulum dosyası indiriliyor…",
             FontSize = 13, Foreground = new SolidColorBrush(Color.FromRgb(32, 33, 36)),
             TextWrapping = TextWrapping.Wrap,
         };
@@ -95,7 +95,7 @@ public static class UpdateDialog
 
         var relaunch = new CheckBox
         {
-            Content = "Restart DesktopPossible after installing",
+            Content = "Kurulumdan sonra DesktopPossible'ı yeniden başlat",
             IsChecked = true,
             Margin = new Thickness(0, 14, 0, 0),
             FontSize = 12,
@@ -106,7 +106,7 @@ public static class UpdateDialog
         var footer = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(20, 0, 20, 18) };
         root.Children.Add(footer);
 
-        var releasesLink = FlatButton("Open releases page");
+        var releasesLink = FlatButton("Sürümler sayfasını aç");
         releasesLink.Visibility = Visibility.Collapsed;
         releasesLink.Click += (s, e) =>
         {
@@ -114,7 +114,7 @@ public static class UpdateDialog
         };
         footer.Children.Add(releasesLink);
 
-        var cancel = FlatButton("Cancel");
+        var cancel = FlatButton("İptal");
         footer.Children.Add(cancel);
 
         var cts = new CancellationTokenSource();
@@ -128,7 +128,7 @@ public static class UpdateDialog
             progress.IsIndeterminate = false;
             relaunch.IsEnabled = false;
             releasesLink.Visibility = Visibility.Visible;
-            cancel.Content = "Close";
+            cancel.Content = "Kapat";
         }
 
         window.Loaded += async (s, e) =>
@@ -142,7 +142,7 @@ public static class UpdateDialog
                     {
                         progress.IsIndeterminate = false;
                         progress.Value = 100.0 * p.Done / p.Total;
-                        detail.Text = $"{p.Done / 1048576.0:F1} MB of {p.Total / 1048576.0:F1} MB";
+                        detail.Text = $"{p.Done / 1048576.0:F1} MB / {p.Total / 1048576.0:F1} MB";
                     }
                     else
                     {
@@ -152,7 +152,7 @@ public static class UpdateDialog
                 });
                 await UpdateInstaller.DownloadAsync(installer, target, reporter, cts.Token);
 
-                status.Text = "Verifying signature…";
+                status.Text = "İmza doğrulanıyor…";
                 progress.IsIndeterminate = true;
                 cancel.IsEnabled = false;
                 string? problem = await Task.Run(() => UpdateInstaller.Verify(target, installer), cts.Token);
@@ -164,7 +164,7 @@ public static class UpdateDialog
                     return;
                 }
 
-                status.Text = "Starting the installer. DesktopPossible will close now…";
+                status.Text = "Kurulum başlatılıyor. DesktopPossible şimdi kapanacak…";
                 progress.IsIndeterminate = false;
                 progress.Value = 100;
                 bool restart = relaunch.IsChecked == true;
@@ -181,7 +181,7 @@ public static class UpdateDialog
                 LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General, $"UpdateDialog: {ex.Message}");
                 try { File.Delete(target); } catch { }
                 cancel.IsEnabled = true;
-                Fail($"Download failed: {ex.Message}");
+                Fail($"İndirme başarısız: {ex.Message}");
             }
         };
 

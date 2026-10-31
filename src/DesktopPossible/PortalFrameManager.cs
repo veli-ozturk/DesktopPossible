@@ -68,7 +68,7 @@ namespace Desktop_Frames
         private string _sortColumn = null;        // null | Name | Date | Type | Size
         private bool _sortAscending = true;
         // Column display labels and their matching sort keys (index-aligned with _columns).
-        private static readonly string[] _colLabels = { "Name", "Date modified", "Type", "Size" };
+        private static readonly string[] _colLabels = { "Ad", "Değiştirme tarihi", "Tür", "Boyut" };
         private static readonly string[] _colKeys = { "Name", "Date", "Type", "Size" };
 
         /// <summary>Row model backing the Details ListView.</summary>
@@ -210,7 +210,7 @@ namespace Desktop_Frames
             // Save state using the existing updater
             Framemanager.UpdateFrameProperty(_frame, "SortMode", _sortMode.ToString(), "Updated portal sort mode");
 
-            string[] modeNames = { "Name", "Date Modified", "Type", "Size" };
+            string[] modeNames = { "Ad", "Değiştirme tarihi", "Tür", "Boyut" };
             string activeMode = modeNames[_sortMode];
 
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General, $"Portal frame sorted by: {activeMode}");
@@ -242,13 +242,13 @@ namespace Desktop_Frames
             SortContents();
         }
 
-        private static readonly string[] _sortModeNames = { "Name", "Date modified", "Type", "Size" };
+        private static readonly string[] _sortModeNames = { "Ad", "Değiştirme tarihi", "Tür", "Boyut" };
 
         /// <summary>Updates the icon-view "Sorted by ..." heading and shows it only in icon mode.</summary>
         private void UpdateSortHeader()
         {
             if (_sortHeader == null) return;
-            _sortHeader.Text = $"Sorted by {_sortModeNames[Math.Max(0, Math.Min(3, _sortMode))]}  {(_sortAsc ? "▲" : "▼")}";
+            _sortHeader.Text = $"Sıralama: {_sortModeNames[Math.Max(0, Math.Min(3, _sortMode))]}  {(_sortAsc ? "▲" : "▼")}";
             _sortHeader.Visibility = _viewMode == "Details" ? Visibility.Collapsed : Visibility.Visible;
         }
 
@@ -386,12 +386,12 @@ namespace Desktop_Frames
 
             if (string.IsNullOrEmpty(_targetFolderPath))
             {
-                throw new Exception("No folder path defined for Portal Frame. Please recreate the frame.");
+                throw new Exception("Portal kutusu için klasör yolu tanımlanmamış. Lütfen kutuyu yeniden oluşturun.");
             }
 
             if (!Directory.Exists(_targetFolderPath))
             {
-                throw new Exception($"The folder '{_targetFolderPath}' does not exist. Please update the Portal Frame settings.");
+                throw new Exception($"'{_targetFolderPath}' klasörü yok. Lütfen portal kutusu ayarlarını güncelleyin.");
             }
 
             _watcher = new FileSystemWatcher(_targetFolderPath)
@@ -682,7 +682,7 @@ namespace Desktop_Frames
         private void PopulatePortalItemMenu(ContextMenu contextMenu, string path, StackPanel sp)
         {
             // 1. Copy Item (File Object)
-            MenuItem copyFileItem = new MenuItem { Header = "Copy Item" };
+            MenuItem copyFileItem = new MenuItem { Header = "Öğeyi kopyala" };
             copyFileItem.Click += (s, e) =>
             {
                 try
@@ -700,7 +700,7 @@ namespace Desktop_Frames
             contextMenu.Items.Add(copyFileItem);
 
             // 2. Cut Item (File Object with Move Effect)
-            MenuItem cutFileItem = new MenuItem { Header = "Cut Item" };
+            MenuItem cutFileItem = new MenuItem { Header = "Öğeyi kes" };
             cutFileItem.Click += (s, e) =>
             {
                 try
@@ -727,12 +727,12 @@ namespace Desktop_Frames
             contextMenu.Items.Add(cutFileItem);
 
             // 3. Rename item
-            MenuItem renameItem = new MenuItem { Header = "Rename item" };
+            MenuItem renameItem = new MenuItem { Header = "Öğeyi yeniden adlandır" };
             renameItem.Click += (s, e) => RenameItem(path, sp);
             contextMenu.Items.Add(renameItem);
 
             // 4. Delete item
-            MenuItem deleteItem = new MenuItem { Header = "Delete item" };
+            MenuItem deleteItem = new MenuItem { Header = "Öğeyi sil" };
             deleteItem.Click += (s, e) => DeleteItem(path, sp);
             contextMenu.Items.Add(deleteItem);
 
@@ -740,7 +740,7 @@ namespace Desktop_Frames
             contextMenu.Items.Add(new Separator());
 
             // 6. Copy path
-            MenuItem copyPathItem = new MenuItem { Header = "Copy path" };
+            MenuItem copyPathItem = new MenuItem { Header = "Yolu kopyala" };
             copyPathItem.Click += (s, e) => CopyPathOrTarget(path);
             contextMenu.Items.Add(copyPathItem);
         }
@@ -754,8 +754,8 @@ namespace Desktop_Frames
 
                 // Simple input dialog (you can replace with a proper dialog if you have one)
                 string newName = Microsoft.VisualBasic.Interaction.InputBox(
-                    "Enter new name:",
-                    "Rename Item",
+                    "Yeni adı girin:",
+                    "Öğeyi yeniden adlandır",
                     currentName);
 
                 if (string.IsNullOrEmpty(newName) || newName == currentName)
@@ -766,7 +766,7 @@ namespace Desktop_Frames
                 // Check if target name already exists
                 if (System.IO.File.Exists(newPath) || Directory.Exists(newPath))
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("A file or folder with that name already exists.", "Rename Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Bu adda bir dosya ya da klasör zaten var.", "Yeniden adlandırma hatası");
                     return;
                 }
 
@@ -787,7 +787,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General, $"Failed to rename {currentPath}: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Failed to rename item: {ex.Message}", "Rename Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Öğe yeniden adlandırılamadı: {ex.Message}", "Yeniden adlandırma hatası");
             }
         }
 
@@ -828,7 +828,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Failed to copy path for {path}: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Unable to copy path.", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Yol kopyalanamadı.", "Hata");
             }
         }
 
@@ -862,7 +862,7 @@ namespace Desktop_Frames
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General, $"Failed to move item {path} to recycle bin: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Unable to move item to recycle bin.", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Öğe geri dönüşüm kutusuna taşınamadı.", "Hata");
                 }
             }
             else
@@ -895,7 +895,7 @@ namespace Desktop_Frames
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.General, $"Failed to delete item {path}: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Unable to delete item.", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Öğe silinemedi.", "Hata");
                 }
             }
         }
@@ -963,7 +963,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General, $"Navigation failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Could not navigate to folder.\n{ex.Message}", "Navigation Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Klasöre gidilemedi.\n{ex.Message}", "Gezinme hatası");
             }
         }
 
@@ -990,10 +990,10 @@ namespace Desktop_Frames
 
             GridView gv = new GridView();
 
-            GridViewColumn nameCol = new GridViewColumn { Header = "Name", Width = widths[0], CellTemplate = BuildNameCellTemplate() };
-            GridViewColumn dateCol = new GridViewColumn { Header = "Date modified", Width = widths[1], DisplayMemberBinding = new Binding("DateModified") };
-            GridViewColumn typeCol = new GridViewColumn { Header = "Type", Width = widths[2], DisplayMemberBinding = new Binding("Type") };
-            GridViewColumn sizeCol = new GridViewColumn { Header = "Size", Width = widths[3], DisplayMemberBinding = new Binding("SizeText") };
+            GridViewColumn nameCol = new GridViewColumn { Header = "Ad", Width = widths[0], CellTemplate = BuildNameCellTemplate() };
+            GridViewColumn dateCol = new GridViewColumn { Header = "Değiştirme tarihi", Width = widths[1], DisplayMemberBinding = new Binding("DateModified") };
+            GridViewColumn typeCol = new GridViewColumn { Header = "Tür", Width = widths[2], DisplayMemberBinding = new Binding("Type") };
+            GridViewColumn sizeCol = new GridViewColumn { Header = "Boyut", Width = widths[3], DisplayMemberBinding = new Binding("SizeText") };
 
             gv.Columns.Add(nameCol);
             gv.Columns.Add(dateCol);
@@ -1261,8 +1261,8 @@ namespace Desktop_Frames
             // menu only carries the view options, shown when right-clicking empty space in the list.
 
             // Sort by (also available by clicking a column header)
-            MenuItem sortMenu = new MenuItem { Header = "Sort by" };
-            foreach (var pair in new[] { ("Name", "Name"), ("Date modified", "Date"), ("Type", "Type"), ("Size", "Size") })
+            MenuItem sortMenu = new MenuItem { Header = "Sıralama ölçütü" };
+            foreach (var pair in new[] { ("Ad", "Name"), ("Değiştirme tarihi", "Date"), ("Tür", "Type"), ("Boyut", "Size") })
             {
                 string k = pair.Item2;
                 MenuItem mi = new MenuItem { Header = pair.Item1 };
@@ -1270,17 +1270,17 @@ namespace Desktop_Frames
                 sortMenu.Items.Add(mi);
             }
             sortMenu.Items.Add(new Separator());
-            MenuItem ascItem = new MenuItem { Header = "Ascending" };
+            MenuItem ascItem = new MenuItem { Header = "Artan" };
             ascItem.Click += (s, e) => { _sortAscending = true; if (_sortColumn == null) _sortColumn = "Name"; RefreshViewSortGroup(); PersistSortGroup(); };
-            MenuItem descItem = new MenuItem { Header = "Descending" };
+            MenuItem descItem = new MenuItem { Header = "Azalan" };
             descItem.Click += (s, e) => { _sortAscending = false; if (_sortColumn == null) _sortColumn = "Name"; RefreshViewSortGroup(); PersistSortGroup(); };
             sortMenu.Items.Add(ascItem);
             sortMenu.Items.Add(descItem);
             cm.Items.Add(sortMenu);
 
             // Group by
-            MenuItem groupMenu = new MenuItem { Header = "Group by" };
-            foreach (var pair in new[] { ("(None)", "None"), ("Name", "Name"), ("Type", "Type"), ("Date modified", "Date"), ("Size", "Size") })
+            MenuItem groupMenu = new MenuItem { Header = "Gruplama ölçütü" };
+            foreach (var pair in new[] { ("(Yok)", "None"), ("Ad", "Name"), ("Tür", "Type"), ("Değiştirme tarihi", "Date"), ("Boyut", "Size") })
             {
                 string k = pair.Item2;
                 MenuItem mi = new MenuItem { Header = pair.Item1 };
@@ -1666,14 +1666,14 @@ namespace Desktop_Frames
                 {
                     DateTime today = DateTime.Today;
                     DateTime d = dt.Date;
-                    if (d == today) return "Today";
-                    if (d == today.AddDays(-1)) return "Yesterday";
-                    if (d > today.AddDays(-7)) return "Earlier this week";
-                    if (d > today.AddDays(-30)) return "Earlier this month";
-                    if (d.Year == today.Year) return "Earlier this year";
-                    return "Long ago";
+                    if (d == today) return "Bugün";
+                    if (d == today.AddDays(-1)) return "Dün";
+                    if (d > today.AddDays(-7)) return "Bu hafta daha önce";
+                    if (d > today.AddDays(-30)) return "Bu ay daha önce";
+                    if (d.Year == today.Year) return "Bu yıl daha önce";
+                    return "Uzun zaman önce";
                 }
-                return "Unknown";
+                return "Bilinmiyor";
             }
             public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotSupportedException();
         }
@@ -1683,13 +1683,13 @@ namespace Desktop_Frames
             public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
             {
                 long size = value is long l ? l : 0;
-                if (size < 0) return "Folders";
+                if (size < 0) return "Klasörler";
                 if (size == 0) return "0 KB";
-                if (size < 16L * 1024) return "Tiny (0 - 16 KB)";
-                if (size < 1L * 1024 * 1024) return "Small (16 KB - 1 MB)";
-                if (size < 128L * 1024 * 1024) return "Medium (1 - 128 MB)";
-                if (size < 1024L * 1024 * 1024) return "Large (128 MB - 1 GB)";
-                return "Huge (> 1 GB)";
+                if (size < 16L * 1024) return "Çok küçük (0 - 16 KB)";
+                if (size < 1L * 1024 * 1024) return "Küçük (16 KB - 1 MB)";
+                if (size < 128L * 1024 * 1024) return "Orta (1 - 128 MB)";
+                if (size < 1024L * 1024 * 1024) return "Büyük (128 MB - 1 GB)";
+                return "Çok büyük (> 1 GB)";
             }
             public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotSupportedException();
         }

@@ -45,7 +45,7 @@ namespace Desktop_Frames
 
                 _optionsWindow = new Window
                 {
-                    Title = "DesktopPossible Options",
+                    Title = "DesktopPossible Seçenekleri",
                     Width = 800,
                     Height = 850,
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
@@ -78,7 +78,7 @@ namespace Desktop_Frames
 
                 TextBlock titleBlock = new TextBlock
                 {
-                    Text = "Options",
+                    Text = "Seçenekler",
                     FontFamily = new FontFamily("Segoe UI"),
                     FontSize = 16,
                     FontWeight = FontWeights.Bold,
@@ -123,7 +123,7 @@ namespace Desktop_Frames
                 {
                     FlushPendingApply();
                     if (_hotkeysChangedWhileOpen)
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm("Global Hotkey changes have been saved and applied to all profiles.\n\nPlease restart DesktopPossible to activate the new shortcuts.", "Restart Required");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm("Genel kısayol tuşu değişiklikleri kaydedildi ve tüm profillere uygulandı.\n\nYeni kısayolları etkinleştirmek için lütfen DesktopPossible'ı yeniden başlatın.", "Yeniden başlatma gerekli");
                     _tabControl = null; _optionsWindow = null;
                 };
                 // Pause Here:
@@ -172,8 +172,8 @@ namespace Desktop_Frames
             void Refresh()
             {
                 if (!UpdateChecker.IsUpdateAvailable) return;
-                link.Text = $"Update available: v{UpdateChecker.LatestVersion?.ToString(3)}";
-                link.ToolTip = $"You are running v{UpdateChecker.CurrentVersion.ToString(3)}. Click to open the release page.";
+                link.Text = $"Güncelleme var: v{UpdateChecker.LatestVersion?.ToString(3)}";
+                link.ToolTip = $"Şu an v{UpdateChecker.CurrentVersion.ToString(3)} sürümünü kullanıyorsunuz. Sürüm sayfasını açmak için tıklayın.";
                 link.Visibility = Visibility.Visible;
             }
 
@@ -213,14 +213,14 @@ namespace Desktop_Frames
             CreateTextFramesTab();
 
             _tabControl.SelectedIndex = _lastSelectedTabIndex;
-            CreateTabButton(tabPanel, "General", 0, _lastSelectedTabIndex == 0);
-            CreateTabButton(tabPanel, "Style & FX", 1, _lastSelectedTabIndex == 1);
-            CreateTabButton(tabPanel, "Tools", 2, _lastSelectedTabIndex == 2);
-            CreateTabButton(tabPanel, "Profiles", 3, _lastSelectedTabIndex == 3);
-            CreateTabButton(tabPanel, "Hotkeys", 4, _lastSelectedTabIndex == 4);
-            CreateTabButton(tabPanel, "Smart Desktop", 5, _lastSelectedTabIndex == 5);
-            CreateTabButton(tabPanel, "Look Deeper", 6, _lastSelectedTabIndex == 6);
-            CreateTabButton(tabPanel, "Text Frames", 7, _lastSelectedTabIndex == 7);
+            CreateTabButton(tabPanel, "Genel", 0, _lastSelectedTabIndex == 0);
+            CreateTabButton(tabPanel, "Stil ve efektler", 1, _lastSelectedTabIndex == 1);
+            CreateTabButton(tabPanel, "Araçlar", 2, _lastSelectedTabIndex == 2);
+            CreateTabButton(tabPanel, "Profiller", 3, _lastSelectedTabIndex == 3);
+            CreateTabButton(tabPanel, "Kısayol tuşları", 4, _lastSelectedTabIndex == 4);
+            CreateTabButton(tabPanel, "Akıllı masaüstü", 5, _lastSelectedTabIndex == 5);
+            CreateTabButton(tabPanel, "Ayrıntılar", 6, _lastSelectedTabIndex == 6);
+            CreateTabButton(tabPanel, "Metin kutuları", 7, _lastSelectedTabIndex == 7);
 
             contentBorder.Child = _tabControl;
             Grid.SetColumn(tabPanel, 0); contentGrid.Children.Add(tabPanel);
@@ -252,7 +252,7 @@ namespace Desktop_Frames
 
         private static void SetTabButtonColors(Button button, string title, bool isSelected, bool isHover = false)
         {
-            Color activeColor = title switch { "Style & FX" => ColorStyle, "Tools" => ColorTools, "Profiles" => ColorProfiles, "Hotkeys" => ColorHotkeys, "Smart Desktop" => ColorSmartDesktop, "Look Deeper" => ColorLookDeeper, "Text Frames" => ColorTextFrames, _ => _userAccentColor };
+            Color activeColor = title switch { "Stil ve efektler" => ColorStyle, "Araçlar" => ColorTools, "Profiller" => ColorProfiles, "Kısayol tuşları" => ColorHotkeys, "Akıllı masaüstü" => ColorSmartDesktop, "Ayrıntılar" => ColorLookDeeper, "Metin kutuları" => ColorTextFrames, _ => _userAccentColor };
             if (isSelected) { button.Background = new SolidColorBrush(activeColor); button.Foreground = Brushes.White; }
             else if (isHover) { button.Background = new SolidColorBrush(Color.FromRgb((byte)(activeColor.R + 40), (byte)(activeColor.G + 40), (byte)(activeColor.B + 40))); button.Foreground = Brushes.White; }
             else { button.Background = new SolidColorBrush(Color.FromRgb(200, 200, 200)); button.Foreground = new SolidColorBrush(Color.FromRgb(60, 60, 60)); }
@@ -271,28 +271,28 @@ namespace Desktop_Frames
         {
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
-            CreateSectionHeader(c, "Startup", _userAccentColor);
-            CreateCheckBox(c, "Start with Windows", "StartWithWindows", TrayManager.IsStartWithWindows);
-            CreateSectionHeader(c, "Selections", _userAccentColor);
-            CreateCheckBox(c, "Single Click to Launch", "SingleClickToLaunch", SettingsManager.SingleClickToLaunch);
-            CreateCheckBox(c, "Snap frames to other frames and screen edges", "EnableSnapNearFrames", SettingsManager.IsSnapEnabled);
-            CreateCheckBox(c, "Keep framed items on the Desktop", "KeepFramedItemsOnDesktop", SettingsManager.KeepFramedItemsOnDesktop);
-            CreateCheckBox(c, "Enable Tray Icon", "EnableTrayIcon", SettingsManager.ShowInTray);
-            CreateCheckBox(c, "Use Recycle Bin on Portal Frames 'Delete item' command", "UseRecycleBin", SettingsManager.UseRecycleBin);
+            CreateSectionHeader(c, "Başlangıç", _userAccentColor);
+            CreateCheckBox(c, "Windows ile başlat", "StartWithWindows", TrayManager.IsStartWithWindows);
+            CreateSectionHeader(c, "Seçimler", _userAccentColor);
+            CreateCheckBox(c, "Tek tıklamayla başlat", "SingleClickToLaunch", SettingsManager.SingleClickToLaunch);
+            CreateCheckBox(c, "Kutuları diğer kutulara ve ekran kenarlarına hizala", "EnableSnapNearFrames", SettingsManager.IsSnapEnabled);
+            CreateCheckBox(c, "Kutudaki öğeleri masaüstünde de tut", "KeepFramedItemsOnDesktop", SettingsManager.KeepFramedItemsOnDesktop);
+            CreateCheckBox(c, "Sistem tepsisi simgesini göster", "EnableTrayIcon", SettingsManager.ShowInTray);
+            CreateCheckBox(c, "Portal kutularındaki 'Öğeyi sil' komutunda Geri Dönüşüm Kutusu'nu kullan", "UseRecycleBin", SettingsManager.UseRecycleBin);
 
             // NEW: Context Menu Option
-            CreateCheckBox(c, "Show 'New Frame' in Desktop Context Menu", "EnableContextMenu", SettingsManager.EnableContextMenu);
+            CreateCheckBox(c, "Masaüstü sağ tık menüsünde 'Yeni kutu' seçeneğini göster", "EnableContextMenu", SettingsManager.EnableContextMenu);
 
             // Moved from Style Tab (Choices)
-            CreateCheckBox(c, "Enable Portal Frames Watermark", "EnablePortalWatermark", SettingsManager.ShowBackgroundImageOnPortalFrames);
-            CreateCheckBox(c, "Disable Frame Scrollbars", "DisableFrameScrollbars", SettingsManager.DisableFrameScrollbars);
+            CreateCheckBox(c, "Portal kutularında filigranı göster", "EnablePortalWatermark", SettingsManager.ShowBackgroundImageOnPortalFrames);
+            CreateCheckBox(c, "Kutu kaydırma çubuklarını kapat", "DisableFrameScrollbars", SettingsManager.DisableFrameScrollbars);
 
             // --- Virtual Desktops ---
-            CreateSectionHeader(c, "Virtual Desktops", _userAccentColor);
+            CreateSectionHeader(c, "Sanal masaüstleri", _userAccentColor);
 
             // Checkbox: follow Windows virtual desktops by name (profile "Work" activates
             // on a desktop named "Work"; unmatched desktops fall back to Default).
-            CheckBox vdAutoCb = CreateCheckBoxReturn(c, "Automatically Switch Profiles with Virtual Desktop", "EnableVirtualDesktopAutomation", SettingsManager.EnableVirtualDesktopAutomation);
+            CheckBox vdAutoCb = CreateCheckBoxReturn(c, "Sanal masaüstüne göre profili otomatik değiştir", "EnableVirtualDesktopAutomation", SettingsManager.EnableVirtualDesktopAutomation);
             // Use Click event to ensure it only fires on user interaction, then SaveSettings immediately
             vdAutoCb.Click += (s, e) => {
                 bool isChecked = vdAutoCb.IsChecked == true;
@@ -311,55 +311,55 @@ namespace Desktop_Frames
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
 
-            CreateSectionHeader(c, "Appearance", ColorStyle);
+            CreateSectionHeader(c, "Görünüm", ColorStyle);
 
             // --- CHAMELEON TOGGLE ---
-            var chamCb = CreateCheckBoxReturn(c, "Enable Chameleon Mode (Auto-match Wallpaper Color)", "EnableChameleon", SettingsManager.EnableChameleonMode);
-            chamCb.ToolTip = "Frames will automatically change color to blend perfectly with your desktop background.";
+            var chamCb = CreateCheckBoxReturn(c, "Bukalemun modunu etkinleştir (duvar kâğıdı rengine otomatik uy)", "EnableChameleon", SettingsManager.EnableChameleonMode);
+            chamCb.ToolTip = "Kutular, masaüstü arka planınızla uyum sağlamak için rengini otomatik olarak değiştirir.";
 
-            CreateSliderControl(c, "Frame Tint", "TintSlider", SettingsManager.TintValue);
-            CreateSliderControl(c, "Menu Tint", "MenuTintSlider", SettingsManager.MenuTintValue);
+            CreateSliderControl(c, "Kutu tonu", "TintSlider", SettingsManager.TintValue);
+            CreateSliderControl(c, "Menü tonu", "MenuTintSlider", SettingsManager.MenuTintValue);
 
             // Pass the chamCb reference so we can wire up the toggle event
             CreateColorAndEffectComboBoxes(c, chamCb);
 
             // --- Moved from General Tab (Auto-Hide Options) ---
-            CreateSectionHeader(c, "Auto-Hide Frames", ColorStyle);
-            CreateCheckBox(c, "Auto hide frames", "AutoHideFrames", SettingsManager.AutoHideFrames);
-            CreateSliderControl(c, "Auto hide time (sec)", "AutoHideTimeSlider", SettingsManager.AutoHideTime, 300);
+            CreateSectionHeader(c, "Otomatik gizleme", ColorStyle);
+            CreateCheckBox(c, "Kutuları otomatik gizle", "AutoHideFrames", SettingsManager.AutoHideFrames);
+            CreateSliderControl(c, "Otomatik gizleme süresi (sn)", "AutoHideTimeSlider", SettingsManager.AutoHideTime, 300);
 
             // --- Moved from General Tab (Idle Fade-Out Options) ---
-            CreateSectionHeader(c, "Idle Fade-Out", ColorStyle);
-            CreateCheckBox(c, "Enable Idle Fade-Out", "FramesFadeOutFx", SettingsManager.FramesFadeOutFx);
-            CreateSliderControl(c, "Idle Time (sec)", "FadeOutTimeSlider", SettingsManager.FadeOutTime, 300);
-            CreateSliderControl(c, "Fade Target Opacity (%)", "FadeOutAlphaSlider", (int)(SettingsManager.FadeOutFxTargetAlpha * 100), 100);
-            CreateSliderControl(c, "Wake-up hover delay (ms)", "FadeWakeDelaySlider", SettingsManager.FadeWakeDelayMs, 2000, min: 0); // 0 = instant (classic)
+            CreateSectionHeader(c, "Boştayken soldurma", ColorStyle);
+            CreateCheckBox(c, "Boştayken soldurmayı etkinleştir", "FramesFadeOutFx", SettingsManager.FramesFadeOutFx);
+            CreateSliderControl(c, "Boşta kalma süresi (sn)", "FadeOutTimeSlider", SettingsManager.FadeOutTime, 300);
+            CreateSliderControl(c, "Hedef opaklık (%)", "FadeOutAlphaSlider", (int)(SettingsManager.FadeOutFxTargetAlpha * 100), 100);
+            CreateSliderControl(c, "Uyandırma gecikmesi (ms)", "FadeWakeDelaySlider", SettingsManager.FadeWakeDelayMs, 2000, min: 0); // 0 = instant (classic)
 
             // --- Moved from General Tab (Idle Auto-Roll Options) ---
-            CreateSectionHeader(c, "Idle Auto-Roll", ColorStyle);
-            CreateSliderControl(c, "Idle Time (sec)", "AutoRollTimeSlider", SettingsManager.AutoRollTime, 300);
+            CreateSectionHeader(c, "Boştayken otomatik katlama", ColorStyle);
+            CreateSliderControl(c, "Boşta kalma süresi (sn)", "AutoRollTimeSlider", SettingsManager.AutoRollTime, 300);
 
             // --- NEW: Desktop Icon Visibility ---
-            CreateSectionHeader(c, "Desktop Icon Visibility", ColorStyle);
-            CreateCheckBox(c, "Hide native desktop icons while program is running", "HideDesktopElementsOnStart", SettingsManager.HideDesktopElementsOnStart);
-            CreateCheckBox(c, "Hide native desktop icons when Frames are hidden", "HideDesktopElementsOnAllFramesHide", SettingsManager.HideDesktopElementsOnAllFramesHide);
-            CreateCheckBox(c, "Double-click empty desktop to show/hide desktop icons", "ToggleDesktopIconsOnDoubleClick", SettingsManager.ToggleDesktopIconsOnDoubleClick);
+            CreateSectionHeader(c, "Masaüstü simgesi görünürlüğü", ColorStyle);
+            CreateCheckBox(c, "Program çalışırken Windows masaüstü simgelerini gizle", "HideDesktopElementsOnStart", SettingsManager.HideDesktopElementsOnStart);
+            CreateCheckBox(c, "Kutular gizlendiğinde Windows masaüstü simgelerini gizle", "HideDesktopElementsOnAllFramesHide", SettingsManager.HideDesktopElementsOnAllFramesHide);
+            CreateCheckBox(c, "Masaüstü simgelerini göstermek/gizlemek için boş masaüstüne çift tıkla", "ToggleDesktopIconsOnDoubleClick", SettingsManager.ToggleDesktopIconsOnDoubleClick);
 
             // --- NEW: Frames behavior ---
-            CreateSectionHeader(c, "Frames", ColorStyle);
-            CreateCheckBox(c, "Enable Show/Hide all frames hotkey", "EnableToggleFramesHotkey", SettingsManager.EnableToggleFramesHotkey);
-            CreateCheckBox(c, "Striped rows in Portal Details view", "PortalDetailsStriped", SettingsManager.PortalDetailsStriped);
+            CreateSectionHeader(c, "Kutular", ColorStyle);
+            CreateCheckBox(c, "Tüm kutuları göster/gizle kısayol tuşunu etkinleştir", "EnableToggleFramesHotkey", SettingsManager.EnableToggleFramesHotkey);
+            CreateCheckBox(c, "Portal ayrıntı görünümünde satırları çizgili göster", "PortalDetailsStriped", SettingsManager.PortalDetailsStriped);
 
             // Image frames: how dragged/added image files are stored.
             Grid imgModeGrid = new Grid { Margin = new Thickness(15, 4, 0, 4) };
             imgModeGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             imgModeGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            var imgLbl = new TextBlock { Text = "When adding images to an Image frame:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 10, 0) };
+            var imgLbl = new TextBlock { Text = "Görsel kutusuna görsel eklerken:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 10, 0) };
             Grid.SetColumn(imgLbl, 0);
             var imgCmb = new ComboBox { Name = "ImageDropModeComboBox", Width = 150, HorizontalAlignment = HorizontalAlignment.Left, Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
-            imgCmb.Items.Add(new ComboBoxItem { Content = "Copy into frame", Tag = "Copy" });
-            imgCmb.Items.Add(new ComboBoxItem { Content = "Link to original", Tag = "Reference" });
-            imgCmb.Items.Add(new ComboBoxItem { Content = "Ask each time", Tag = "Ask" });
+            imgCmb.Items.Add(new ComboBoxItem { Content = "Kutuya kopyala", Tag = "Copy" });
+            imgCmb.Items.Add(new ComboBoxItem { Content = "Orijinale bağla", Tag = "Reference" });
+            imgCmb.Items.Add(new ComboBoxItem { Content = "Her seferinde sor", Tag = "Ask" });
             string curImgMode = SettingsManager.ImageDropMode ?? "Copy";
             imgCmb.SelectedIndex = curImgMode == "Reference" ? 1 : curImgMode == "Ask" ? 2 : 0;
             Grid.SetColumn(imgCmb, 1);
@@ -371,7 +371,7 @@ namespace Desktop_Frames
             string ToggleHotkeyDisp()
             {
                 int dvk = SettingsManager.ToggleFramesKey;
-                if (dvk == 0) return "(none)";
+                if (dvk == 0) return "(yok)";
                 string ml = (SettingsManager.ToggleFramesModifier ?? "").ToLower();
                 string disp = "";
                 if (ml.Contains("ctrl") || ml.Contains("control")) disp += "Ctrl+";
@@ -386,23 +386,23 @@ namespace Desktop_Frames
             hkGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             hkGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            TextBlock hkLbl = new TextBlock { Text = "Hotkey:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) };
+            TextBlock hkLbl = new TextBlock { Text = "Kısayol tuşu:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) };
             Grid.SetColumn(hkLbl, 0);
 
             TextBox hkTxt = new TextBox { IsReadOnly = true, IsReadOnlyCaretVisible = false, VerticalAlignment = VerticalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0), Text = ToggleHotkeyDisp() };
             Grid.SetColumn(hkTxt, 1);
 
-            Button hkBtn = new Button { Content = "Set", Width = 64 };
+            Button hkBtn = new Button { Content = "Ata", Width = 64 };
             Grid.SetColumn(hkBtn, 2);
 
             // Capture via the global hook so setting the combo doesn't trigger it, and Win is allowed.
             bool hkCapturing = false;
             hkBtn.Click += (s, e) =>
             {
-                hkCapturing = true; hkBtn.Content = "Press…"; hkTxt.Text = "Press a key combo…";
+                hkCapturing = true; hkBtn.Content = "Basın…"; hkTxt.Text = "Bir tuş birleşimine basın…";
                 GlobalHotkeyManager.BeginHotkeyCapture((vk, mods) =>
                 {
-                    hkCapturing = false; hkBtn.Content = "Set";
+                    hkCapturing = false; hkBtn.Content = "Ata";
                     if (vk == 0) { hkTxt.Text = ToggleHotkeyDisp(); return; } // cancelled
                     string ms = "";
                     if ((mods & 1) != 0) ms += "ctrl+";
@@ -424,22 +424,22 @@ namespace Desktop_Frames
 
 
             // --- Icons Section ---
-            CreateSectionHeader(c, "Icons", ColorStyle);
+            CreateSectionHeader(c, "Simgeler", ColorStyle);
             Grid iconGrid = new Grid { Margin = new Thickness(15, 5, 0, 15) };
             iconGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             iconGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             StackPanel menuIconPanel = new StackPanel();
-            menuIconPanel.Children.Add(new TextBlock { Text = "Menu Icon", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
+            menuIconPanel.Children.Add(new TextBlock { Text = "Menü simgesi", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
             CreateIconRadioButtonGroup(menuIconPanel, "MenuIconGroup", new Dictionary<string, int> { { "♥", 0 }, { "☰", 1 }, { "≣", 2 }, { "𓃑", 3 } }, SettingsManager.MenuIcon);
 
             StackPanel lockIconPanel = new StackPanel();
-            lockIconPanel.Children.Add(new TextBlock { Text = "Position Lock Icon", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
+            lockIconPanel.Children.Add(new TextBlock { Text = "Konum kilidi simgesi", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
             CreateIconRadioButtonGroup(lockIconPanel, "LockIconGroup", new Dictionary<string, int> { { Framemanager.PosLockGlyph(0), 0 }, { Framemanager.PosLockGlyph(1), 1 } }, SettingsManager.LockIcon <= 1 ? SettingsManager.LockIcon : 0, "Segoe Fluent Icons, Segoe MDL2 Assets");
 
             // Filter/search icon (frame title bar): magnifier / funnel / boxed magnifier.
             StackPanel filterIconPanel = new StackPanel();
-            filterIconPanel.Children.Add(new TextBlock { Text = "Filter Icon", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
+            filterIconPanel.Children.Add(new TextBlock { Text = "Filtre simgesi", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 0) });
             CreateIconRadioButtonGroup(filterIconPanel, "FilterIconGroup", new Dictionary<string, int> { { Framemanager.FilterGlyph(0), 0 }, { Framemanager.FilterGlyph(1), 1 }, { Framemanager.FilterGlyph(2), 2 } }, SettingsManager.FilterIcon, "Segoe Fluent Icons, Segoe MDL2 Assets");
 
             Grid.SetColumn(menuIconPanel, 0);
@@ -459,10 +459,10 @@ namespace Desktop_Frames
             // minimalist glyph, drawn in GDI+ at runtime). Parsed in the save handler via "TrayIconGroup".
             Grid trayGrid = new Grid { Margin = new Thickness(15, 0, 0, 12) };
             StackPanel trayContainer = new StackPanel();
-            trayContainer.Children.Add(new TextBlock { Text = "System Tray Icon", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 5) });
+            trayContainer.Children.Add(new TextBlock { Text = "Sistem tepsisi simgesi", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 5) });
             StackPanel trayGroup = new StackPanel { Orientation = Orientation.Horizontal, Tag = "TrayIconGroup" };
             string curTray = SettingsManager.TrayIconStyle ?? "Nested";
-            foreach (var (style, caption) in new[] { ("Nested", "Nested"), ("Stacked", "Stacked"), ("Grid", "Grid") })
+            foreach (var (style, caption) in new[] { ("Nested", "İç içe"), ("Stacked", "Üst üste"), ("Grid", "Izgara") })
             {
                 var preview = new StackPanel { Orientation = Orientation.Vertical, HorizontalAlignment = HorizontalAlignment.Center };
                 preview.Children.Add(BuildTrayPreview(style));
@@ -482,7 +482,7 @@ namespace Desktop_Frames
         {
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
-            CreateSectionHeader(c, "Tools", ColorTools);
+            CreateSectionHeader(c, "Araçlar", ColorTools);
 
             Grid g = new Grid { Margin = new Thickness(0, 10, 0, 0) };
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(120) });
@@ -492,16 +492,16 @@ namespace Desktop_Frames
             g.RowDefinitions.Add(new RowDefinition { Height = new GridLength(15) });
             g.RowDefinitions.Add(new RowDefinition { Height = new GridLength(45) });
 
-            Button b1 = CreateStyledButton("Backup", ColorTools); b1.Click += (s, e) => BackupManager.BackupData();
-            Button b2 = CreateStyledButton("Restore...", Color.FromRgb(255, 152, 0)); b2.Click += (s, e) => RestoreBackup();
-            Button b3 = CreateStyledButton("Open Backups Folder", Color.FromRgb(0, 123, 191)); b3.Click += (s, e) => OpenBackupsFolder();
+            Button b1 = CreateStyledButton("Yedekle", ColorTools); b1.Click += (s, e) => BackupManager.BackupData();
+            Button b2 = CreateStyledButton("Geri yükle...", Color.FromRgb(255, 152, 0)); b2.Click += (s, e) => RestoreBackup();
+            Button b3 = CreateStyledButton("Yedek klasörünü aç", Color.FromRgb(0, 123, 191)); b3.Click += (s, e) => OpenBackupsFolder();
             Grid.SetRow(b1, 0); Grid.SetColumn(b1, 0);
             Grid.SetRow(b2, 0); Grid.SetColumn(b2, 2);
             Grid.SetRow(b3, 2); Grid.SetColumn(b3, 0); Grid.SetColumnSpan(b3, 3);
             g.Children.Add(b1); g.Children.Add(b2); g.Children.Add(b3);
             c.Children.Add(g);
 
-            CreateCheckBox(c, "Automatic Backup (Daily)", "EnableAutoBackup", SettingsManager.EnableAutoBackup);
+            CreateCheckBox(c, "Otomatik yedek (günlük)", "EnableAutoBackup", SettingsManager.EnableAutoBackup);
 
             // Backup limits: automatic-backup retention count and the per-backup size cap.
             Grid backupCfg = new Grid { Margin = new Thickness(15, 4, 0, 4) };
@@ -510,12 +510,12 @@ namespace Desktop_Frames
             backupCfg.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             backupCfg.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            TextBlock lblCount = new TextBlock { Text = "Keep last automatic backups:", FontFamily = new FontFamily("Segoe UI"), FontSize = 13, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6) };
+            TextBlock lblCount = new TextBlock { Text = "Saklanacak otomatik yedek sayısı:", FontFamily = new FontFamily("Segoe UI"), FontSize = 13, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6) };
             TextBox tbCount = new TextBox { Name = "MaxBackupCountBox", Text = SettingsManager.MaxBackupCount.ToString(), Height = 24, VerticalContentAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 0, 6) };
             Grid.SetRow(lblCount, 0); Grid.SetColumn(lblCount, 0);
             Grid.SetRow(tbCount, 0); Grid.SetColumn(tbCount, 1);
 
-            TextBlock lblSize = new TextBlock { Text = "Max backup size (MB):", FontFamily = new FontFamily("Segoe UI"), FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
+            TextBlock lblSize = new TextBlock { Text = "En büyük yedek boyutu (MB):", FontFamily = new FontFamily("Segoe UI"), FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             TextBox tbSize = new TextBox { Name = "MaxBackupSizeBox", Text = SettingsManager.MaxBackupSizeMB.ToString(), Height = 24, VerticalContentAlignment = VerticalAlignment.Center };
             Grid.SetRow(lblSize, 1); Grid.SetColumn(lblSize, 0);
             Grid.SetRow(tbSize, 1); Grid.SetColumn(tbSize, 1);
@@ -526,9 +526,9 @@ namespace Desktop_Frames
 
             // --- Maintenance Section ---
             Color darkPink = Color.FromRgb(199, 21, 133); // MediumVioletRed
-            CreateSectionHeader(c, "Maintenance", darkPink);
+            CreateSectionHeader(c, "Bakım", darkPink);
 
-            Button btnBound = CreateStyledButton("Screen Bound Frames", darkPink);
+            Button btnBound = CreateStyledButton("Kutuları ekrana sığdır", darkPink);
             btnBound.Width = 255;
             btnBound.Height = 45;
             btnBound.Margin = new Thickness(0, 0, 0, 15);
@@ -544,27 +544,27 @@ namespace Desktop_Frames
                     // This calls the wrapper that handles the variable flipping
                     Framemanager.ForceRepositionallFrames();
 
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("All frames have been checked and moved within valid screen bounds.", "Success");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Tüm kutular denetlendi ve geçerli ekran sınırları içine taşındı.", "Başarılı");
                 };
             }
             else
             {
                 btnBound.Opacity = 0.90;
-                btnBound.ToolTip = "Auto-reposition is active (Hidden Setting). Frames are already managed automatically.";
+                btnBound.ToolTip = "Otomatik yeniden konumlandırma etkin (gizli ayar). Kutular zaten otomatik yönetiliyor.";
             }
 
             c.Children.Add(btnBound);
 
             // --- Display Configurations ---
-            CreateCheckBox(c, "Remember frame layout per display setup", "EnableDisplayLayoutMemory", SettingsManager.EnableDisplayLayoutMemory);
+            CreateCheckBox(c, "Kutu düzenini her ekran yapılandırması için ayrı hatırla", "EnableDisplayLayoutMemory", SettingsManager.EnableDisplayLayoutMemory);
 
             TextBlock lblDisplays = new TextBlock
             {
-                Text = "Frame positions are saved separately for each monitor setup (docking, resolution " +
-                       "or scaling changes, RDP) and restored when that setup comes back. A setup seen " +
-                       "for the first time gets a layout built from the one you were just using." +
+                Text = "Kutu konumları her monitör yapılandırması için (yerleştirme, çözünürlük " +
+                       "veya ölçek değişiklikleri, RDP) ayrı kaydedilir ve o yapılandırma geri geldiğinde geri yüklenir. " +
+                       "İlk kez görülen bir yapılandırmanın düzeni, az önce kullandığınız düzenden oluşturulur." +
                        Environment.NewLine + Environment.NewLine +
-                       "Currently: " + DisplayLayoutManager.DescribeCurrentDisplays(),
+                       "Şu anki: " + DisplayLayoutManager.DescribeCurrentDisplays(),
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 12,
                 Opacity = 0.75,
@@ -573,31 +573,31 @@ namespace Desktop_Frames
             };
             c.Children.Add(lblDisplays);
 
-            Button btnForget = CreateStyledButton("Rebuild Layout for This Display Setup", darkPink);
+            Button btnForget = CreateStyledButton("Bu ekran için düzeni yeniden oluştur", darkPink);
             btnForget.Width = 320;
             btnForget.Height = 45;
             btnForget.Margin = new Thickness(0, 0, 0, 15);
             btnForget.HorizontalAlignment = HorizontalAlignment.Left;
-            btnForget.ToolTip = "Discards the remembered layout for the monitors in use and rebuilds it from your most recent other setup.";
+            btnForget.ToolTip = "Kullanılan monitörler için hatırlanan düzeni siler ve en son kullandığınız diğer yapılandırmadan yeniden oluşturur.";
             btnForget.Click += (s, e) =>
             {
                 if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
-                        "Discard the saved frame layout for the display setup you are using now " +
-                        "and rebuild it from your most recent other setup?",
-                        "Rebuild Layout")) return;
+                        "Şu an kullandığınız ekran yapılandırması için kaydedilmiş kutu düzeni silinip " +
+                        "en son kullandığınız diğer yapılandırmadan yeniden oluşturulsun mu?",
+                        "Düzeni yeniden oluştur")) return;
 
                 DisplayLayoutManager.ForgetCurrentDisplayLayout();
                 MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                    "The layout for this display setup has been rebuilt.", "Rebuild Layout");
+                    "Bu ekran yapılandırmasının düzeni yeniden oluşturuldu.", "Düzeni yeniden oluştur");
             };
             c.Children.Add(btnForget);
 
-            CreateSectionHeader(c, "Reset", Colors.Red);
-            Button r1 = CreateStyledButton("Reset Styles", Color.FromRgb(108, 117, 125));
+            CreateSectionHeader(c, "Sıfırlama", Colors.Red);
+            Button r1 = CreateStyledButton("Stilleri sıfırla", Color.FromRgb(108, 117, 125));
             r1.Width = 255; r1.Height = 45; r1.Margin = new Thickness(0, 0, 0, 15);
-            r1.Click += (s, e) => { if (MessageBoxesManager.ShowCustomYesNoMessageBox("Reset all visual customizations?", "Reset")) { Framemanager.ResetAllCustomizations(); _optionsWindow.Close(); } };
+            r1.Click += (s, e) => { if (MessageBoxesManager.ShowCustomYesNoMessageBox("Tüm görsel özelleştirmeler sıfırlansın mı?", "Sıfırla")) { Framemanager.ResetAllCustomizations(); _optionsWindow.Close(); } };
 
-            Button r2 = CreateStyledButton("Clear All Data", Color.FromRgb(220, 53, 69));
+            Button r2 = CreateStyledButton("Tüm verileri temizle", Color.FromRgb(220, 53, 69));
             r2.Width = 255; r2.Height = 45;
             r2.Click += (s, e) => PerformFullFactoryReset();
 
@@ -621,12 +621,12 @@ namespace Desktop_Frames
             c.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
             StackPanel headerPanel = new StackPanel();
-            CreateSectionHeader(headerPanel, "Profile Management", ColorProfiles);
+            CreateSectionHeader(headerPanel, "Profil yönetimi", ColorProfiles);
 
             // File safety: move the files stored inside frames (any profile) back to the Desktop.
             Button btnEmptyFrames = new Button
             {
-                Content = "Empty Frames to Desktop...",
+                Content = "Kutuları masaüstüne boşalt...",
                 Height = 32,
                 Padding = new Thickness(14, 0, 14, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -637,14 +637,14 @@ namespace Desktop_Frames
                 BorderBrush = new SolidColorBrush(Color.FromRgb(218, 220, 224)),
                 BorderThickness = new Thickness(1),
                 Cursor = Cursors.Hand,
-                ToolTip = "Move the files stored inside selected frames to your Desktop. The frames are kept."
+                ToolTip = "Seçilen kutularda saklanan dosyaları masaüstünüze taşır. Kutular korunur."
             };
             btnEmptyFrames.Click += (s, e) => EmptyFramesDialog.ShowDialogOnUiThread();
             headerPanel.Children.Add(btnEmptyFrames);
 
             TextBlock vdHint = new TextBlock
             {
-                Text = "Tip: Naming a profile the same as a Windows virtual desktop will activate that profile automatically when you switch to that desktop (General → Automatically Switch Profiles with Virtual Desktop). Desktops without a matching profile fall back to Default.",
+                Text = "İpucu: Bir profile Windows sanal masaüstüyle aynı adı verirseniz, o masaüstüne geçtiğinizde profil otomatik olarak etkinleşir (Genel → Sanal masaüstüne göre profili otomatik değiştir). Eşleşen profili olmayan masaüstleri Default profiline döner.",
                 TextWrapping = TextWrapping.Wrap,
                 FontStyle = FontStyles.Italic,
                 Foreground = Brushes.Gray,
@@ -672,7 +672,7 @@ namespace Desktop_Frames
             {"A", 0x41}, {"B", 0x42}, {"C", 0x43}, {"D", 0x44}, {"E", 0x45}, {"F", 0x46}, {"G", 0x47}, {"H", 0x48}, {"I", 0x49}, {"J", 0x4A}, {"K", 0x4B}, {"L", 0x4C}, {"M", 0x4D}, {"N", 0x4E}, {"O", 0x4F}, {"P", 0x50}, {"Q", 0x51}, {"R", 0x52}, {"S", 0x53}, {"T", 0x54}, {"U", 0x55}, {"V", 0x56}, {"W", 0x57}, {"X", 0x58}, {"Y", 0x59}, {"Z", 0x5A},
             {"0", 0x30}, {"1", 0x31}, {"2", 0x32}, {"3", 0x33}, {"4", 0x34}, {"5", 0x35}, {"6", 0x36}, {"7", 0x37}, {"8", 0x38}, {"9", 0x39},
             {"F1", 0x70}, {"F2", 0x71}, {"F3", 0x72}, {"F4", 0x73}, {"F5", 0x74}, {"F6", 0x75}, {"F7", 0x76}, {"F8", 0x77}, {"F9", 0x78}, {"F10", 0x79}, {"F11", 0x7A}, {"F12", 0x7B},
-            {"Comma (,)", 0xBC}, {"Period (.)", 0xBE}, {"Tilde (~)", 192}, {"Space", 32}, {"Tab", 9}, {"Enter", 13}, {"Escape", 27}
+            {"Virgül (,)", 0xBC}, {"Nokta (.)", 0xBE}, {"Tilde (~)", 192}, {"Boşluk", 32}, {"Tab", 9}, {"Enter", 13}, {"Escape", 27}
         };
 
         private static void CreateHotkeysTab()
@@ -680,11 +680,11 @@ namespace Desktop_Frames
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
 
-            CreateSectionHeader(c, "Profile Switching", ColorHotkeys);
-            CheckBox cbProf = CreateCheckBoxReturn(c, "Enable Profile Switching Hotkeys", "EnableProfileHotkeys", SettingsManager.EnableProfileHotkeys);
-            Grid gProf1 = CreateHotkeyEditor(c, "Direct Profile [0-9]", "ProfSwitch", SettingsManager.ProfileSwitchModifier, 0, false);
-            Grid gProf2 = CreateHotkeyEditor(c, "Previous Profile", "ProfPrev", SettingsManager.ProfilePrevModifier, SettingsManager.ProfilePrevKey, true);
-            Grid gProf3 = CreateHotkeyEditor(c, "Next Profile", "ProfNext", SettingsManager.ProfileNextModifier, SettingsManager.ProfileNextKey, true);
+            CreateSectionHeader(c, "Profil değiştirme", ColorHotkeys);
+            CheckBox cbProf = CreateCheckBoxReturn(c, "Profil değiştirme kısayol tuşlarını etkinleştir", "EnableProfileHotkeys", SettingsManager.EnableProfileHotkeys);
+            Grid gProf1 = CreateHotkeyEditor(c, "Doğrudan profil [0-9]", "ProfSwitch", SettingsManager.ProfileSwitchModifier, 0, false);
+            Grid gProf2 = CreateHotkeyEditor(c, "Önceki profil", "ProfPrev", SettingsManager.ProfilePrevModifier, SettingsManager.ProfilePrevKey, true);
+            Grid gProf3 = CreateHotkeyEditor(c, "Sonraki profil", "ProfNext", SettingsManager.ProfileNextModifier, SettingsManager.ProfileNextKey, true);
 
             // Bind initial state and live toggling
             gProf1.IsEnabled = gProf2.IsEnabled = gProf3.IsEnabled = cbProf.IsChecked == true;
@@ -692,7 +692,7 @@ namespace Desktop_Frames
 
             TextBlock infoText = new TextBlock
             {
-                Text = "Note: Changes to Global Hotkeys require an application restart to take effect.",
+                Text = "Not: Genel kısayol tuşu değişikliklerinin etkili olması için uygulamanın yeniden başlatılması gerekir.",
                 FontStyle = FontStyles.Italic,
                 Foreground = Brushes.Gray,
                 Margin = new Thickness(15, 20, 0, 0)
@@ -752,22 +752,22 @@ namespace Desktop_Frames
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
 
-            CreateSectionHeader(c, "Smart Desktop (Auto-Organize)", ColorSmartDesktop);
+            CreateSectionHeader(c, "Akıllı masaüstü (Otomatik düzen)", ColorSmartDesktop);
 
-            CheckBox cbMain = CreateCheckBoxReturn(c, "Enable Auto-Organize", "EnableAutoOrganize", SettingsManager.EnableAutoOrganize);
+            CheckBox cbMain = CreateCheckBoxReturn(c, "Otomatik düzeni etkinleştir", "EnableAutoOrganize", SettingsManager.EnableAutoOrganize);
 
-            CheckBox cbNotif = CreateCheckBoxReturn(c, "Show execution toast notifications", "EnableAutoOrganizeNotifications", SettingsManager.EnableAutoOrganizeNotifications);
+            CheckBox cbNotif = CreateCheckBoxReturn(c, "İşlem bildirimlerini göster", "EnableAutoOrganizeNotifications", SettingsManager.EnableAutoOrganizeNotifications);
             cbNotif.Margin = new Thickness(35, 0, 0, 8); // Indent it!
             cbNotif.IsEnabled = cbMain.IsChecked == true;
 
-            CreateCheckBoxReturn(c, "Look up unknown apps online (sends app names to Chocolatey)", "EnableOnlineCategoryLookup", SettingsManager.EnableOnlineCategoryLookup);
+            CreateCheckBoxReturn(c, "Bilinmeyen uygulamaları çevrimiçi ara (uygulama adlarını Chocolatey'e gönderir)", "EnableOnlineCategoryLookup", SettingsManager.EnableOnlineCategoryLookup);
 
             // "Arrange Now": sort everything currently on the desktop into category
             // frames. Deliberately independent of the Enable Auto-Organize toggle
             // (that toggle only governs NEW arrivals) - always clickable.
             Button btnArrangeNow = new Button
             {
-                Content = "Arrange Now",
+                Content = "Şimdi düzenle",
                 Height = 32,
                 Padding = new Thickness(14, 0, 14, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -778,26 +778,26 @@ namespace Desktop_Frames
                 BorderBrush = new SolidColorBrush(Color.FromRgb(218, 220, 224)),
                 BorderThickness = new Thickness(1),
                 Cursor = Cursors.Hand,
-                ToolTip = "Sort all apps, documents and images currently on the Desktop into their category frames now."
+                ToolTip = "Masaüstündeki tüm uygulama, belge ve görselleri şimdi kategori kutularına yerleştirir."
             };
             btnArrangeNow.Click += async (s, e) =>
             {
                 btnArrangeNow.IsEnabled = false;
-                btnArrangeNow.Content = "Arranging...";
+                btnArrangeNow.Content = "Düzenleniyor...";
                 try
                 {
                     var (items, categories) = await AppCategorizer.SortDesktopAsync();
-                    SmartToast.Show("Desktop sorted", $"Sorted {items} items into {categories} categories");
+                    SmartToast.Show("Masaüstü düzenlendi", $"{items} öğe {categories} kategoriye yerleştirildi");
                 }
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
                         $"Arrange Now failed: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Arrange failed: {ex.Message}", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Düzenleme başarısız: {ex.Message}", "Hata");
                 }
                 finally
                 {
-                    btnArrangeNow.Content = "Arrange Now";
+                    btnArrangeNow.Content = "Şimdi düzenle";
                     btnArrangeNow.IsEnabled = true;
                 }
             };
@@ -807,7 +807,7 @@ namespace Desktop_Frames
             // primary work area. Independent of Auto-Organize, always clickable.
             Button btnArrangeFrames = new Button
             {
-                Content = "Arrange Frames",
+                Content = "Kutuları düzenle",
                 Height = 32,
                 Padding = new Thickness(14, 0, 14, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -818,29 +818,29 @@ namespace Desktop_Frames
                 BorderBrush = new SolidColorBrush(Color.FromRgb(218, 220, 224)),
                 BorderThickness = new Thickness(1),
                 Cursor = Cursors.Hand,
-                ToolTip = "Resize every frame to fit its icons and tile all frames neatly on the primary monitor."
+                ToolTip = "Her kutuyu simgelerine göre boyutlandırır ve tüm kutuları birincil monitöre düzenli yerleştirir."
             };
             btnArrangeFrames.Click += (s, e) =>
             {
                 if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
-                        "Resize every visible frame to fit its content and re-tile all frames on the primary monitor?\n\nFrame positions and sizes will be replaced.",
-                        "Arrange Frames")) return;
+                        "Görünür tüm kutular içeriğine göre boyutlandırılıp birincil monitöre yeniden yerleştirilsin mi?\n\nKutu konumları ve boyutları değişecek.",
+                        "Kutuları düzenle")) return;
                 btnArrangeFrames.IsEnabled = false;
-                btnArrangeFrames.Content = "Arranging...";
+                btnArrangeFrames.Content = "Düzenleniyor...";
                 try
                 {
                     int count = FrameArranger.ArrangeAllFrames();
-                    SmartToast.Show("Frames arranged", $"Arranged {count} frame(s) on the primary monitor");
+                    SmartToast.Show("Kutular düzenlendi", $"Birincil monitörde {count} kutu düzenlendi");
                 }
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
                         $"Arrange Frames failed: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Arrange Frames failed: {ex.Message}", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutular düzenlenemedi: {ex.Message}", "Hata");
                 }
                 finally
                 {
-                    btnArrangeFrames.Content = "Arrange Frames";
+                    btnArrangeFrames.Content = "Kutuları düzenle";
                     btnArrangeFrames.IsEnabled = true;
                 }
             };
@@ -848,12 +848,12 @@ namespace Desktop_Frames
 
             TextBlock infoText = new TextBlock
             {
-                Text = "Note: Auto-Organize monitors your Desktop for new app shortcuts and programs. " +
-                       "Each new arrival is automatically categorized (Productivity, Utilities, Games, VR, " +
-                       "Developer Tools, Security Apps, Media) and moved into its category frame — the frame " +
-                       "is created automatically when needed. Items that cannot be categorized are left alone. " +
-                       "Use \"Arrange Now\" to sort " +
-                       "everything already on the Desktop at any time, whether or not Auto-Organize is enabled.",
+                Text = "Not: Otomatik düzen, masaüstünüze eklenen yeni uygulama kısayollarını ve programları izler. " +
+                       "Her yeni öğe otomatik olarak sınıflandırılır (Verimlilik, Yardımcı programlar, Oyunlar, VR, " +
+                       "Geliştirici araçları, Güvenlik uygulamaları, Medya) ve kategori kutusuna taşınır; kutu " +
+                       "gerektiğinde otomatik oluşturulur. Sınıflandırılamayan öğelere dokunulmaz. " +
+                       "Otomatik düzen açık olsun ya da olmasın, masaüstündeki her şeyi istediğiniz zaman sıralamak için " +
+                       "\"Şimdi düzenle\" düğmesini kullanın.",
                 FontStyle = FontStyles.Italic,
                 Foreground = Brushes.Gray,
                 Margin = new Thickness(15, 20, 0, 0),
@@ -870,12 +870,12 @@ namespace Desktop_Frames
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
 
-            CreateSectionHeader(c, "Text Frames", ColorTextFrames);
+            CreateSectionHeader(c, "Metin kutuları", ColorTextFrames);
             c.Children.Add(new TextBlock
             {
-                Text = "Text frames paint live system information over your wallpaper (like BGInfo): a template with " +
-                       "{tokens}, your choice of font, colour and draw mode, refreshed on a timer. They sit beneath every " +
-                       "other frame and ignore the mouse. To move or resize one, turn on \"Edit Frames Mode\" in the tray menu.",
+                Text = "Metin kutuları, duvar kâğıdınızın üzerine canlı sistem bilgisi çizer (BGInfo gibi): {belirteçler} içeren " +
+                       "bir şablon, seçtiğiniz yazı tipi, renk ve çizim modu; belirli aralıklarla yenilenir. Diğer tüm kutuların " +
+                       "altında durur ve fareyi yok sayar. Taşımak ya da boyutlandırmak için sistem tepsisi menüsünden \"Kutu düzenleme modu\"nu açın.",
                 TextWrapping = TextWrapping.Wrap, Foreground = Brushes.Gray, FontStyle = FontStyles.Italic,
                 Margin = new Thickness(15, 0, 15, 12)
             });
@@ -887,7 +887,7 @@ namespace Desktop_Frames
                 foreach (dynamic f in FrameDataManager.FrameData)
                 {
                     if (!TextFramemanager.IsTextFrame(f)) continue;
-                    list.Items.Add(new ListBoxItem { Content = f.Title?.ToString() ?? "(untitled)", Tag = f.Id?.ToString() });
+                    list.Items.Add(new ListBoxItem { Content = f.Title?.ToString() ?? "(adsız)", Tag = f.Id?.ToString() });
                 }
             }
             Reload();
@@ -897,9 +897,9 @@ namespace Desktop_Frames
 
             Grid buttons = new Grid { Margin = new Thickness(15, 0, 15, 10), Height = 34 };
             for (int i = 0; i < 3; i++) buttons.ColumnDefinitions.Add(new ColumnDefinition());
-            Button bAdd = CreateStyledButton("Add Text Frame", ColorTextFrames); bAdd.Margin = new Thickness(0, 0, 5, 0);
-            Button bEdit = CreateStyledButton("Customize...", Color.FromRgb(0, 123, 191)); bEdit.Margin = new Thickness(5, 0, 5, 0);
-            Button bRemove = CreateStyledButton("Remove", Color.FromRgb(234, 67, 53)); bRemove.Margin = new Thickness(5, 0, 0, 0);
+            Button bAdd = CreateStyledButton("Metin kutusu ekle", ColorTextFrames); bAdd.Margin = new Thickness(0, 0, 5, 0);
+            Button bEdit = CreateStyledButton("Özelleştir...", Color.FromRgb(0, 123, 191)); bEdit.Margin = new Thickness(5, 0, 5, 0);
+            Button bRemove = CreateStyledButton("Kaldır", Color.FromRgb(234, 67, 53)); bRemove.Margin = new Thickness(5, 0, 0, 0);
             Grid.SetColumn(bAdd, 0); Grid.SetColumn(bEdit, 1); Grid.SetColumn(bRemove, 2);
             buttons.Children.Add(bAdd); buttons.Children.Add(bEdit); buttons.Children.Add(bRemove);
             c.Children.Add(buttons);
@@ -933,7 +933,7 @@ namespace Desktop_Frames
             {
                 string? id = SelectedId();
                 if (id == null) return;
-                if (!MessageBoxesManager.ShowCustomYesNoMessageBox("Remove this text frame?", "Remove")) return;
+                if (!MessageBoxesManager.ShowCustomYesNoMessageBox("Bu metin kutusu kaldırılsın mı?", "Kaldır")) return;
                 Framemanager.DetachFrame(id);
                 Reload();
             };
@@ -946,20 +946,20 @@ namespace Desktop_Frames
         {
             TabItem t = new TabItem();
             StackPanel c = new StackPanel();
-            CreateSectionHeader(c, "Log", ColorLookDeeper);
-            CheckBox logCb = CreateCheckBoxReturn(c, "Enable logging", "EnableLogging", SettingsManager.IsLogEnabled);
+            CreateSectionHeader(c, "Günlük", ColorLookDeeper);
+            CheckBox logCb = CreateCheckBoxReturn(c, "Günlüğe kaydetmeyi etkinleştir", "EnableLogging", SettingsManager.IsLogEnabled);
             // Use Click event to ensure it only fires on user interaction, then SaveSettings immediately
             logCb.Click += (s, e) => {
                 SettingsManager.IsLogEnabled = logCb.IsChecked == true;
                 SettingsManager.SaveSettings(); // Force write to JSON immediately
             };
-            Button b = CreateStyledButton("Open Log", ColorLookDeeper); b.Width = 100; b.Height = 25; b.HorizontalAlignment = HorizontalAlignment.Left;
+            Button b = CreateStyledButton("Günlüğü aç", ColorLookDeeper); b.Width = 100; b.Height = 25; b.HorizontalAlignment = HorizontalAlignment.Left;
             b.Click += (s, e) => OpenLogFile();
             c.Children.Add(b);
 
-            CreateSectionHeader(c, "Log configuration", ColorLookDeeper);
+            CreateSectionHeader(c, "Günlük yapılandırması", ColorLookDeeper);
             CreateLogLevelComboBox(c);
-            CreateSectionHeader(c, "Log Categories", ColorLookDeeper);
+            CreateSectionHeader(c, "Günlük kategorileri", ColorLookDeeper);
 
             // This method creates checkboxes for all Enums (except Error now)
             CreateLogCategoryCheckBoxes(c);
@@ -1060,7 +1060,7 @@ namespace Desktop_Frames
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(140) });
 
-            TextBlock lblColor = new TextBlock { Text = "Color", FontSize = 13, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 10, 0) };
+            TextBlock lblColor = new TextBlock { Text = "Renk", FontSize = 13, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 10, 0) };
             // Constrain Width to 140 and Left-align so it doesn't stretch to fill the 160px column, creating the gap automatically
             ComboBox cbColor = new ComboBox { Name = "ColorComboBox", Width = 140, HorizontalAlignment = HorizontalAlignment.Left, Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (string c in new[] { "Gray", "Black", "White", "Beige", "Green", "Purple", "Fuchsia", "Yellow", "Orange", "Red", "Blue", "Bismark", "Transparent" }) cbColor.Items.Add(c);
@@ -1072,7 +1072,7 @@ namespace Desktop_Frames
             // ---------------------------------------------------------------
 
             // UI FIX: Starts perfectly flush at the new 205px mark
-            TextBlock lblEffect = new TextBlock { Text = "Effect", FontSize = 13, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 10, 0) };
+            TextBlock lblEffect = new TextBlock { Text = "Efekt", FontSize = 13, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(0, 0, 10, 0) };
             ComboBox cbEffect = new ComboBox { Name = "LaunchEffectComboBox", Width = 140, HorizontalAlignment = HorizontalAlignment.Left, Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (string e in new[] { "Zoom", "Bounce", "FadeOut", "SlideUp", "Rotate", "Agitate", "GrowAndFly", "Pulse", "Elastic", "Flip3D", "Spiral", "Shockwave", "Matrix", "Supernova", "Teleport" }) cbEffect.Items.Add(e);
             cbEffect.SelectedIndex = (int)SettingsManager.LaunchEffect;
@@ -1092,7 +1092,7 @@ namespace Desktop_Frames
             Grid g = new Grid { Margin = new Thickness(0, 10, 0, 10) };
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(120) });
             g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(120) });
-            g.Children.Add(new TextBlock { Text = "Minimum Log Level", FontSize = 13, VerticalAlignment = VerticalAlignment.Center });
+            g.Children.Add(new TextBlock { Text = "Min. günlük düzeyi", FontSize = 13, VerticalAlignment = VerticalAlignment.Center });
             ComboBox cb = new ComboBox { Name = "LogLevelComboBox", Height = 25, FontSize = 13, VerticalAlignment = VerticalAlignment.Center };
             foreach (var l in new[] { "Debug", "Info", "Warn", "Error" }) cb.Items.Add(l);
             cb.SelectedItem = SettingsManager.MinLogLevel.ToString();
@@ -1434,7 +1434,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.Settings, $"Error applying options: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error: {ex.Message}", "Options Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Hata: {ex.Message}", "Seçenekler hatası");
             }
         }
 
@@ -1447,10 +1447,10 @@ namespace Desktop_Frames
                 // folder (e.g. its frames.json) — RestoreFromBackup uses its parent folder.
                 var d = new Microsoft.Win32.OpenFileDialog
                 {
-                    Filter = "Backup archives (*.zip)|*.zip|All files (*.*)|*.*",
+                    Filter = "Yedek arşivleri (*.zip)|*.zip|Tüm dosyalar (*.*)|*.*",
                     DefaultExt = ".zip",
                     InitialDirectory = BackupManager.GetBackupsFolderPath(),
-                    Title = "Select a backup to restore",
+                    Title = "Geri yüklenecek yedeği seçin",
                     RestoreDirectory = true
                 };
 
@@ -1463,7 +1463,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Restore failed: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Geri yükleme başarısız: {ex.Message}", "Hata");
             }
         }
         private static void OpenBackupsFolder()
@@ -1478,7 +1478,7 @@ namespace Desktop_Frames
             {
                 string p = System.IO.Path.Combine(AppPaths.DataRoot, "Desktop_Frames.log");
                 if (System.IO.File.Exists(p)) Process.Start(new ProcessStartInfo { FileName = p, UseShellExecute = true });
-                else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Log file not found.", "Information");
+                else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Günlük dosyası bulunamadı.", "Bilgi");
             }
             catch { }
         }
@@ -1486,9 +1486,9 @@ namespace Desktop_Frames
         private static void PerformFullFactoryReset()
         {
             if (MessageBoxesManager.ShowCustomYesNoMessageBox(
-                "This will remove ALL frames and settings for the CURRENT PROFILE.\n\n" +
-                "Files and shortcuts stored inside frames are NOT deleted — they are moved back " +
-                "to your Desktop first. A safety backup is also created.\n\nProceed?", "Factory Reset"))
+                "Bu işlem GEÇERLİ PROFİLİN TÜM kutularını ve ayarlarını kaldırır.\n\n" +
+                "Kutularda saklanan dosyalar ve kısayollar SİLİNMEZ; önce masaüstünüze geri " +
+                "taşınır. Ayrıca güvenlik amaçlı bir yedek oluşturulur.\n\nDevam edilsin mi?", "Fabrika ayarlarına sıfırla"))
             {
                 // KISS: Hijack cursor to show processing
                 System.Windows.Application.Current?.Dispatcher.Invoke(() => System.Windows.Input.Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait);
@@ -1554,11 +1554,11 @@ namespace Desktop_Frames
 
                     // 5. Force a clean OS-level restart (Guarantees all UI clears properly)
                     // Surface any folders that could not be wiped instead of pretending success.
-                    string movedNote = moved > 0 ? $"\n{moved} stored file(s) were moved to your Desktop." : "";
+                    string movedNote = moved > 0 ? $"\nSaklanan {moved} dosya masaüstünüze taşındı." : "";
                     string resetMessage = failedFolders.Count == 0
-                        ? $"Factory Reset complete.{movedNote}\nThe application will now restart."
-                        : $"Factory Reset completed with warnings.{movedNote}\nCould not fully clear: {string.Join(", ", failedFolders)}.\nSee the log for details. The application will now restart.";
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(resetMessage, failedFolders.Count == 0 ? "Reset Successful" : "Reset Incomplete");
+                        ? $"Fabrika ayarlarına sıfırlama tamamlandı.{movedNote}\nUygulama şimdi yeniden başlatılacak."
+                        : $"Fabrika ayarlarına sıfırlama uyarılarla tamamlandı.{movedNote}\nTamamen temizlenemedi: {string.Join(", ", failedFolders)}.\nAyrıntılar için günlüğe bakın. Uygulama şimdi yeniden başlatılacak.";
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(resetMessage, failedFolders.Count == 0 ? "Sıfırlama başarılı" : "Sıfırlama tamamlanamadı");
 
                     string appPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
@@ -1576,7 +1576,7 @@ namespace Desktop_Frames
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.Error, $"Factory reset failed: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Reset failed: {ex.Message}", "Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Sıfırlama başarısız: {ex.Message}", "Hata");
                 }
                 finally
                 {

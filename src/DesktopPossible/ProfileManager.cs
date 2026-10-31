@@ -111,7 +111,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General, $"Profile Init Failed: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Profile System Error: {ex.Message}", "Critical Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Profil sistemi hatası: {ex.Message}", "Kritik hata");
             }
         }
 
@@ -633,7 +633,7 @@ namespace Desktop_Frames
 
                     // --- UNIFIED UI REPLACEMENT ---
                     // Replaced manual Border/TextBlock with the Centralized Factory
-                    osd.Content = MessageBoxesManager.CreateUnifiedMessage($"Profile: {profileName}");
+                    osd.Content = MessageBoxesManager.CreateUnifiedMessage($"Profil: {profileName}");
                     // -----------------------------
 
                     osd.Loaded += (s, e) =>

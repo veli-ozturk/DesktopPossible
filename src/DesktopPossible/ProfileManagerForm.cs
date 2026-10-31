@@ -41,11 +41,11 @@ namespace Desktop_Frames
             addGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             addGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            TextBox txtNewName = new TextBox { Height = 34, VerticalContentAlignment = VerticalAlignment.Center, Padding = new Thickness(5, 0, 5, 0), Tag = "New Profile Name..." };
+            TextBox txtNewName = new TextBox { Height = 34, VerticalContentAlignment = VerticalAlignment.Center, Padding = new Thickness(5, 0, 5, 0), Tag = "Yeni profil adı..." };
 
             Button btnAdd = new Button
             {
-                Content = "Create",
+                Content = "Oluştur",
                 Height = 34,
                 Width = 100,
                 Margin = new Thickness(10, 0, 0, 0),
@@ -65,7 +65,7 @@ namespace Desktop_Frames
                         RefreshList();
                         TrayManager.Instance?.UpdateProfilesMenu();
                     }
-                    else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Invalid name or profile already exists.", "Error");
+                    else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Geçersiz ad ya da bu profil zaten var.", "Hata");
                 }
             };
 
@@ -150,7 +150,7 @@ namespace Desktop_Frames
                 if (isActive)
                 {
                     Border badge = new Border { Background = new SolidColorBrush(Color.FromRgb(220, 255, 220)), CornerRadius = new CornerRadius(0), Margin = new Thickness(10, 0, 0, 0), Padding = new Thickness(5, 1, 5, 1) };
-                    badge.Child = new TextBlock { Text = "Active", FontSize = 10, Foreground = Brushes.Green };
+                    badge.Child = new TextBlock { Text = "Etkin", FontSize = 10, Foreground = Brushes.Green };
                     nameStack.Children.Add(badge);
                 }
                 Grid.SetColumn(nameStack, 1);
@@ -163,7 +163,7 @@ namespace Desktop_Frames
                 if (i > 0)
                 {
                     string neighborName = profiles[i - 1].Name;
-                    Button btnUp = CreateIconButton("▲", "Move Up");
+                    Button btnUp = CreateIconButton("▲", "Yukarı taşı");
                     btnUp.Click += (s, e) =>
                     {
                         e.Handled = true; // Prevent card click
@@ -176,7 +176,7 @@ namespace Desktop_Frames
                 if (i < profiles.Count - 1)
                 {
                     string neighborName = profiles[i + 1].Name;
-                    Button btnDown = CreateIconButton("▼", "Move Down");
+                    Button btnDown = CreateIconButton("▼", "Aşağı taşı");
                     btnDown.Click += (s, e) =>
                     {
                         e.Handled = true; // Prevent card click
@@ -187,12 +187,12 @@ namespace Desktop_Frames
                 }
 
                 // Duplicate (allowed for any profile, including the active one)
-                Button btnDuplicate = CreateIconButton("⧉", "Duplicate");
+                Button btnDuplicate = CreateIconButton("⧉", "Çoğalt");
                 btnDuplicate.Click += (s, e) =>
                 {
                     e.Handled = true; // Prevent card click
-                    string suggested = p.Name + " Copy";
-                    string newName = Microsoft.VisualBasic.Interaction.InputBox("Duplicate profile as:", "Duplicate Profile", suggested);
+                    string suggested = p.Name + " Kopya";
+                    string newName = Microsoft.VisualBasic.Interaction.InputBox("Profili şu adla çoğalt:", "Profili çoğalt", suggested);
                     if (!string.IsNullOrWhiteSpace(newName) && newName != p.Name)
                     {
                         if (ProfileManager.DuplicateProfile(p.Name, newName))
@@ -200,13 +200,13 @@ namespace Desktop_Frames
                             RefreshList();
                             TrayManager.Instance?.UpdateProfilesMenu();
                         }
-                        else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Duplicate failed. Name may be in use or invalid.", "Error");
+                        else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Çoğaltma başarısız. Ad kullanımda ya da geçersiz olabilir.", "Hata");
                     }
                 };
                 controls.Children.Add(btnDuplicate);
 
                 // Rename
-                Button btnRename = CreateIconButton("✎", "Rename");
+                Button btnRename = CreateIconButton("✎", "Yeniden adlandır");
                 btnRename.IsEnabled = !isActive;
 
                 if (btnRename.IsEnabled)
@@ -214,7 +214,7 @@ namespace Desktop_Frames
                     btnRename.Click += (s, e) =>
                     {
                         e.Handled = true; // Prevent card click
-                        string newName = Microsoft.VisualBasic.Interaction.InputBox("Rename profile:", "Rename", p.Name);
+                        string newName = Microsoft.VisualBasic.Interaction.InputBox("Profili yeniden adlandır:", "Yeniden adlandır", p.Name);
                         if (!string.IsNullOrWhiteSpace(newName) && newName != p.Name)
                         {
                             if (ProfileManager.RenameProfile(p.Name, newName))
@@ -222,7 +222,7 @@ namespace Desktop_Frames
                                 RefreshList();
                                 TrayManager.Instance?.UpdateProfilesMenu();
                             }
-                            else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Rename failed. Name may be in use or invalid.", "Error");
+                            else MessageBoxesManager.ShowOKOnlyMessageBoxForm("Yeniden adlandırma başarısız. Ad kullanımda ya da geçersiz olabilir.", "Hata");
                         }
                     };
                 }
@@ -230,7 +230,7 @@ namespace Desktop_Frames
                 controls.Children.Add(btnRename);
 
                 // Delete
-                Button btnDelete = CreateIconButton("🗑", "Delete");
+                Button btnDelete = CreateIconButton("🗑", "Sil");
                 btnDelete.IsEnabled = !isActive && profiles.Count > 1;
 
                 if (btnDelete.IsEnabled)
@@ -239,7 +239,7 @@ namespace Desktop_Frames
                     btnDelete.Click += (s, e) =>
                     {
                         e.Handled = true; // Prevent card click
-                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"Are you sure you want to delete profile '{p.Name}'?\nThis cannot be undone.", "Delete Profile"))
+                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"'{p.Name}' profili silinsin mi?\nBu işlem geri alınamaz.", "Profili sil"))
                         {
                             // File safety: files stored inside the profile's frame folders are
                             // moved to the Desktop or deleted (typed confirmation) BEFORE the
@@ -247,7 +247,7 @@ namespace Desktop_Frames
                             int storedFiles = FrameFileOperations.CountProfileFiles(p.Name);
                             if (storedFiles > 0)
                             {
-                                var choice = FrameFilesDecisionDialog.Show(Window.GetWindow(this), $"profile '{p.Name}'", storedFiles);
+                                var choice = FrameFilesDecisionDialog.Show(Window.GetWindow(this), $"'{p.Name}' profili", storedFiles);
                                 if (choice == FrameFilesDecision.Cancel) return;
                                 int handled = choice == FrameFilesDecision.DeleteFiles
                                     ? FrameFileOperations.DeleteProfileFiles(p.Name)
@@ -306,7 +306,7 @@ namespace Desktop_Frames
         public ProfileManagerForm()
         {
             // Window Setup
-            Title = "Profile Manager";
+            Title = "Profil yöneticisi";
             Width = 480;
             Height = 720; // Height increased to prevent footer cutoff
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -355,7 +355,7 @@ namespace Desktop_Frames
             headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
             StackPanel titleStack = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
-            titleStack.Children.Add(new TextBlock { Text = "Profile Manager", FontSize = 18, FontWeight = FontWeights.Bold, Foreground = Brushes.White });
+            titleStack.Children.Add(new TextBlock { Text = "Profil yöneticisi", FontSize = 18, FontWeight = FontWeights.Bold, Foreground = Brushes.White });
             // Subtitle removed or kept small to fit clean header style
 
             Button closeBtn = new Button { Content = "✕", Background = Brushes.Transparent, BorderThickness = new Thickness(0), Foreground = Brushes.White, FontSize = 16, Cursor = System.Windows.Input.Cursors.Hand, VerticalAlignment = VerticalAlignment.Center };
@@ -381,7 +381,7 @@ namespace Desktop_Frames
             };
             Button btnClose = new Button
             {
-                Content = "Close",
+                Content = "Kapat",
                 Width = 100,
                 Height = 34,
                 HorizontalAlignment = HorizontalAlignment.Right,

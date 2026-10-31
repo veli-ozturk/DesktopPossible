@@ -228,7 +228,7 @@ namespace Desktop_Frames
             var grid = new Grid { Margin = new Thickness(2) };
             var placeholder = new TextBlock
             {
-                Text = "Drag or paste an image here",
+                Text = "Bir görseli buraya sürükleyin ya da yapıştırın",
                 TextWrapping = TextWrapping.Wrap,
                 TextAlignment = TextAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -349,7 +349,7 @@ namespace Desktop_Frames
                 img.Visibility = Visibility.Collapsed;
                 if (placeholder != null)
                 {
-                    placeholder.Text = IsLocked(frame) ? "No image\n(unlock the frame to add one)" : "Drag or paste an image here";
+                    placeholder.Text = IsLocked(frame) ? "Görsel yok\n(eklemek için kutunun kilidini açın)" : "Bir görseli buraya sürükleyin ya da yapıştırın";
                     placeholder.Visibility = Visibility.Visible;
                 }
             }
@@ -458,33 +458,33 @@ namespace Desktop_Frames
             var zoomLabel = new TextBlock
             {
                 Name = "ImgZoomLabel",
-                Text = "Fit",
+                Text = "Sığdır",
                 Foreground = System.Windows.Media.Brushes.White,
                 Opacity = 0.85,
                 FontSize = 11,
                 MinWidth = 34,
                 TextAlignment = TextAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                ToolTip = "Current zoom (Ctrl + mouse wheel also zooms)"
+                ToolTip = "Geçerli yakınlaştırma (Ctrl + fare tekerleği de yakınlaştırır)"
             };
 
-            panel.Children.Add(Btn("", "Zoom out", f => StepZoom(f, false, grid)));
+            panel.Children.Add(Btn("", "Uzaklaştır", f => StepZoom(f, false, grid)));
             panel.Children.Add(zoomLabel);
-            panel.Children.Add(Btn("", "Zoom in", f => StepZoom(f, true, grid)));
-            panel.Children.Add(Btn("", "Fit to frame", f => SetZoom(f, 0)));
+            panel.Children.Add(Btn("", "Yakınlaştır", f => StepZoom(f, true, grid)));
+            panel.Children.Add(Btn("", "Kutuya sığdır", f => SetZoom(f, 0)));
             panel.Children.Add(Sep());
             panel.Children.Add(caption);
             panel.Children.Add(Sep());
-            panel.Children.Add(Btn("", "Copy image to clipboard", f => CopyToClipboard(f)));
-            panel.Children.Add(Btn("", "Save a copy as...", f => SaveAs(f)));
-            panel.Children.Add(Btn("", "Replace image from file...", f =>
+            panel.Children.Add(Btn("", "Görseli panoya kopyala", f => CopyToClipboard(f)));
+            panel.Children.Add(Btn("", "Kopyasını farklı kaydet...", f => SaveAs(f)));
+            panel.Children.Add(Btn("", "Görseli dosyadan değiştir...", f =>
             {
-                var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico|All files|*.*" };
+                var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Görseller|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico|Tüm dosyalar|*.*" };
                 if (dlg.ShowDialog() == true) SetFromFile(f, dlg.FileName);
             }));
-            panel.Children.Add(Btn("", "Open in image editor (frame refreshes when you save)", f => OpenInEditor(f)));
+            panel.Children.Add(Btn("", "Görsel düzenleyicide aç (kaydettiğinizde kutu yenilenir)", f => OpenInEditor(f)));
             panel.Children.Add(Sep());
-            panel.Children.Add(Btn("", "Clear image", f => ClearImage(f))); // separated from the everyday buttons
+            panel.Children.Add(Btn("", "Görseli temizle", f => ClearImage(f))); // separated from the everyday buttons
 
             var bar = new Border
             {
@@ -529,14 +529,14 @@ namespace Desktop_Frames
                 {
                     // dynamic arg ⇒ dynamic return: cast to the concrete tuple before deconstructing.
                     (string Name, string FullPath) info = GetDisplayFileInfo(frame);
-                    caption.Text = info.Name ?? "(pasted image)";
+                    caption.Text = info.Name ?? "(yapıştırılan görsel)";
                     caption.ToolTip = info.FullPath;
                 }
                 var zl = panel.Children.OfType<TextBlock>().FirstOrDefault(t => t.Name == "ImgZoomLabel");
                 if (zl != null)
                 {
                     int z = GetZoom(frame);
-                    zl.Text = z == 0 ? "Fit" : $"{z}%";
+                    zl.Text = z == 0 ? "Sığdır" : $"{z}%";
                 }
             }
         }
@@ -683,8 +683,8 @@ namespace Desktop_Frames
             if (mode == "ask")
             {
                 var r = MessageBox.Show(
-                    $"Add \"{Path.GetFileName(sourcePath)}\":\n\nYes = copy into the frame (portable)\nNo = link to the original file\nCancel = skip",
-                    "Set image", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                    $"\"{Path.GetFileName(sourcePath)}\" ekleniyor:\n\nEvet = kutuya kopyala (taşınabilir)\nHayır = özgün dosyaya bağlantı ver\nİptal = atla",
+                    "Görsel ayarla", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (r == MessageBoxResult.Cancel) return;
                 mode = r == MessageBoxResult.No ? "reference" : "copy";
             }
@@ -735,7 +735,7 @@ namespace Desktop_Frames
             {
                 string p = ResolvePath(frame);
                 if (p == null || !File.Exists(p)) return;
-                var dlg = new Microsoft.Win32.SaveFileDialog { FileName = Path.GetFileName(p), Filter = "Image|*" + Path.GetExtension(p) + "|All files|*.*" };
+                var dlg = new Microsoft.Win32.SaveFileDialog { FileName = Path.GetFileName(p), Filter = "Görsel|*" + Path.GetExtension(p) + "|Tüm dosyalar|*.*" };
                 if (dlg.ShowDialog() == true) File.Copy(p, dlg.FileName, true);
             }
             catch (Exception ex) { LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI, $"SaveAs: {ex.Message}"); }
@@ -786,8 +786,8 @@ namespace Desktop_Frames
         {
             if (!IsLocked(frame)) return false;
             MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                "This image frame is locked.\nRight-click the frame and uncheck \"Lock image\" to make changes.",
-                "Image frame locked");
+                "Bu görsel kutusu kilitli.\nDeğişiklik yapmak için kutuya sağ tıklayıp \"Kilitle (değişiklikleri engelle)\" seçeneğinin işaretini kaldırın.",
+                "Görsel kutusu kilitli");
             return true;
         }
 

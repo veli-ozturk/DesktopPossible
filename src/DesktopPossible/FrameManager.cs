@@ -36,12 +36,12 @@ namespace Desktop_Frames
         // --- NEW: Centralized Presets ---
         private static readonly Dictionary<string, string> _standardPresets = new Dictionary<string, string>
         {
-            { "Images", "*.jpg; *.jpeg; *.png; *.gif; *.bmp; *.webp" },
-            { "Documents", "*.doc*; *.pdf; *.txt; *.rtf; *.xls*; *.ppt*" },
-            { "Executables", "*.exe; *.bat; *.msi; *.cmd; *.ps1" },
-            { "Archives", "*.zip; *.rar; *.7z; *.tar; *.gz" },
-            { "Media", "*.mp3; *.wav; *.mp4; *.mkv; *.avi" },
-            { "Hide System", ">*.tmp; >desktop.ini; >~$*" }
+            { "Görseller", "*.jpg; *.jpeg; *.png; *.gif; *.bmp; *.webp" },
+            { "Belgeler", "*.doc*; *.pdf; *.txt; *.rtf; *.xls*; *.ppt*" },
+            { "Yürütülebilir dosyalar", "*.exe; *.bat; *.msi; *.cmd; *.ps1" },
+            { "Arşivler", "*.zip; *.rar; *.7z; *.tar; *.gz" },
+            { "Medya", "*.mp3; *.wav; *.mp4; *.mkv; *.avi" },
+            { "Sistem dosyalarını gizle", ">*.tmp; >desktop.ini; >~$*" }
         };
         // -------------------------------
 
@@ -576,7 +576,7 @@ namespace Desktop_Frames
                 Window lifeSupport = null;
                 if (!silent)
                 {
-                    lifeSupport = MessageBoxesManager.CreateWaitWindow("DesktopPossible", "Refreshing configuration...");
+                    lifeSupport = MessageBoxesManager.CreateWaitWindow("DesktopPossible", "Yapılandırma yenileniyor...");
                     lifeSupport.Show();
                     System.Windows.Forms.Application.DoEvents();
                 }
@@ -680,7 +680,7 @@ namespace Desktop_Frames
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.Error, $"Error reloading frames: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error reloading frames: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Kutular yeniden yüklenirken hata: {ex.Message}", "Hata");
             }
         }
   
@@ -844,7 +844,7 @@ namespace Desktop_Frames
                     Foreground = System.Windows.Media.Brushes.White,
                     BorderThickness = new Thickness(0),
                     Cursor = Cursors.Hand,
-                    ToolTip = "Go Up"
+                    ToolTip = "Yukarı git"
                 };
                 newBtnBack.Click += (s, e) =>
                 {
@@ -878,14 +878,14 @@ namespace Desktop_Frames
                     Foreground = System.Windows.Media.Brushes.Orange,
                     BorderThickness = new Thickness(0),
                     Cursor = Cursors.Hand,
-                    ToolTip = "Set current view as the new Home for this frame"
+                    ToolTip = "Geçerli görünümü bu kutunun yeni giriş klasörü yap"
                 };
                 newBtnSetBase.Click += (s, e) =>
                 {
                     if (s is Button btn && btn.Tag != null)
                     {
                         string target = btn.Tag.ToString();
-                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"Set this folder as the new home?\n\n{target}", "Update Portal Frame"))
+                        if (MessageBoxesManager.ShowCustomYesNoMessageBox($"Bu klasör yeni giriş klasörü olarak ayarlansın mı?\n\n{target}", "Portal kutusunu güncelle"))
                         {
                             UpdateFrameProperty(liveFrame, "Path", target, "Updated Portal Path");
                             _portalNavigationStates.Remove(frameId);
@@ -1048,7 +1048,7 @@ namespace Desktop_Frames
                     LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.UI,
                         $"Creating life support window - about to close {framesToClose} of {totalFrameCount} total frames");
 
-                    lifeSupportWindow = MessageBoxesManager.CreateWaitWindow("DesktopPossible", "Refreshing frames, please wait...");
+                    lifeSupportWindow = MessageBoxesManager.CreateWaitWindow("DesktopPossible", "Kutular yenileniyor, lütfen bekleyin...");
                     lifeSupportWindow.Show();
                 }
 
@@ -1307,12 +1307,12 @@ namespace Desktop_Frames
             // ------------------------
 
             // About item
-            var aboutItem = new MenuItem { Header = "About..." };
+            var aboutItem = new MenuItem { Header = "Hakkında..." };
             aboutItem.Click += (s, e) => AboutFormManager.ShowAboutForm();
             menu.Items.Add(aboutItem);
 
             // Options item
-            var optionsItem = new MenuItem { Header = "Options..." };
+            var optionsItem = new MenuItem { Header = "Seçenekler..." };
             optionsItem.Click += (s, e) => OptionsFormManager.ShowOptionsForm();
             menu.Items.Add(optionsItem);
 
@@ -1320,7 +1320,7 @@ namespace Desktop_Frames
             menu.Items.Add(new Separator());
 
             // New frame items
-            var newFrameItem = new MenuItem { Header = "New Frame" };
+            var newFrameItem = new MenuItem { Header = "Yeni kutu" };
             newFrameItem.Click += (s, e) =>
             {
                 var mousePosition = System.Windows.Forms.Cursor.Position;
@@ -1328,15 +1328,15 @@ namespace Desktop_Frames
             };
             menu.Items.Add(newFrameItem);
 
-            var newPortalFrameItem = new MenuItem { Header = "New Portal Frame" };
+            var newPortalFrameItem = new MenuItem { Header = "Yeni portal kutusu" };
             newPortalFrameItem.Click += (s, e) =>
             {
                 var mousePosition = System.Windows.Forms.Cursor.Position;
-                CreateNewFrame("New Portal Frame", "Portal", mousePosition.X, mousePosition.Y);
+                CreateNewFrame("Yeni portal kutusu", "Portal", mousePosition.X, mousePosition.Y);
             };
             menu.Items.Add(newPortalFrameItem);
 
-            MenuItem newImageFrameItem = new MenuItem { Header = "New Image Frame" };
+            MenuItem newImageFrameItem = new MenuItem { Header = "Yeni görsel kutusu" };
             newImageFrameItem.Click += (s, e) =>
             {
                 var mousePosition = System.Windows.Forms.Cursor.Position;
@@ -1344,7 +1344,7 @@ namespace Desktop_Frames
             };
             menu.Items.Add(newImageFrameItem);
 
-            MenuItem newTextFrameItem = new MenuItem { Header = "New Text Frame" };
+            MenuItem newTextFrameItem = new MenuItem { Header = "Yeni metin kutusu" };
             newTextFrameItem.Click += (s, e) =>
             {
                 var mousePosition = System.Windows.Forms.Cursor.Position;
@@ -1363,7 +1363,7 @@ namespace Desktop_Frames
 
                 var enableTabsItem = new MenuItem
                 {
-                    Header = "Enable Tabs On This Frame",
+                    Header = "Bu kutuda sekmeleri etkinleştir",
                     IsCheckable = true,   // Shows checkbox gutter
                     IsChecked = tabsEnabled // Visual checkmark
                 };
@@ -1377,7 +1377,7 @@ namespace Desktop_Frames
 
             // --- REORDERED: Delete Option Second ---
             // Delete this frames
-            var deleteThisFrame = new MenuItem { Header = "Delete this Frame" };
+            var deleteThisFrame = new MenuItem { Header = "Bu kutuyu sil" };
             deleteThisFrame.Click += (s, e) =>
             {
                 bool result = MessageBoxesManager.ShowCustomMessageBoxForm();
@@ -1404,7 +1404,7 @@ namespace Desktop_Frames
                     if (storedFileCount > 0)
                     {
                         fileChoice = FrameFilesDecisionDialog.Show(null,
-                            $"frame '{liveFrame.Title?.ToString() ?? ""}'", storedFileCount);
+                            $"'{liveFrame.Title?.ToString() ?? ""}' kutusu", storedFileCount);
                         if (fileChoice == FrameFilesDecision.Cancel) return;
                     }
 
@@ -1441,22 +1441,22 @@ namespace Desktop_Frames
             menu.Items.Add(new Separator());
 
             // Export/Import Group
-            var exportItem = new MenuItem { Header = "Export this Frame" };
+            var exportItem = new MenuItem { Header = "Bu kutuyu dışa aktar" };
             exportItem.Click += (s, e) => BackupManager.ExportFrame(frame);
             menu.Items.Add(exportItem);
 
-            var importItem = new MenuItem { Header = "Import a Frame..." };
+            var importItem = new MenuItem { Header = "Kutu içe aktar..." };
             importItem.Click += (s, e) => BackupManager.ImportFrame();
             menu.Items.Add(importItem);
 
-            var sendToProfileItem = new MenuItem { Header = "Send to Profile..." };
+            var sendToProfileItem = new MenuItem { Header = "Profile gönder..." };
             sendToProfileItem.Click += (s, e) => SendToProfileManager.Show(frame);
             menu.Items.Add(sendToProfileItem);
 
             // Restore frame item
             var restoreItem = new MenuItem
             {
-                Header = "Restore Last Deleted Frame",
+                Header = "Son silinen kutuyu geri yükle",
                 Visibility = BackupManager.IsRestoreAvailable ? Visibility.Visible : Visibility.Collapsed
             };
             restoreItem.Click += (s, e) => BackupManager.RestoreLastDeletedFrame();
@@ -1466,7 +1466,7 @@ namespace Desktop_Frames
             menu.Items.Add(new Separator());
 
             // Exit item
-            var exitItem = new MenuItem { Header = "Exit" };
+            var exitItem = new MenuItem { Header = "Çıkış" };
             exitItem.Click += (s, e) => System.Windows.Application.Current.Shutdown();
             menu.Items.Add(exitItem);
 
@@ -1589,11 +1589,11 @@ namespace Desktop_Frames
                 ContextMenu iconContextMenu = new ContextMenu();
 
                 // --- GROUP 1: MANIPULATION ---
-                MenuItem miEdit = new MenuItem { Header = "Edit..." };
-                MenuItem miMove = new MenuItem { Header = "Move..." };
+                MenuItem miEdit = new MenuItem { Header = "Düzenle..." };
+                MenuItem miMove = new MenuItem { Header = "Taşı..." };
                 // "from Frame" so it doesn't read as a duplicate of the shell menu's Delete:
                 // this removes the item (and its backing file); Delete is Windows acting on the file.
-                MenuItem miRemove = new MenuItem { Header = "Remove from Frame" };
+                MenuItem miRemove = new MenuItem { Header = "Kutudan kaldır" };
 
                 iconContextMenu.Items.Add(miEdit);
                 iconContextMenu.Items.Add(miMove);
@@ -1603,7 +1603,7 @@ namespace Desktop_Frames
 
                 // --- GROUP 2: CLIPBOARD ---
                 Separator sepClipboard = new Separator();
-                MenuItem miCopyItem = new MenuItem { Header = "Copy Item" };
+                MenuItem miCopyItem = new MenuItem { Header = "Öğeyi kopyala" };
 
                 iconContextMenu.Items.Add(sepClipboard);
                 iconContextMenu.Items.Add(miCopyItem);
@@ -1626,10 +1626,10 @@ namespace Desktop_Frames
                 {
                     iconContextMenu.Items.Add(new Separator());
 
-                    MenuItem miRunAsAdmin = new MenuItem { Header = "Run as administrator" };
+                    MenuItem miRunAsAdmin = new MenuItem { Header = "Yönetici olarak çalıştır" };
                     miAlwaysAdmin = new MenuItem
                     {
-                        Header = "Always run as administrator",
+                        Header = "Her zaman yönetici olarak çalıştır",
                         IsCheckable = true
                     };
 
@@ -1657,7 +1657,7 @@ namespace Desktop_Frames
                         try { Process.Start(psi); }
                         catch (Exception ex)
                         {
-                            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error running as admin: {ex.Message}", "Error");
+                            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Yönetici olarak çalıştırılırken hata: {ex.Message}", "Hata");
                         }
                     };
 
@@ -1689,14 +1689,14 @@ namespace Desktop_Frames
                 Separator sepPath = new Separator();
                 iconContextMenu.Items.Add(sepPath);
 
-                MenuItem miCopyPathRoot = new MenuItem { Header = "Copy path" };
-                MenuItem miCopyFolder = new MenuItem { Header = "Folder path" };
-                MenuItem miCopyFullPath = new MenuItem { Header = "Full path" };
+                MenuItem miCopyPathRoot = new MenuItem { Header = "Yolu kopyala" };
+                MenuItem miCopyFolder = new MenuItem { Header = "Klasör yolu" };
+                MenuItem miCopyFullPath = new MenuItem { Header = "Tam yol" };
 
                 miCopyPathRoot.Items.Add(miCopyFolder);
                 miCopyPathRoot.Items.Add(miCopyFullPath);
 
-                MenuItem miFindTarget = new MenuItem { Header = "Open target folder..." };
+                MenuItem miFindTarget = new MenuItem { Header = "Hedef klasörü aç..." };
 
                 iconContextMenu.Items.Add(miCopyPathRoot);
                 iconContextMenu.Items.Add(miFindTarget);
@@ -1798,7 +1798,7 @@ namespace Desktop_Frames
                     // 1. Send to Desktop (Ctrl only, Skip for spacers)
                     if (isCtrl && !isSpacer)
                     {
-                        miSendToDesktop = new MenuItem { Header = "Send to Desktop" };
+                        miSendToDesktop = new MenuItem { Header = "Masaüstüne gönder" };
                         miSendToDesktop.Click += (sender, args) => CopyPasteManager.SendToDesktop(item);
                         int idxCopy = iconContextMenu.Items.IndexOf(miCopyItem);
                         if (idxCopy != -1) iconContextMenu.Items.Insert(idxCopy + 1, miSendToDesktop);
@@ -1807,8 +1807,8 @@ namespace Desktop_Frames
                     // 2. Different User Options (Ctrl OR if setting is already checked)
                     if (isEligibleForAdmin && (isCtrl || isAlwaysDiffUser))
                     {
-                        miRunAsDifferentUser = new MenuItem { Header = "Run as different user..." };
-                        miAlwaysRunAsDifferentUser = new MenuItem { Header = "Always run as different user", IsCheckable = true };
+                        miRunAsDifferentUser = new MenuItem { Header = "Farklı kullanıcı olarak çalıştır..." };
+                        miAlwaysRunAsDifferentUser = new MenuItem { Header = "Her zaman farklı kullanıcı olarak çalıştır", IsCheckable = true };
 
                         miRunAsDifferentUser.Click += (sender, args) => {
                             string target = Utility.GetShortcutTarget(filePath);
@@ -1998,10 +1998,10 @@ namespace Desktop_Frames
                 }
 
                 // Show result message after a brief delay to allow desktop refresh
-                string resultMessage = $"Exported {exportedCount} of {totalCount} icons to desktop.";
+                string resultMessage = $"{totalCount} simgeden {exportedCount} tanesi masaüstüne aktarıldı.";
                 if (exportedCount != totalCount)
                 {
-                    resultMessage += $" {totalCount - exportedCount} items failed to export.";
+                    resultMessage += $" {totalCount - exportedCount} öğe aktarılamadı.";
                 }
 
                 // Use DispatcherTimer for UI thread delay
@@ -2016,7 +2016,7 @@ namespace Desktop_Frames
                     // FIX: Check flag before showing message
                     if (showConfirmation)
                     {
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm(resultMessage, "Export Complete");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm(resultMessage, "Aktarma tamamlandı");
                     }
                 };
                 delayTimer.Start();
@@ -2030,7 +2030,7 @@ namespace Desktop_Frames
                     $"Error in ExportAllIconsToDesktop: {ex.Message}");
 
                 // Always show errors, even in silent mode, so user knows why it failed
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error exporting icons: {ex.Message}", "Export Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Simgeler aktarılırken hata: {ex.Message}", "Aktarma hatası");
             }
         }
 
@@ -2288,7 +2288,7 @@ namespace Desktop_Frames
             try
             {
                 ContextMenu iconContextMenu = new ContextMenu();
-                MenuItem miRemove = new MenuItem { Header = "Remove" };
+                MenuItem miRemove = new MenuItem { Header = "Kaldır" };
 
         
                 miRemove.Click += (sender, e) =>
@@ -2332,7 +2332,7 @@ namespace Desktop_Frames
                 bool alwaysAdmin = Convert.ToBoolean(item["AlwaysRunAsAdmin"] ?? false);
                 MenuItem miAlwaysAdmin = new MenuItem
                 {
-                    Header = "Always run as administrator",
+                    Header = "Her zaman yönetici olarak çalıştır",
                     IsCheckable = true,
                     IsChecked = alwaysAdmin
                 };
@@ -2590,15 +2590,15 @@ namespace Desktop_Frames
                         "All frame customizations have been reset to defaults.");
 
                     MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                        "All visual customizations have been reset.\nYour icons and frame positions were preserved.",
-                        "Reset Complete");
+                        "Tüm görsel özelleştirmeler sıfırlandı.\nSimgeleriniz ve kutu konumlarınız korundu.",
+                        "Sıfırlama tamamlandı");
                 }
             }
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.Error,
                     $"Error resetting customizations: {ex.Message}");
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error resetting customizations: {ex.Message}", "Error");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Özelleştirmeler sıfırlanırken hata: {ex.Message}", "Hata");
             }
         }
 
@@ -3063,7 +3063,7 @@ namespace Desktop_Frames
                     var tab = tabs[i] as JObject;
                     if (tab == null) continue;
 
-                    string tabName = tab["TabName"]?.ToString() ?? $"Tab {i + 1}";
+                    string tabName = tab["TabName"]?.ToString() ?? $"Sekme {i + 1}";
                     bool isActiveTab = (i == currentTab);
                     int capturedIndex = i;
 
@@ -3104,11 +3104,11 @@ namespace Desktop_Frames
 
                     // Context Menu
                     ContextMenu tabContextMenu = new ContextMenu();
-                    MenuItem miAddTab = new MenuItem { Header = "Add New Tab" };
-                    MenuItem miRenameTab = new MenuItem { Header = "Rename Tab" };
-                    MenuItem miDeleteTab = new MenuItem { Header = "Delete Tab" };
-                    MenuItem miMoveLeft = new MenuItem { Header = "Move Left" };
-                    MenuItem miMoveRight = new MenuItem { Header = "Move Right" };
+                    MenuItem miAddTab = new MenuItem { Header = "Yeni sekme ekle" };
+                    MenuItem miRenameTab = new MenuItem { Header = "Sekmeyi yeniden adlandır" };
+                    MenuItem miDeleteTab = new MenuItem { Header = "Sekmeyi sil" };
+                    MenuItem miMoveLeft = new MenuItem { Header = "Sola taşı" };
+                    MenuItem miMoveRight = new MenuItem { Header = "Sağa taşı" };
 
                     tabContextMenu.Items.Add(miAddTab);
                     tabContextMenu.Items.Add(new Separator());
@@ -3148,7 +3148,7 @@ namespace Desktop_Frames
                     FontFamily = new System.Windows.Media.FontFamily("Segoe UI"),
                     BorderThickness = new Thickness(1),
                     Cursor = Cursors.Hand,
-                    ToolTip = "Add new tab (Ctrl+Click to Import)", // Updated Tooltip
+                    ToolTip = "Yeni sekme ekle (içe aktarmak için Ctrl+Tıkla)", // Updated Tooltip
                     Focusable = false
                 };
 
@@ -3358,7 +3358,7 @@ namespace Desktop_Frames
                 var tab = tabs[tabIndex] as JObject;
                 if (tab == null) return;
 
-                string currentName = tab["TabName"]?.ToString() ?? $"Tab {tabIndex}";
+                string currentName = tab["TabName"]?.ToString() ?? $"Sekme {tabIndex}";
 
                 // Temporarily increase button height to accommodate TextBox properly
                 double originalHeight = targetButton.Height;
@@ -3519,7 +3519,7 @@ namespace Desktop_Frames
                 // 2. Validation: Don't allow deleting the last tab
                 if (tabs.Count <= 1)
                 {
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Cannot delete the last remaining tab.", "Delete Tab");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm("Kalan son sekme silinemez.", "Sekmeyi sil");
                     return;
                 }
 
@@ -4353,7 +4353,7 @@ namespace Desktop_Frames
 
                             if (tab["TabName"] == null)
                             {
-                                tab["TabName"] = $"Tab {t + 1}";
+                                tab["TabName"] = $"Sekme {t + 1}";
                                 tabsModified = true;
                             }
                             if (tab["Items"] == null || !(tab["Items"] is JArray))
@@ -4416,12 +4416,12 @@ namespace Desktop_Frames
                 if (mods.Contains("control") && mods.Contains("alt"))
                 {
                     bool disableHotkeys = MessageBoxesManager.ShowCustomYesNoMessageBox(
-                                  "Your profile hotkeys are currently set to Ctrl+Alt.\n\n" +
-                                  "Windows shares this shortcut with the 'AltGr' key on many international keyboards. " +
-                                  "This can block you from typing special characters like @, €, [, or {.\n\n" +
-                                  "• Click 'Yes' to disable them (fixes typing issues)\n" +
-                                  "• Click 'No' to keep them (if everything works fine)",
-                                  "Optional: Keyboard Compatibility Check");
+                                  "Profil kısayol tuşlarınız şu anda Ctrl+Alt olarak ayarlı.\n\n" +
+                                  "Windows, birçok uluslararası klavyede bu kısayolu 'AltGr' tuşuyla paylaşır. " +
+                                  "Bu, @, €, [ veya { gibi özel karakterleri yazmanızı engelleyebilir.\n\n" +
+                                  "• Devre dışı bırakmak için 'Evet'e tıklayın (yazma sorunlarını giderir)\n" +
+                                  "• Korumak için 'Hayır'a tıklayın (her şey düzgün çalışıyorsa)",
+                                  "İsteğe bağlı: Klavye uyumluluk denetimi");
 
                     if (disableHotkeys)
                     {
@@ -4623,7 +4623,7 @@ namespace Desktop_Frames
             string defaultName = CoreUtilities.GenerateUniqueFrameName();
 
             // 2. Ask for Name (Pre-filled with the random name)
-            string name = Microsoft.VisualBasic.Interaction.InputBox("Enter name for new Frame:", "Create Frame", defaultName);
+            string name = Microsoft.VisualBasic.Interaction.InputBox("Yeni kutu için ad girin:", "Kutu oluştur", defaultName);
             if (string.IsNullOrWhiteSpace(name)) return;
 
             // 2. Create Data
@@ -4769,7 +4769,7 @@ namespace Desktop_Frames
                 var tipsFrame = new
                 {
                     Id = Guid.NewGuid().ToString(), // Unique ID
-                    Title = "DesktopPossible Startup Tips", // Explicit Name
+                    Title = "DesktopPossible Başlangıç İpuçları", // Explicit Name
                     X = tipsX,   // Bottom-right of the primary work area
                     Y = tipsY,
                     Width = tipsWidth,
@@ -4780,14 +4780,14 @@ namespace Desktop_Frames
                     // Text frame settings (see TextFramemanager property keys)
                     TextTemplate = "WELCOME TO DesktopPossible\n" +
                                    "---------------------------------\n" +
-                                   "• Roll Up/Down: Double-click a frame's title bar.\n" +
-                                   "• Rename: Ctrl + Click a frame's title bar (Enter to save).\n" +
-                                   "• Options: Click the '♥' menu icon (top-left of a frame).\n" +
-                                   "• Reorder Icons: Ctrl + Drag an icon to a new position.\n" +
-                                   "• Move/Resize frames: enable 'Edit Frames Mode' (tray menu).\n" +
-                                   "• Context Menu: Right-click icons or frames for more options.\n" +
+                                   "• Katla/Aç: Kutunun başlık çubuğuna çift tıklayın.\n" +
+                                   "• Yeniden adlandır: Kutunun başlık çubuğuna Ctrl + Tıklayın (kaydetmek için Enter).\n" +
+                                   "• Seçenekler: '♥' menü simgesine tıklayın (kutunun sol üstü).\n" +
+                                   "• Simgeleri sırala: Bir simgeyi Ctrl + Sürükle ile yeni konuma taşıyın.\n" +
+                                   "• Kutuları taşı/boyutlandır: 'Kutu düzenleme modu'nu açın (sistem tepsisi menüsü).\n" +
+                                   "• Bağlam menüsü: Daha fazla seçenek için simgelere veya kutulara sağ tıklayın.\n" +
                                    "\n" +
-                                   "TIP: This welcome text is a Text frame - edit or remove it in Options → Text Frames.",
+                                   "İPUCU: Bu karşılama metni bir metin kutusudur; Seçenekler → Metin kutuları bölümünden düzenleyebilir veya kaldırabilirsiniz.",
                     TextFont = "Segoe UI",
                     TextSize = "13",
                     TextColor = "#FF20B2AA", // light sea green, readable on most wallpapers
@@ -5027,7 +5027,7 @@ namespace Desktop_Frames
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center, // centre-align to match the filter/content-lock icons (glyph bearings differ)
                 Cursor = Cursors.Hand,
-                ToolTip = frame.IsLocked?.ToString().ToLower() == "true" ? "Position locked (click to allow moving/resizing)" : "Click to lock position/size",
+                ToolTip = frame.IsLocked?.ToString().ToLower() == "true" ? "Konum kilitli (taşıma/boyutlandırmaya izin vermek için tıklayın)" : "Konumu/boyutu kilitlemek için tıklayın",
                 Opacity = (double)SettingsManager.MenuTintValue / 100 // 0.3 // Lower tint by default
             };
 
@@ -5134,14 +5134,14 @@ namespace Desktop_Frames
             }
 
             // Rename (same inline title edit as Ctrl+click the title bar).
-            MenuItem miRenameFrame = new MenuItem { Header = "Rename Frame" };
+            MenuItem miRenameFrame = new MenuItem { Header = "Kutuyu yeniden adlandır" };
             miRenameFrame.Click += (s, e) => StartRename?.Invoke();
             CnMnFramemanager.Items.Add(miRenameFrame);
             CnMnFramemanager.Items.Add(new Separator());
 
             // --- Content lock (prevents changes): Data/Portal = no drops,
             //     Image = no set/clear/paste. Separate from the position lock (title-bar icon). ---
-            MenuItem miContentLock = new MenuItem { Header = "Lock (prevent changes)", IsCheckable = true, IsChecked = IsContentLocked(frame) };
+            MenuItem miContentLock = new MenuItem { Header = "Kilitle (değişiklikleri engelle)", IsCheckable = true, IsChecked = IsContentLocked(frame) };
             miContentLock.Click += (s, e) => SetContentLocked(LiveMenuFrame(), miContentLock.IsChecked);
             CnMnFramemanager.Items.Add(miContentLock);
             CnMnFramemanager.Items.Add(new Separator());
@@ -5150,27 +5150,27 @@ namespace Desktop_Frames
             // --- Image frame controls (set / clear / copy) for the single displayed image. ---
             if (frame.ItemsType?.ToString() == "Image")
             {
-                var miPasteImg = new MenuItem { Header = "Paste image" };
+                var miPasteImg = new MenuItem { Header = "Görseli yapıştır" };
                 miPasteImg.Click += (s, e) => ImageFramemanager.HandlePaste(LiveMenuFrame());
                 CnMnFramemanager.Items.Add(miPasteImg);
 
-                var miSetImg = new MenuItem { Header = "Set image from file..." };
+                var miSetImg = new MenuItem { Header = "Dosyadan görsel ayarla..." };
                 miSetImg.Click += (s, e) =>
                 {
-                    var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico|All files|*.*" };
+                    var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Görseller|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico|Tüm dosyalar|*.*" };
                     if (dlg.ShowDialog() == true) ImageFramemanager.SetFromFile(LiveMenuFrame(), dlg.FileName);
                 };
                 CnMnFramemanager.Items.Add(miSetImg);
 
-                var miClearImg = new MenuItem { Header = "Clear image" };
+                var miClearImg = new MenuItem { Header = "Görseli temizle" };
                 miClearImg.Click += (s, e) => ImageFramemanager.ClearImage(LiveMenuFrame());
                 CnMnFramemanager.Items.Add(miClearImg);
 
-                var miCopyImg = new MenuItem { Header = "Copy image" };
+                var miCopyImg = new MenuItem { Header = "Görseli kopyala" };
                 miCopyImg.Click += (s, e) => ImageFramemanager.CopyToClipboard(LiveMenuFrame());
                 CnMnFramemanager.Items.Add(miCopyImg);
 
-                var miSaveImg = new MenuItem { Header = "Save image as..." };
+                var miSaveImg = new MenuItem { Header = "Görseli farklı kaydet..." };
                 miSaveImg.Click += (s, e) => ImageFramemanager.SaveAs(LiveMenuFrame());
                 CnMnFramemanager.Items.Add(miSaveImg);
 
@@ -5189,7 +5189,7 @@ namespace Desktop_Frames
             }
 
             // --- NEW: Auto Roll Menu Item ---
-            MenuItem miAutoRoll = new MenuItem { Header = "Auto roll", IsCheckable = true };
+            MenuItem miAutoRoll = new MenuItem { Header = "Otomatik katla", IsCheckable = true };
             miAutoRoll.IsChecked = frame.AutoRoll?.ToString().ToLower() == "true";
             miAutoRoll.Click += (s, e) =>
             {
@@ -5214,7 +5214,7 @@ namespace Desktop_Frames
             // NOTE: UpdateFrameProperty REPLACES the frame object in FrameData (JObject.FromObject), so
             // the closure-captured `frame` goes stale after any property update — always re-resolve the
             // live object by Id before reading or writing state here.
-            MenuItem miAlwaysOnTop = new MenuItem { Header = "Always on top", IsCheckable = true };
+            MenuItem miAlwaysOnTop = new MenuItem { Header = "Her zaman üstte", IsCheckable = true };
             miAlwaysOnTop.IsChecked = frame.AlwaysOnTop?.ToString().ToLower() == "true";
             miAlwaysOnTop.Click += (s, e) =>
             {
@@ -5233,7 +5233,7 @@ namespace Desktop_Frames
             // Mirrors the tray menu item; state is re-resolved live on menu open (like Free arrange).
             MenuItem miFrameEditMode = new MenuItem
             {
-                Header = "Edit Frames Mode",
+                Header = "Kutu düzenleme modu",
                 IsCheckable = true,
                 IsChecked = SettingsManager.FrameEditMode
             };
@@ -5244,7 +5244,7 @@ namespace Desktop_Frames
             CnMnFramemanager.Items.Add(new Separator());
             // --------------------------------
 
-            MenuItem miHide = new MenuItem { Header = "Hide Frame" }; // New Hide Frame item
+            MenuItem miHide = new MenuItem { Header = "Kutuyu gizle" }; // New Hide Frame item
                                                                    
             CnMnFramemanager.Items.Add(miHide); // Add Hide Frame
             NonActivatingWindow win = new NonActivatingWindow
@@ -5253,7 +5253,7 @@ namespace Desktop_Frames
                 AllowDrop = true,
                 AllowsTransparency = true,
                 Background = System.Windows.Media.Brushes.Transparent,
-                Title = frame.Title?.ToString() ?? "New Frame", // Handle null title
+                Title = frame.Title?.ToString() ?? "Yeni kutu", // Handle null title
                 ShowInTaskbar = false,
                 WindowStyle = WindowStyle.None,
                 // Snap content to device pixels — stops the sub-pixel "wobble"/shimmer of frame content
@@ -5272,7 +5272,7 @@ namespace Desktop_Frames
                 Tag = frame.Id?.ToString() ?? Guid.NewGuid().ToString() // Ensure ID exists
             };
             //Peek behind frame
-            MenuItem miPeekBehind = new MenuItem { Header = "Peek Behind" };
+            MenuItem miPeekBehind = new MenuItem { Header = "Arkasına göz at" };
             CnMnFramemanager.Items.Add(miPeekBehind);
             miPeekBehind.Click += (s, e) =>
             {
@@ -5351,7 +5351,7 @@ namespace Desktop_Frames
                 sepClearDead = new Separator { Visibility = Visibility.Collapsed };
                 CnMnFramemanager.Items.Add(sepClearDead);
 
-                miClearDeadShortcuts = new MenuItem { Header = "Clear Dead Shortcuts", Visibility = Visibility.Collapsed };
+                miClearDeadShortcuts = new MenuItem { Header = "Geçersiz kısayolları temizle", Visibility = Visibility.Collapsed };
                 CnMnFramemanager.Items.Add(miClearDeadShortcuts);
 
                 miClearDeadShortcuts.Click += (s, e) =>
@@ -5381,7 +5381,7 @@ namespace Desktop_Frames
                 // Sits where Portal frames get their View/Sort options.
                 MenuItem miFreeArrange = new MenuItem
                 {
-                    Header = "Free arrange",
+                    Header = "Serbest yerleşim",
                     IsCheckable = true,
                     IsChecked = IsFreeArrange(frame)
                 };
@@ -5420,7 +5420,7 @@ namespace Desktop_Frames
             // 2. Open Folder (Portal Only)
             if (frame.ItemsType?.ToString() == "Portal")
             {
-                MenuItem miOpenFolder = new MenuItem { Header = "Open frame folder" };
+                MenuItem miOpenFolder = new MenuItem { Header = "Kutu klasörünü aç" };
                 miOpenFolder.Click += (s, e) =>
                 {
                     try
@@ -5434,14 +5434,14 @@ namespace Desktop_Frames
                 CnMnFramemanager.Items.Add(miOpenFolder);
 
                 // View mode toggle (Icons / Details) - Portal only
-                MenuItem miView = new MenuItem { Header = "View" };
+                MenuItem miView = new MenuItem { Header = "Görünüm" };
                 // Safe read: a freshly-created frame is an ExpandoObject that may not have "ViewMode"
                 // yet (accessing a missing member throws; a loaded JObject would return null).
                 string currentView = "Icons";
                 try { if (frame.ViewMode?.ToString() == "Details") currentView = "Details"; } catch { }
 
-                MenuItem miViewIcons = new MenuItem { Header = "Icons", IsCheckable = true, IsChecked = currentView == "Icons" };
-                MenuItem miViewDetails = new MenuItem { Header = "Details", IsCheckable = true, IsChecked = currentView == "Details" };
+                MenuItem miViewIcons = new MenuItem { Header = "Simgeler", IsCheckable = true, IsChecked = currentView == "Icons" };
+                MenuItem miViewDetails = new MenuItem { Header = "Ayrıntılar", IsCheckable = true, IsChecked = currentView == "Details" };
 
                 miViewIcons.Click += (s, e) =>
                 {
@@ -5465,8 +5465,8 @@ namespace Desktop_Frames
                 try { int.TryParse(frame.SortMode?.ToString(), out currentSort); } catch { }
                 currentSort = Math.Max(0, Math.Min(3, currentSort));
 
-                MenuItem miSort = new MenuItem { Header = "Sort by" };
-                string[] sortNames = { "Name", "Date modified", "Type", "Size" };
+                MenuItem miSort = new MenuItem { Header = "Sıralama ölçütü" };
+                string[] sortNames = { "Ad", "Değiştirme tarihi", "Tür", "Boyut" };
                 var sortItems = new MenuItem[4];
                 for (int i = 0; i < 4; i++)
                 {
@@ -5485,8 +5485,8 @@ namespace Desktop_Frames
                 bool currentAsc = true;
                 try { currentAsc = (frame.SortAsc?.ToString() ?? "true").ToLower() != "false"; } catch { }
                 miSort.Items.Add(new Separator());
-                var miAsc = new MenuItem { Header = "Ascending", IsCheckable = true, IsChecked = currentAsc };
-                var miDesc = new MenuItem { Header = "Descending", IsCheckable = true, IsChecked = !currentAsc };
+                var miAsc = new MenuItem { Header = "Artan", IsCheckable = true, IsChecked = currentAsc };
+                var miDesc = new MenuItem { Header = "Azalan", IsCheckable = true, IsChecked = !currentAsc };
                 miAsc.Click += (s, e) =>
                 {
                     if (_portalFrames.TryGetValue((object)frame, out PortalFramemanager pm)) pm.SetSortAscending(true);
@@ -5517,7 +5517,7 @@ namespace Desktop_Frames
             CnMnFramemanager.Items.Add(new Separator());
 
             // 3. Paste Item (Initially Hidden)
-            MenuItem miPasteItem = new MenuItem { Header = "Paste Item", Visibility = Visibility.Collapsed };
+            MenuItem miPasteItem = new MenuItem { Header = "Öğeyi yapıştır", Visibility = Visibility.Collapsed };
             miPasteItem.Click += (s, e) => CopyPasteManager.PasteItem(frame);
             CnMnFramemanager.Items.Add(miPasteItem);
 
@@ -5527,7 +5527,7 @@ namespace Desktop_Frames
             //  CnMnFramemanager.Items.Add(new Separator());
 
             //CnMnFramemanager.Items.Add(miNewCustomize);
-            MenuItem miCustomize = new MenuItem { Header = "Customize..." };
+            MenuItem miCustomize = new MenuItem { Header = "Özelleştir..." };
             miCustomize.Click += (s, e) =>
             {
                 try
@@ -5547,7 +5547,7 @@ namespace Desktop_Frames
                 catch (Exception ex)
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI, $"Error opening CustomizeFrameFormManager: {ex.Message}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error opening customize form: {ex.Message}", "Form Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Özelleştirme formu açılırken hata: {ex.Message}", "Form hatası");
                 }
             };
             CnMnFramemanager.Items.Add(miCustomize);
@@ -6114,13 +6114,13 @@ namespace Desktop_Frames
                 // C. Export All & Spacer Menu (Data Frame + Ctrl)
                 if (isCtrlPressed && isDataFrame)
                 {
-                    miExportAllToDesktop = new MenuItem { Header = "Export all icons to desktop" };
+                    miExportAllToDesktop = new MenuItem { Header = "Tüm simgeleri masaüstüne aktar" };
                     miExportAllToDesktop.Click += (s, e) => ExportAllIconsToDesktop(frame);
 
-                    miAddSpacerMenu = new MenuItem { Header = "Add spacer" };
+                    miAddSpacerMenu = new MenuItem { Header = "Boşluk ekle" };
 
-                    MenuItem miSpacerBlank = new MenuItem { Header = "Blank" };
-                    MenuItem miSpacerDot = new MenuItem { Header = "Dot" };
+                    MenuItem miSpacerBlank = new MenuItem { Header = "Boş" };
+                    MenuItem miSpacerDot = new MenuItem { Header = "Nokta" };
 
                     // Centralized Spacer Creation Logic
                     Action<string> CreateSpacer = (prefix) =>
@@ -6186,7 +6186,7 @@ namespace Desktop_Frames
                     // Insert before Customize (safe lookup)
                     int insertIndex = CnMnFramemanager.Items.Count - 1;
                     var customizeItem = CnMnFramemanager.Items.OfType<MenuItem>()
-                        .FirstOrDefault(m => m.Header.ToString() == "Customize...");
+                        .FirstOrDefault(m => m.Header.ToString() == "Özelleştir...");
                     if (customizeItem != null) insertIndex = CnMnFramemanager.Items.IndexOf(customizeItem);
 
                     CnMnFramemanager.Items.Insert(insertIndex, miExportAllToDesktop);
@@ -6196,7 +6196,7 @@ namespace Desktop_Frames
                 // D. Name After Target (Portal Frame + Ctrl)
                 if (isCtrlPressed && isPortalFrame)
                 {
-                    miNameAfterPath = new MenuItem { Header = "Name Frame After Target Path" };
+                    miNameAfterPath = new MenuItem { Header = "Kutuyu hedef yola göre adlandır" };
                     miNameAfterPath.Click += (s, e) =>
                     {
                         // Get Base Path (Not navigation path)
@@ -6232,7 +6232,7 @@ namespace Desktop_Frames
                     // Insert before Customize
                     int insertIndex = CnMnFramemanager.Items.Count - 1;
                     var customizeItem = CnMnFramemanager.Items.OfType<MenuItem>()
-                        .FirstOrDefault(m => m.Header.ToString() == "Customize...");
+                        .FirstOrDefault(m => m.Header.ToString() == "Özelleştir...");
 
                     if (customizeItem != null)
                     {
@@ -6277,7 +6277,7 @@ namespace Desktop_Frames
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Cursor = Cursors.Hand,
                     Margin = new Thickness(0, 0, 5, 0),
-                    ToolTip = "Filter files (e.g. '*.jpg' or '>*.tmp' to exclude)",
+                    ToolTip = "Dosyaları filtrele (ör. '*.jpg' ya da hariç tutmak için '>*.tmp')",
                     Opacity = hasInitialFilter ? 1.0 : ((double)SettingsManager.MenuTintValue / 100)
                 };
 
@@ -6388,7 +6388,7 @@ namespace Desktop_Frames
                     BorderThickness = new Thickness(0),
                     Cursor = Cursors.Hand,
                     Width = 20,
-                    ToolTip = "Clear filter and close"
+                    ToolTip = "Filtreyi temizle ve kapat"
                 };
 
                 filterBar.Children.Add(cmbFilter);
@@ -6721,7 +6721,7 @@ namespace Desktop_Frames
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Cursor = Cursors.Hand,
-                ToolTip = onTopNow ? "Kept on top (click to release)" : "Click to keep this frame on top",
+                ToolTip = onTopNow ? "Üstte tutuluyor (bırakmak için tıklayın)" : "Bu kutuyu üstte tutmak için tıklayın",
                 Opacity = onTopNow ? 1.0 : (double)SettingsManager.MenuTintValue / 100
             };
             onTopIcon.MouseEnter += (s, e) => { onTopIcon.BeginAnimation(UIElement.OpacityProperty, null); onTopIcon.Opacity = 1.0; };
@@ -6763,7 +6763,7 @@ namespace Desktop_Frames
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Center, // centre-align to match the filter/pin icons
                 Cursor = Cursors.Hand,
-                ToolTip = cLockNow ? "Content locked (click to allow changes)" : "Content unlocked (click to lock changes)",
+                ToolTip = cLockNow ? "İçerik kilitli (değişikliklere izin vermek için tıklayın)" : "İçerik kilitli değil (değişiklikleri kilitlemek için tıklayın)",
                 Opacity = cLockNow ? 1.0 : (double)SettingsManager.MenuTintValue / 100
             };
             contentLockIcon.MouseEnter += (s, e) => { contentLockIcon.BeginAnimation(UIElement.OpacityProperty, null); contentLockIcon.Opacity = 1.0; };
@@ -7441,7 +7441,7 @@ namespace Desktop_Frames
                                 if (isBackground)
                                 {
                                     string newMode = portalManager.CycleSortMode();
-                                    ShowPortalToast(win, $"Sorted by: {newMode}");
+                                    ShowPortalToast(win, $"Sıralama: {newMode}");
                                     e.Handled = true; // Stop event from triggering anything else
                                 }
                             }
@@ -7454,7 +7454,7 @@ namespace Desktop_Frames
                         // window stays closed; the frame returns on the next reload.
                         LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.FrameCreation,
                             $"Portal Frame '{frame.Title}' failed to initialize: {ex.Message}. Frame data kept; window closed.");
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Failed to initialize Portal Frame: {ex.Message}", "Error");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Portal kutusu başlatılamadı: {ex.Message}", "Hata");
                         portalInitFailed = true;
                     }
                 }
@@ -7542,8 +7542,8 @@ namespace Desktop_Frames
                 if (IsContentLocked(frame))
                 {
                     MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                        "This frame is locked.\nRight-click it and uncheck \"Lock (prevent changes)\" to add items.",
-                        "Frame locked");
+                        "Bu kutu kilitli.\nÖğe eklemek için sağ tıklayıp \"Kilitle (değişiklikleri engelle)\" işaretini kaldırın.",
+                        "Kutu kilitli");
                     return;
                 }
 
@@ -7592,7 +7592,7 @@ namespace Desktop_Frames
 
                             if (!fileExists && !directoryExists)
                             {
-                                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Invalid file or directory: {droppedFile}", "Error");
+                                MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Geçersiz dosya veya klasör: {droppedFile}", "Hata");
                                 continue;
                             }
 
@@ -7900,12 +7900,12 @@ namespace Desktop_Frames
 
                                 if (string.IsNullOrEmpty(destinationFolder))
                                 {
-                                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"No destination folder defined for this Portal Frame.", "Error");
+                                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Bu portal kutusu için hedef klasör tanımlanmamış.", "Hata");
                                     continue;
                                 }
                                 if (!System.IO.Directory.Exists(destinationFolder))
                                 {
-                                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"The destination folder '{destinationFolder}' no longer exists.", "Error");
+                                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"'{destinationFolder}' hedef klasörü artık mevcut değil.", "Hata");
                                     continue;
                                 }
 
@@ -7933,14 +7933,14 @@ namespace Desktop_Frames
                         }
                         catch (Exception ex)
                         {
-                            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Failed to add {droppedFile}: {ex.Message}", "Error");
+                            MessageBoxesManager.ShowOKOnlyMessageBoxForm($"{droppedFile} eklenemedi: {ex.Message}", "Hata");
                         }
                     }
 
                     // --- NEW: Visual Feedback for Portal Frames ---
                     if (frame.ItemsType?.ToString() == "Portal" && portalCopiedCount > 0)
                     {
-                        ShowPortalToast(win, $"Copied {portalCopiedCount} item{(portalCopiedCount > 1 ? "s" : "")}");
+                        ShowPortalToast(win, $"{portalCopiedCount} öğe kopyalandı");
 
                         // Cross-frame OLE drag into a portal: the item now lives in the
                         // portal's folder — report Move so the source frame removes its item.
@@ -8201,7 +8201,7 @@ namespace Desktop_Frames
                 sp.Background = System.Windows.Media.Brushes.Transparent;
 
                 sp.Tag = new { FilePath = filePath, IsFolder = false, Arguments = (string)null };
-                sp.ToolTip = new ToolTip { Content = "Blank Spacer (Hold CTRL to move)" };
+                sp.ToolTip = new ToolTip { Content = "Boş ayırıcı (taşımak için CTRL'yi basılı tutun)" };
                 wpcont.Children.Add(sp);
                 return; // Skip standard extraction
             }
@@ -8473,7 +8473,7 @@ namespace Desktop_Frames
                 displayName = filePath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar)
                                       .Split(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar)
                                       .LastOrDefault();
-                if (string.IsNullOrWhiteSpace(displayName)) displayName = "Unknown";
+                if (string.IsNullOrWhiteSpace(displayName)) displayName = "Bilinmeyen";
             }
 
             if (displayName.Length > SettingsManager.MaxDisplayNameLength)
@@ -8540,16 +8540,16 @@ namespace Desktop_Frames
                 string packageId = displayTarget.Split('!')[0];
                 int hashIndex = packageId.IndexOf('_');
                 if (hashIndex > 0) packageId = packageId.Substring(0, hashIndex);
-                displayTarget = $"Windows App ({packageId})";
+                displayTarget = $"Windows uygulaması ({packageId})";
             }
 
             if (resolvedTarget != filePath)
             {
-                toolTipText += $"\nTarget: {displayTarget}";
+                toolTipText += $"\nHedef: {displayTarget}";
             }
             else
             {
-                toolTipText += $"\nLocation: {displayTarget}";
+                toolTipText += $"\nKonum: {displayTarget}";
             }
 
             sp.ToolTip = new ToolTip { Content = toolTipText };
@@ -8826,7 +8826,7 @@ namespace Desktop_Frames
         /// <summary>Creates and shows a new Text frame at the given screen position.</summary>
         public static dynamic CreateTextFrame(double x, double y)
         {
-            dynamic frame = TextFramemanager.CreateNew("Text Frame", x, y);
+            dynamic frame = TextFramemanager.CreateNew("Metin kutusu", x, y);
             CreateFrame(frame, GetOrCreateTargetChecker());
             return frame;
         }
@@ -8918,7 +8918,7 @@ namespace Desktop_Frames
                 {
                     using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
                     {
-                        dialog.Description = "Select the folder to monitor for this Portal Frame";
+                        dialog.Description = "Bu portal kutusu için izlenecek klasörü seçin";
                         if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             newframeDict["Path"] = dialog.SelectedPath;
@@ -9071,7 +9071,7 @@ namespace Desktop_Frames
                 // Brightness cue (works for emoji pins too): pinned = full/solid, unpinned = dim.
                 lockIcon.BeginAnimation(UIElement.OpacityProperty, null); // clear any running fade
                 lockIcon.Opacity = isLocked ? 1.0 : (double)SettingsManager.MenuTintValue / 100;
-                lockIcon.ToolTip = isLocked ? "Position locked (click to allow moving/resizing)" : "Click to lock position/size";
+                lockIcon.ToolTip = isLocked ? "Konum kilitli (taşıma/boyutlandırmaya izin vermek için tıklayın)" : "Konumu/boyutu kilitlemek için tıklayın";
 
                 // Find the NonActivatingWindow
                 NonActivatingWindow win = FindVisualParent<NonActivatingWindow>(lockIcon);
@@ -9102,7 +9102,7 @@ namespace Desktop_Frames
             ApplyFrameEditModeToOpenFrames();
             TrayManager.Instance?.UpdateFrameEditModeMenuCheck(enabled);
 
-            try { SmartToast.Show("Frame Edit Mode", enabled ? "Frame editing enabled" : "Frame editing disabled"); } catch { }
+            try { SmartToast.Show("Kutu düzenleme modu", enabled ? "Kutu düzenleme açık" : "Kutu düzenleme kapalı"); } catch { }
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.Settings, $"Frame Edit Mode set to {enabled}");
         }
 
@@ -9179,7 +9179,7 @@ namespace Desktop_Frames
             if (string.IsNullOrWhiteSpace(displayName) && !string.IsNullOrWhiteSpace(filePath))
             {
                 displayName = filePath.TrimEnd('\\', '/').Split('\\', '/').LastOrDefault();
-                if (string.IsNullOrWhiteSpace(displayName)) displayName = "Unknown";
+                if (string.IsNullOrWhiteSpace(displayName)) displayName = "Bilinmeyen";
             }
 
             // Allow .lnk and .url
@@ -9188,7 +9188,7 @@ namespace Desktop_Frames
 
             if (!isEditable)
             {
-                MessageBoxesManager.ShowOKOnlyMessageBoxForm("Edit is not available for this item type.", "Info");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm("Bu öğe türü için düzenleme kullanılamıyor.", "Bilgi");
                 return;
             }
 
@@ -10462,7 +10462,7 @@ namespace Desktop_Frames
                 if (win != null && FindDescendantByName(win, "FrameContentLockIcon") is TextBlock icon)
                 {
                     icon.Text = locked ? LockGlyphClosed : LockGlyphOpen;
-                    icon.ToolTip = locked ? "Content locked (click to allow changes)" : "Content unlocked (click to lock changes)";
+                    icon.ToolTip = locked ? "İçerik kilitli (değişikliklere izin vermek için tıklayın)" : "İçerik kilitli değil (değişiklikleri kilitlemek için tıklayın)";
                     icon.Foreground = locked ? System.Windows.Media.Brushes.DeepPink : System.Windows.Media.Brushes.White;
                     icon.BeginAnimation(UIElement.OpacityProperty, null);
                     icon.Opacity = locked ? 1.0 : (double)SettingsManager.MenuTintValue / 100;
@@ -10483,7 +10483,7 @@ namespace Desktop_Frames
             icon.Foreground = on ? System.Windows.Media.Brushes.DeepPink : System.Windows.Media.Brushes.White;
             icon.BeginAnimation(UIElement.OpacityProperty, null);
             icon.Opacity = on ? 1.0 : (double)SettingsManager.MenuTintValue / 100;
-            icon.ToolTip = on ? "Kept on top (click to release)" : "Click to keep this frame on top";
+            icon.ToolTip = on ? "Üstte tutuluyor (bırakmak için tıklayın)" : "Bu kutuyu üstte tutmak için tıklayın";
         }
 
         /// <summary>Syncs a frame's title-bar on-top pin with its AlwaysOnTop property (e.g. after the
@@ -10849,7 +10849,7 @@ namespace Desktop_Frames
                     targetPath = ExtractUrlFromUrlFile(fullPath);
                     if (string.IsNullOrEmpty(targetPath))
                     {
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Invalid .url file: {path}", "Error");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Geçersiz .url dosyası: {path}", "Hata");
                         return;
                     }
                 }
@@ -10895,7 +10895,7 @@ namespace Desktop_Frames
                 if (!targetExists && !isWebUrl && !isSpecialPath && !isStoreApp && !isNetworkRoot)
                 {
                     LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General, $"Target not found: {targetPath}");
-                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Target not found:\n{targetPath}", "Launch Error");
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Hedef bulunamadı:\n{targetPath}", "Başlatma hatası");
                     return;
                 }
 
@@ -10984,7 +10984,7 @@ namespace Desktop_Frames
                 {
                     LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General, $"Launch Error: {ex.Message}");
                     if (!SettingsManager.SuppressLaunchWarnings)
-                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Error launching: {ex.Message}", "Launch Error");
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm($"Başlatma hatası: {ex.Message}", "Başlatma hatası");
                 }
             }
         }
@@ -11245,11 +11245,11 @@ namespace Desktop_Frames
                     string packageId = displayTarget.Split('!')[0];
                     int hashIndex = packageId.IndexOf('_');
                     if (hashIndex > 0) packageId = packageId.Substring(0, hashIndex);
-                    displayTarget = $"Windows App ({packageId})";
+                    displayTarget = $"Windows uygulaması ({packageId})";
                 }
 
-                string toolTipText = $"{newDisplayName ?? System.IO.Path.GetFileNameWithoutExtension(shortcutPath)}\nTarget: {displayTarget}";
-                if (!string.IsNullOrEmpty(freshArguments)) toolTipText += $"\nArguments: {freshArguments}";
+                string toolTipText = $"{newDisplayName ?? System.IO.Path.GetFileNameWithoutExtension(shortcutPath)}\nHedef: {displayTarget}";
+                if (!string.IsNullOrEmpty(freshArguments)) toolTipText += $"\nBağımsız değişkenler: {freshArguments}";
                 iconPanel.ToolTip = new ToolTip { Content = toolTipText };
 
                 // 5. UPDATE ICON IMAGE (The Critical Fix)

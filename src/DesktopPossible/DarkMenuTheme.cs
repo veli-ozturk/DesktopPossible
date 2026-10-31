@@ -48,9 +48,9 @@ namespace Desktop_Frames
                 if (!ShellContextMenu.IsSystemDark()) return; // keep the native menu when light
 
                 var menu = new ContextMenu();
-                menu.Items.Add(new MenuItem { Header = "Cut", InputGestureText = "Ctrl+X", Command = ApplicationCommands.Cut, CommandTarget = tb });
-                menu.Items.Add(new MenuItem { Header = "Copy", InputGestureText = "Ctrl+C", Command = ApplicationCommands.Copy, CommandTarget = tb });
-                menu.Items.Add(new MenuItem { Header = "Paste", InputGestureText = "Ctrl+V", Command = ApplicationCommands.Paste, CommandTarget = tb });
+                menu.Items.Add(new MenuItem { Header = "Kes", InputGestureText = "Ctrl+X", Command = ApplicationCommands.Cut, CommandTarget = tb });
+                menu.Items.Add(new MenuItem { Header = "Kopyala", InputGestureText = "Ctrl+C", Command = ApplicationCommands.Copy, CommandTarget = tb });
+                menu.Items.Add(new MenuItem { Header = "Yapıştır", InputGestureText = "Ctrl+V", Command = ApplicationCommands.Paste, CommandTarget = tb });
                 Apply(menu);
                 tb.ContextMenu = menu;
             }

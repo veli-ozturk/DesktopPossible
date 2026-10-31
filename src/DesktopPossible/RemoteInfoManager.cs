@@ -112,8 +112,8 @@ namespace Desktop_Frames
                     var updateMsg = new RemoteAnnouncement
                     {
                         Id = $"UPDATE_{remoteVer}", // Unique ID ensures they see it once/max count
-                        Title = "Update Available",
-                        Body = $"A new version ({remoteVer}) is available.\nYou are currently using {currentVer}.",
+                        Title = "Güncelleme var",
+                        Body = $"Yeni bir sürüm ({remoteVer}) yayımlandı.\nŞu an kullandığınız sürüm: {currentVer}.",
                         Type = meta.CriticalUpdate ? "Alert" : "Info",
                         Link = !string.IsNullOrEmpty(meta.DownloadUrl) ? meta.DownloadUrl : "https://github.com/DevPossible/DesktopPossible/releases",
                         CanUserDismiss = !meta.CriticalUpdate,

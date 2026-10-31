@@ -72,32 +72,32 @@ namespace Desktop_Frames
         /// <summary>(Token, description) pairs shown in the editor's reference list.</summary>
         public static readonly (string Token, string Description)[] Reference =
         {
-            ("{ComputerName}", "Machine name"),
-            ("{UserName}", "Logged-on user"),
-            ("{Domain}", "User domain / workgroup"),
-            ("{OS}", "Windows edition and version"),
-            ("{OSVersion}", "Version number (e.g. 10.0.26200)"),
-            ("{Architecture}", "OS architecture (x64, Arm64)"),
-            ("{CPU}", "Processor name"),
-            ("{Cores}", "Logical processor count"),
-            ("{CPUUsage}", "Processor load since the last refresh (%)"),
-            ("{RAM}", "Installed memory (GB)"),
-            ("{RAMUsed}", "Memory in use (GB)"),
-            ("{RAMFree}", "Memory available (GB)"),
-            ("{RAMUsage}", "Memory in use (%)"),
-            ("{IP}", "Primary IPv4 address"),
-            ("{ExternalIP}", "Public IPv4 address (looked up online, cached 10 min)"),
-            ("{MAC}", "Primary adapter MAC address"),
-            ("{Disks}", "One line per fixed disk: letter, free and total space"),
-            ("{Uptime}", "Time since boot"),
-            ("{BootTime}", "Last boot, local time"),
-            ("{Date}", "Today (long); {Date:yyyy-MM-dd} for a custom format"),
-            ("{Time}", "Now (short); {Time:HH:mm:ss} for a custom format"),
-            ("{Now:format}", "Date and time with a .NET format string"),
-            ("{FreeSpace:C}", "Free space on a drive letter (GB)"),
-            ("{TotalSpace:C}", "Total size of a drive letter (GB)"),
-            ("{Profile}", "Active DesktopPossible profile"),
-            ("{AppVersion}", "DesktopPossible version"),
+            ("{ComputerName}", "Bilgisayar adı"),
+            ("{UserName}", "Oturum açmış kullanıcı"),
+            ("{Domain}", "Kullanıcı etki alanı / çalışma grubu"),
+            ("{OS}", "Windows sürümü ve versiyonu"),
+            ("{OSVersion}", "Sürüm numarası (ör. 10.0.26200)"),
+            ("{Architecture}", "İşletim sistemi mimarisi (x64, Arm64)"),
+            ("{CPU}", "İşlemci adı"),
+            ("{Cores}", "Mantıksal işlemci sayısı"),
+            ("{CPUUsage}", "Son yenilemeden bu yana işlemci yükü (%)"),
+            ("{RAM}", "Yüklü bellek (GB)"),
+            ("{RAMUsed}", "Kullanılan bellek (GB)"),
+            ("{RAMFree}", "Kullanılabilir bellek (GB)"),
+            ("{RAMUsage}", "Kullanılan bellek (%)"),
+            ("{IP}", "Birincil IPv4 adresi"),
+            ("{ExternalIP}", "Genel IPv4 adresi (çevrimiçi sorgulanır, 10 dk önbelleğe alınır)"),
+            ("{MAC}", "Birincil bağdaştırıcının MAC adresi"),
+            ("{Disks}", "Her sabit disk için bir satır: harf, boş ve toplam alan"),
+            ("{Uptime}", "Açılıştan bu yana geçen süre"),
+            ("{BootTime}", "Son açılış, yerel saat"),
+            ("{Date}", "Bugün (uzun); özel biçim için {Date:yyyy-MM-dd}"),
+            ("{Time}", "Şimdi (kısa); özel biçim için {Time:HH:mm:ss}"),
+            ("{Now:format}", "Bir .NET biçim dizesiyle tarih ve saat"),
+            ("{FreeSpace:C}", "Bir sürücü harfindeki boş alan (GB)"),
+            ("{TotalSpace:C}", "Bir sürücü harfinin toplam boyutu (GB)"),
+            ("{Profile}", "Etkin DesktopPossible profili"),
+            ("{AppVersion}", "DesktopPossible sürümü"),
         };
 
         public static Dictionary<string, TextTemplate.TokenResolver> Build()
@@ -115,7 +115,7 @@ namespace Desktop_Frames
             t["RAM"] = _ => Gb((long)Memory().Total);
             t["RAMUsed"] = _ => { var m = Memory(); return Gb((long)(m.Total - m.Available)); };
             t["RAMFree"] = _ => Gb((long)Memory().Available);
-            t["RAMUsage"] = _ => { var m = Memory(); return m.Total == 0 ? "n/a" : ((m.Total - m.Available) * 100.0 / m.Total).ToString("0", CultureInfo.CurrentCulture) + "%"; };
+            t["RAMUsage"] = _ => { var m = Memory(); return m.Total == 0 ? "yok" : ((m.Total - m.Available) * 100.0 / m.Total).ToString("0", CultureInfo.CurrentCulture) + "%"; };
             t["IP"] = _ => PrimaryIPv4();
             t["ExternalIP"] = _ => ExternalIPv4();
             t["MAC"] = _ => PrimaryMac();
@@ -220,7 +220,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
-                if (_externalIp == "…") _externalIp = "n/a";
+                if (_externalIp == "…") _externalIp = "yok";
                 LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.General, $"External IP lookup failed: {ex.Message}");
             }
             finally
@@ -241,11 +241,11 @@ namespace Desktop_Frames
                 {
                     if (d.DriveType != DriveType.Fixed || !d.IsReady) continue;
                     string label = string.IsNullOrWhiteSpace(d.VolumeLabel) ? "" : $" ({d.VolumeLabel})";
-                    lines.Add($"{d.Name.TrimEnd('\\')}{label}  {Gb(d.AvailableFreeSpace)} free of {Gb(d.TotalSize)}");
+                    lines.Add($"{d.Name.TrimEnd('\\')}{label}  {Gb(d.AvailableFreeSpace)} boş / {Gb(d.TotalSize)}");
                 }
                 catch { }
             }
-            return lines.Count == 0 ? "n/a" : string.Join(Environment.NewLine, lines);
+            return lines.Count == 0 ? "yok" : string.Join(Environment.NewLine, lines);
         }
 
         private static string DriveGb(string? letter, bool free)
@@ -283,7 +283,7 @@ namespace Desktop_Frames
                 if (!string.IsNullOrWhiteSpace(name)) return System.Text.RegularExpressions.Regex.Replace(name.Trim(), @"\s+", " ");
             }
             catch { }
-            return "Unknown CPU";
+            return "Bilinmeyen CPU";
         }
 
         private static NetworkInterface? PrimaryAdapter() =>
@@ -299,13 +299,13 @@ namespace Desktop_Frames
             var nic = PrimaryAdapter();
             var ip = nic?.GetIPProperties().UnicastAddresses
                 .FirstOrDefault(u => u.Address.AddressFamily == AddressFamily.InterNetwork)?.Address;
-            return ip?.ToString() ?? "n/a";
+            return ip?.ToString() ?? "yok";
         }
 
         private static string PrimaryMac()
         {
             var mac = PrimaryAdapter()?.GetPhysicalAddress().GetAddressBytes();
-            return mac == null || mac.Length == 0 ? "n/a" : string.Join(":", mac.Select(b => b.ToString("X2")));
+            return mac == null || mac.Length == 0 ? "yok" : string.Join(":", mac.Select(b => b.ToString("X2")));
         }
     }
 }
