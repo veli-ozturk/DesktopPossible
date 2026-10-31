@@ -1084,7 +1084,7 @@ namespace Desktop_Frames
             }
 
             var unresolved = entries.Where(e => e.Category == null).ToList();
-            if (unresolved.Count > 0)
+            if (unresolved.Count > 0 && SettingsManager.EnableOnlineCategoryLookup)
                 await ClassifyOnlineBatchAsync(unresolved);
 
             var classified = entries.Where(e => e.Category != null).ToList();

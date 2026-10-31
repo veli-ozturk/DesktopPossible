@@ -760,6 +760,8 @@ namespace Desktop_Frames
             cbNotif.Margin = new Thickness(35, 0, 0, 8); // Indent it!
             cbNotif.IsEnabled = cbMain.IsChecked == true;
 
+            CreateCheckBoxReturn(c, "Look up unknown apps online (sends app names to Chocolatey)", "EnableOnlineCategoryLookup", SettingsManager.EnableOnlineCategoryLookup);
+
             // "Arrange Now": sort everything currently on the desktop into category
             // frames. Deliberately independent of the Enable Auto-Organize toggle
             // (that toggle only governs NEW arrivals) - always clickable.
@@ -1354,6 +1356,10 @@ namespace Desktop_Frames
                     if (child is CheckBox cbn && cbn.Name == "EnableAutoOrganizeNotifications")
                     {
                         SettingsManager.EnableAutoOrganizeNotifications = cbn.IsChecked == true;
+                    }
+                    if (child is CheckBox cbo && cbo.Name == "EnableOnlineCategoryLookup")
+                    {
+                        SettingsManager.EnableOnlineCategoryLookup = cbo.IsChecked == true;
                     }
                 }
 

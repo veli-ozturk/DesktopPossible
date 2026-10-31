@@ -67,6 +67,9 @@ namespace Desktop_Frames
 
         public static bool EnableAutoOrganizeNotifications { get; set; } = true;
 
+        // Off = unknown apps stay uncategorized instead of their names being sent to Chocolatey.
+        public static bool EnableOnlineCategoryLookup { get; set; } = true;
+
         // --- NEW: Hidden Option for Manual Repositioning ---
         public static bool AllowAutoReposition { get; set; } = true;
 
@@ -302,6 +305,7 @@ namespace Desktop_Frames
                 EnableChameleonMode,
                 EnableAutoOrganize,
                 EnableAutoOrganizeNotifications,
+                EnableOnlineCategoryLookup,
                 // NEW
                 EnableContextMenu,
 
@@ -385,6 +389,7 @@ namespace Desktop_Frames
             try { EnableChameleonMode = data.EnableChameleonMode ?? true; } catch { EnableChameleonMode = true; }
             try { EnableAutoOrganize = data.EnableAutoOrganize ?? false; } catch { EnableAutoOrganize = false; }
             try { EnableAutoOrganizeNotifications = data.EnableAutoOrganizeNotifications ?? true; } catch { EnableAutoOrganizeNotifications = true; }
+            try { EnableOnlineCategoryLookup = data.EnableOnlineCategoryLookup ?? true; } catch { EnableOnlineCategoryLookup = true; }
 
             // NEW
             try { EnableContextMenu = data.EnableContextMenu ?? false; } catch { EnableContextMenu = false; }
