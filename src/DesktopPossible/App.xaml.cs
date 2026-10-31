@@ -149,6 +149,9 @@ namespace Desktop_Frames
                     DesktopIconParker.Start();
                     SessionEnding += (s2, ev2) => DesktopIconParker.Stop(); // before Explorer saves the layout
 
+                    // Keep frames visible over "Show desktop" (Win+D / taskbar corner).
+                    FrameZOrder.StartShowDesktopWatch();
+
                     // Move items still stored in frame folders out to the Desktop, in the
                     // background once startup has settled (Explorer's desktop must be ready).
                     Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith(_ =>

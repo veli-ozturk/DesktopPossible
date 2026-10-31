@@ -104,6 +104,90 @@ namespace Desktop_Frames
             }
         }
 
+        // "Show desktop" (Win+D, the taskbar corner) raises Explorer's desktop window over every
+        // normal window, frames included, without minimizing or hiding them. While the desktop
+        // is the foreground window the band is lifted into the topmost layer; as soon as any
+        // other app comes forward it is dropped back to the bottom.
+        private const uint EVENT_SYSTEM_FOREGROUND = 0x0003, WINEVENT_OUTOFCONTEXT = 0;
+        private static readonly IntPtr HWND_TOPMOST = new(-1), HWND_NOTOPMOST = new(-2);
+        private delegate void WinEventProc(IntPtr hook, uint ev, IntPtr hwnd, int idObject, int idChild, uint thread, uint time);
+        private static WinEventProc? _foregroundProc; // held so the GC can't collect the callback
+        private static IntPtr _foregroundHook;
+        private static bool _raisedOverDesktop;
+
+        [DllImport("user32.dll")] private static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmod, WinEventProc proc, uint pid, uint tid, uint flags);
+        [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hwnd, System.Text.StringBuilder name, int max);
+
+        /// <summary>Starts following the foreground window (UI thread: out-of-context events arrive on its message loop).</summary>
+        public static void StartShowDesktopWatch()
+        {
+            if (_foregroundHook != IntPtr.Zero) return;
+            _foregroundProc = OnForegroundChanged;
+            _foregroundHook = SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _foregroundProc, 0, 0, WINEVENT_OUTOFCONTEXT);
+        }
+
+        private static void OnForegroundChanged(IntPtr hook, uint ev, IntPtr hwnd, int idObject, int idChild, uint thread, uint time)
+        {
+            try
+            {
+                if (hwnd == IntPtr.Zero) return;
+                GetWindowThreadProcessId(hwnd, out uint pid);
+                if (pid == (uint)Environment.ProcessId) return; // our own windows: keep the current layer
+
+                var cls = new System.Text.StringBuilder(32);
+                GetClassName(hwnd, cls, cls.Capacity);
+                bool desktop = IsDesktopClass(cls.ToString());
+                if (desktop == _raisedOverDesktop) return;
+                _raisedOverDesktop = desktop;
+
+                if (desktop) RaiseOverDesktop();
+                else { SetBand(HWND_NOTOPMOST, Band()); ApplyAll(); }
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI, $"FrameZOrder.OnForegroundChanged: {ex.Message}");
+            }
+        }
+
+        public static bool IsDesktopClass(string cls) => cls == "Progman" || cls == "WorkerW";
+
+        /// <summary>Inserting at HWND_TOPMOST puts each window on top, so go bottom-up: text frames, then content by ascending Z.</summary>
+        private static void RaiseOverDesktop()
+        {
+            var band = Band();
+            // Casts: a dynamic argument makes the calls dynamic, and OrderBy can't compare dynamic keys.
+            var text = band.Where(w => (bool)TextFramemanager.IsTextFrame(Live(w.Tag?.ToString()))).ToList();
+            var content = band.Except(text).OrderBy(w => (int)ReadZ(Live(w.Tag?.ToString())));
+
+            // The UI thread's default IME window is owned by whichever frame last had focus, and
+            // Windows silently refuses to make a window topmost while it owns that IME window.
+            // Unowning it is harmless: Windows re-owns it the next time a window takes focus.
+            if (band.Count > 0)
+            {
+                var ime = ImmGetDefaultIMEWnd(new WindowInteropHelper(band[0]).Handle);
+                if (ime != IntPtr.Zero) SetWindowLongPtr(ime, GWLP_HWNDPARENT, IntPtr.Zero);
+            }
+
+            SetBand(HWND_TOPMOST, text.Concat(content));
+        }
+
+        private const int GWLP_HWNDPARENT = -8;
+        [DllImport("imm32.dll")] private static extern IntPtr ImmGetDefaultIMEWnd(IntPtr hwnd);
+        [DllImport("user32.dll")] private static extern IntPtr SetWindowLongPtr(IntPtr hwnd, int index, IntPtr value);
+
+        private static List<NonActivatingWindow> Band() =>
+            Application.Current?.Windows.OfType<NonActivatingWindow>().Where(w => !w.Topmost && Live(w.Tag?.ToString()) != null).ToList() ?? new();
+
+        private static void SetBand(IntPtr insertAfter, IEnumerable<NonActivatingWindow> windows)
+        {
+            foreach (var win in windows)
+            {
+                var hwnd = new WindowInteropHelper(win).Handle;
+                if (hwnd != IntPtr.Zero) SetWindowPos(hwnd, insertAfter, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            }
+        }
+
         private static void PushToBottom(Window win)
         {
             try

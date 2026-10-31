@@ -12,6 +12,16 @@ release history is preserved in
 
 ## [Unreleased]
 
+## [1.4.3] - 2026-11-01
+
+### Fixed
+
+- Frames stay visible over "Show desktop" (Win+D / taskbar corner): the band is lifted
+  into the topmost layer while the desktop is in front and dropped back when an app returns.
+  The thread's IME window is unowned first, since Windows won't raise the frame that owns it.
+
+## [1.4.2] - 2026-10-31
+
 ### Added
 
 - MSI installer (`DesktopPossible-<version>-win-x64.msi`): installs to Program Files
